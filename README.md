@@ -1,29 +1,17 @@
-# README #
+# Academy #
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+###  Create new VENV for any new project ###
 
-### How do I get set up? ###
+python3 -m venv venv
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+###  Switch terminal to the new Env ###
 
-### Contribution guidelines ###
+source venv/bin/activate
 
-* Writing tests
-* Code review
-* Other guidelines
+### Run the live server ###
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+uvicorn main:app --reload
