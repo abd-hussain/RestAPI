@@ -29,3 +29,16 @@ async def create_subcategories(sub: SubCategory, lang : LanguageModel = Header(d
     if lang is LanguageModel.arabic:
         return {"cat_id": sub.catid, "lang" : "arabic"}
     return {"cat_id": sub.catid, "lang" : "english"}
+
+@router.put("/")
+async def update_subcategories(subcategories_id: int ,lang : LanguageModel = Header(default=LanguageModel.english)):
+    if lang is LanguageModel.arabic:
+        return subcategories_id
+    return subcategories_id
+
+
+@router.delete("/")
+async def delete_subcategories(subcategories_id: int ,lang : LanguageModel = Header(default=LanguageModel.english)):
+    if lang is LanguageModel.arabic:
+        return subcategories_id
+    return subcategories_id

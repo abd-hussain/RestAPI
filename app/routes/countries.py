@@ -26,3 +26,16 @@ async def create_countries(country: Country, lang : LanguageModel = Header(defau
     if lang is LanguageModel.arabic:
         return {"country.id": country.id, "lang" : "arabic"}
     return {"country.id": country.id, "lang" : "english"}
+
+@router.put("/")
+async def update_countries(country_id: int ,lang : LanguageModel = Header(default=LanguageModel.english)):
+    if lang is LanguageModel.arabic:
+        return country_id
+    return country_id
+
+
+@router.delete("/")
+async def delete_countries(country_id: int ,lang : LanguageModel = Header(default=LanguageModel.english)):
+    if lang is LanguageModel.arabic:
+        return country_id
+    return country_id
