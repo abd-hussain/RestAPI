@@ -4,7 +4,8 @@ from typing import Union
 from app.enums.languages import LanguageModel
 
 router = APIRouter(
-    tags=["Filter"]
+    prefix="/categories",
+    tags=["categories"]
 )
 
 class Category(BaseModel):
@@ -12,15 +13,29 @@ class Category(BaseModel):
     nameAr: str
     nameEn: str
     description: Union[str, None] = None
+    published: bool = True
 
-@router.get("/categories")
+@router.get("/")
 async def get_categories(lang : LanguageModel = Header(default=LanguageModel.english)):
     if lang is LanguageModel.arabic:
         return {"id": 1, "name" : "arabic"}
     return {"id": 1, "name" : "english"}
 
-@router.post("/categories")
+@router.post("/")
 async def create_category(cat: Category ,lang : LanguageModel = Header(default=LanguageModel.english)):
     if lang is LanguageModel.arabic:
         return cat
     return cat
+
+@router.put("/")
+async def update_category(cat_id: int ,lang : LanguageModel = Header(default=LanguageModel.english)):
+    if lang is LanguageModel.arabic:
+        return cat_id
+    return cat_id
+
+
+@router.delete("/")
+async def delete_category(cat_id: int ,lang : LanguageModel = Header(default=LanguageModel.english)):
+    if lang is LanguageModel.arabic:
+        return cat_id
+    return cat_id

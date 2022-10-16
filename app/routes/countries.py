@@ -4,7 +4,8 @@ from pydantic import BaseModel
 from app.enums.languages import LanguageModel
 
 router = APIRouter(
-    tags=["Filter"]
+    prefix="/countries",
+    tags=["countries"]
 )
 
 class Country(BaseModel):
@@ -12,14 +13,15 @@ class Country(BaseModel):
     nameAr: str
     nameEn: str
     image: str
+    published: bool = True
 
-@router.get("/countries")
+@router.get("/")
 async def get_countries(lang : LanguageModel = Header(default=LanguageModel.english)):
     if lang is LanguageModel.arabic:
         return {"lang" : "arabic"}
     return {"lang" : "english"}
 
-@router.post("/countries")
+@router.post("/")
 async def create_countries(country: Country, lang : LanguageModel = Header(default=LanguageModel.english)):
     if lang is LanguageModel.arabic:
         return {"country.id": country.id, "lang" : "arabic"}

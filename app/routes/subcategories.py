@@ -5,7 +5,8 @@ from typing import Union
 from app.enums.languages import LanguageModel
 
 router = APIRouter(
-    tags=["Filter"]
+    prefix="/subcategories",
+    tags=["subcategories"]
 )
 
 class SubCategory(BaseModel):
@@ -15,14 +16,15 @@ class SubCategory(BaseModel):
     nameEn: str
     image: str
     description: Union[str, None] = None
+    published: bool = True
 
-@router.get("/subcategories")
+@router.get("/")
 async def get_subcategories(cat_id: int, lang : LanguageModel = Header(default=LanguageModel.english)):
     if lang is LanguageModel.arabic:
         return {"cat_id": cat_id, "lang" : "arabic"}
     return {"cat_id": cat_id, "lang" : "english"}
 
-@router.post("/subcategories")
+@router.post("/")
 async def create_subcategories(sub: SubCategory, lang : LanguageModel = Header(default=LanguageModel.english)):
     if lang is LanguageModel.arabic:
         return {"cat_id": sub.catid, "lang" : "arabic"}
