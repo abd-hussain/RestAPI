@@ -2,6 +2,8 @@ from fastapi import Depends, APIRouter, Header, Request
 from pydantic import BaseModel
 from typing import Union
 
+from requests import Response
+
 from app.enums.languages import LanguageModel
 
 router = APIRouter(
@@ -31,14 +33,16 @@ async def create_subcategories(sub: SubCategory, lang : LanguageModel = Header(d
     return {"cat_id": sub.catid, "lang" : "english"}
 
 @router.put("/")
-async def update_subcategories(subcategories_id: int ,lang : LanguageModel = Header(default=LanguageModel.english)):
+async def update_subcategories(id: int ,lang : LanguageModel = Header(default=LanguageModel.english)):
     if lang is LanguageModel.arabic:
-        return subcategories_id
-    return subcategories_id
+        return id
+    return id
 
 
 @router.delete("/")
-async def delete_subcategories(subcategories_id: int ,lang : LanguageModel = Header(default=LanguageModel.english)):
+async def delete_subcategories(id: int,lang : LanguageModel = Header(default=LanguageModel.english)):
+    
+    # response.status_code = 404
     if lang is LanguageModel.arabic:
-        return subcategories_id
-    return subcategories_id
+        return id
+    return id
