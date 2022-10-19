@@ -25,7 +25,6 @@ async def create_issue(payload: Report,request: Request, db: Session = Depends(g
         
     return generalResponse(message= "This User not exsist", data= None)
 
-
 @router.get("/issue")
 async def get_issue(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
@@ -45,7 +44,6 @@ def create_suggestion(payload: Report,db: Session = Depends(get_db), get_current
         return generalResponse(message= "successfully created suggestion", data= None)
 
     return generalResponse(message= "This User not exsist", data= None)
-
 
 @router.get("/suggestion")
 async def get_suggestion(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):

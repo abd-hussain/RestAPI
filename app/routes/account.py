@@ -1,6 +1,6 @@
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
-from fastapi import Request, Depends, APIRouter, HTTPException, status
+from fastapi import Request, Depends, APIRouter
 from app.utils.database.database import get_db
 from app.models.database import db_user
 from app.utils.oauth2 import get_current_user

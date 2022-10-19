@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import filter, report, auth, settings, account
+from app.routes import filter, report, auth, settings, account 
 from app.models.database import db_user
 from app.utils.public_api import origins
 from app.utils.database.database import engine

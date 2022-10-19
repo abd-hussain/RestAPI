@@ -1,11 +1,13 @@
 
-from fastapi import Request, Depends, APIRouter
+from fastapi import Request, Depends, APIRouter, status
 from sqlalchemy.orm import Session
 from app.models.database.db_versions import DB_Versions
 from app.models.database.db_terms import DB_Terms
 from app.models.respond.general import generalResponse
 from app.utils.database.database import get_db
 from app.utils.validation import validateLanguageHeader
+from app.models.schemas.leads import ListLeads
+from app.models.database import db_leads
 
 
 router = APIRouter(
@@ -37,3 +39,15 @@ async def get_Terms(request: Request, db: Session = Depends(get_db)):
             "title"), DB_Terms.content_arabic.label(
             "content")).all()
     return generalResponse(message="list of terms return successfully", data=data)
+
+@router.post("/leads", status_code=status.HTTP_201_CREATED)
+async def upload_leads(payload: ListLeads,request: Request, db: Session = Depends(get_db)):    
+    myHeader = validateLanguageHeader(request)
+    
+    for val in payload.list:
+        print(val)
+        obj = db_leads.DB_Leads(**val.dict())
+        db.add(obj)
+        db.commit()
+
+    return generalResponse(message= "successfully created leads", data= None)
