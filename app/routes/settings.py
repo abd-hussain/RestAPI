@@ -23,7 +23,6 @@ async def get_Versions(request: Request, db: Session = Depends(get_db)):
           data = db.query(DB_Versions.id, DB_Versions.version.label(
         "number"), DB_Versions.content_arabic.label(
         "content"), DB_Versions.is_forced).all()
-
     return generalResponse(message="list of versions return successfully", data=data)
 
 
@@ -37,5 +36,4 @@ async def get_Terms(request: Request, db: Session = Depends(get_db)):
         data = db.query(DB_Terms.id, DB_Terms.title_arabic.label(
             "title"), DB_Terms.content_arabic.label(
             "content")).all()
-
     return generalResponse(message="list of terms return successfully", data=data)

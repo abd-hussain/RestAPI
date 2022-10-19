@@ -33,7 +33,6 @@ async def get_subcategories(cat_id: int, request: Request, db: Session = Depends
     if (myHeader.language == "ar"):
         subCategories = db.query(DB_Subcategories.id, DB_Subcategories.name_arabic.label(
             "name")).filter(DB_Subcategories.category_id == cat_id).all()
-
     return generalResponse(message="list of subCategories return successfully", data=subCategories)
 
 @router.get("/countries")
@@ -45,5 +44,4 @@ async def get_countries(request: Request, db: Session = Depends(get_db)):
     if (myHeader.language == "ar"):
         countries = db.query(DB_Countries.id, DB_Countries.flag_image, DB_Countries.name_arabic.label(
             "name"), DB_Countries.currency_arabic.label("currency"), DB_Countries.prefix_number).all()
-
     return generalResponse(message="list of countries return successfully", data=countries)

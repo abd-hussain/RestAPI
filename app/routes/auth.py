@@ -60,7 +60,6 @@ def verify_otp(payload: AccountVerifyModel, db: Session =  Depends(get_db)):
     if not verifyKey(payload.api_key, post_query.first().api_key):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"API Key is not valid", "request_id": generateRequestId()})
     
-    
     access_token = create_access_token(data={"api_key" : payload.api_key, "user_id" : payload.user_id})
     
     return general.generalResponse(message= "You Have Loged in Successfully", data={"token" : access_token, "token_type": "bearer"})
