@@ -61,6 +61,9 @@ async def update_account(id :int , payload: UpdateAccountModel , request: Reques
         query.update({"date_of_birth" : payload.date_of_birth}, synchronize_session=False)
     if payload.country_id != None:
         query.update({"country_id" : payload.country_id}, synchronize_session=False)
+    if payload.allow_notifications != None:
+        query.update({"allow_notifications" : payload.allow_notifications}, synchronize_session=False)
+        
     db.commit()
     return generalResponse(message="Profile updated successfully", data=query.first())
 
