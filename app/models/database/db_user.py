@@ -12,6 +12,7 @@ class DB_Users(Base):
     gender = Column(Integer)
     hide_number = Column(Boolean, server_default='FALSE')
     hide_email = Column(Boolean, server_default='FALSE')
+    allow_notifications = Column(Boolean, server_default='TRUE')
     blocked = Column(Boolean, server_default='FALSE')
     referal_code = Column(String)
     profile_img = Column(String)
