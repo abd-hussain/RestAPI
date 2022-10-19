@@ -1,6 +1,6 @@
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
-from fastapi import Request, Depends, APIRouter
+from fastapi import Request, Depends, APIRouter, HTTPException, status
 from app.utils.database.database import get_db
 from app.models.database import db_user
 from app.utils.oauth2 import get_current_user
@@ -19,7 +19,7 @@ async def get_account(id :int , request: Request, db: Session = Depends(get_db),
     query = db.query(db_user.DB_Users).filter(db_user.DB_Users.id == id)
 
     if query.first() == None:
-        return generalResponse(message="No Profile Like this", data=None)
+       return generalResponse(message="profile was not found", data=None)
 
     return generalResponse(message="Profile return successfully", data=query.first())
     
@@ -29,7 +29,8 @@ async def update_account(id :int , payload: UpdateAccountModel , request: Reques
     query = db.query(db_user.DB_Users).filter(db_user.DB_Users.id == id)
     
     if query.first() == None:
-        return generalResponse(message="No Profile Like this", data=None)
+       return generalResponse(message="profile was not found", data=None)
+
     if payload.first_name != None:
         query.update({"first_name" : payload.first_name}, synchronize_session=False)
     if payload.last_name != None:

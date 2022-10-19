@@ -30,7 +30,7 @@ def authentication(payload: AccountModel, db: Session =  Depends(get_db)):
     db.commit()
     return general.generalResponse(message= "OTP Sended successfully", data=query.first())
 
-@router.post('/-debug', response_model=login.LoginDebugResponse)
+@router.post('-debug', response_model=login.LoginDebugResponse)
 def authentication(payload: AccountModel, db: Session =  Depends(get_db)):
     query = db.query(db_user.DB_Users).filter(db_user.DB_Users.mobile_number == payload.mobile_number)
     payload.last_otp = generateOTP()
