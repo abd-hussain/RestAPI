@@ -1,11 +1,11 @@
 from fastapi import FastAPI
-from app.routes import subcategories, categories, countries, cities, report
-from app.models.database import db_models
+from app.routes import filter, report, auth, settings
+from app.models.database import db_user
 from app.utils.public_api import origins
 from app.utils.database.database import engine
 from fastapi.middleware.cors import CORSMiddleware
 
-db_models.Base.metadata.create_all(bind=engine)
+db_user.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -21,9 +21,8 @@ app.add_middleware(
 async def root():
     return {"message": " -#- Welcome To My API -#- "}
 
-app.include_router(categories.router)
-app.include_router(subcategories.router)
-app.include_router(countries.router)
-app.include_router(cities.router)
+app.include_router(auth.router)
+app.include_router(filter.router)
+app.include_router(settings.router)
 app.include_router(report.router)
 

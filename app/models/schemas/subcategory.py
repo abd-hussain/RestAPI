@@ -4,9 +4,10 @@ from typing import Union
 
 class SubCategory(BaseModel):
     id: int
-    catid: int
-    nameAr: str
-    nameEn: str
-    image: str
-    description: Union[str, None] = None
+    category_id: int
+    name_arabic: str
+    name_english: str
+    icon: str
+    description_english: Union[str, None] = None
+    description_arabic: Union[str, None] = None
     published: bool = True

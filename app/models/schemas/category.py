@@ -3,7 +3,10 @@ from typing import Union
 
 class Category(BaseModel):
     id: int
-    nameAr: str
-    nameEn: str
-    description: Union[str, None] = None
+    name_arabic: str
+    name_english: str
+    description_english: Union[str, None] = None
+    description_arabic: Union[str, None] = None
+    icon: str
     published: bool = True
+    

@@ -6,7 +6,7 @@ def verifyKey(passsed_key, original_key):
     return passsed_key == original_key
 
 def validateLanguageHeader(request: Request):
-    if ((request.headers.get('language') != None)):
-        return PreLoginHeaderRequest(language=request.headers.get('language'))
+    if ((request.headers.get('lang') != None)):
+        return PreLoginHeaderRequest(language=request.headers.get('lang'))
     raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail={
         "message": f"header missing some data", "request_id": generateRequestId()})
