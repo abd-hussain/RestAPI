@@ -27,3 +27,7 @@ app.include_router(settings.router)
 app.include_router(report.router)
 app.include_router(account.router)
 
+
+# TODO: Handle Send SMS For Verifications
+# TODO: Handle Send Push Notifications
+

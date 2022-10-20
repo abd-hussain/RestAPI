@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 
 class Leads(BaseModel):
-    id: int
     full_name: str
     mobile_number: str
     email: str

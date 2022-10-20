@@ -13,8 +13,7 @@ router = APIRouter(
 )
 
 @router.post("/issue", status_code=status.HTTP_201_CREATED)
-async def create_issue(payload: Report,request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):    
-    myHeader = validateLanguageHeader(request)
+async def create_issue(payload: Report,db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):    
     query = db.query(db_user.DB_Users).filter(db_user.DB_Users.id == payload.user_id)
 
     if query.first() != None :
@@ -26,15 +25,15 @@ async def create_issue(payload: Report,request: Request, db: Session = Depends(g
     return generalResponse(message= "This User not exsist", data= None)
 
 @router.get("/issue")
-async def get_issue(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def get_issue(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user), limit: int = 10, skip: int = 0):
     myHeader = validateLanguageHeader(request)
     issues = db.query(db_issue_reported.DB_Issues_Reported.id, db_issue_reported.DB_Issues_Reported.user_id, 
                     db_issue_reported.DB_Issues_Reported.content, db_issue_reported.DB_Issues_Reported.attachment1, 
-                    db_issue_reported.DB_Issues_Reported.attachment2, db_issue_reported.DB_Issues_Reported.attachment3).all()
+                    db_issue_reported.DB_Issues_Reported.attachment2, db_issue_reported.DB_Issues_Reported.attachment3).limit(limit).offset(skip).all()
     return generalResponse(message="list of issues return successfully", data=issues)
 
 @router.post("/suggestion", status_code=status.HTTP_201_CREATED)
-def create_suggestion(payload: Report,db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):    
+def create_suggestion(payload: Report,db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):   
     query = db.query(db_user.DB_Users).filter(db_user.DB_Users.id == payload.user_id)
 
     if query.first() != None :
@@ -46,9 +45,9 @@ def create_suggestion(payload: Report,db: Session = Depends(get_db), get_current
     return generalResponse(message= "This User not exsist", data= None)
 
 @router.get("/suggestion")
-async def get_suggestion(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def get_suggestion(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user), limit: int = 10, skip: int = 0):
     myHeader = validateLanguageHeader(request)
     issues = db.query(db_suggestion_reported.DB_Suggestion_Reported.id, db_suggestion_reported.DB_Suggestion_Reported.user_id, 
                     db_suggestion_reported.DB_Suggestion_Reported.content, db_suggestion_reported.DB_Suggestion_Reported.attachment1, 
-                    db_suggestion_reported.DB_Suggestion_Reported.attachment2, db_suggestion_reported.DB_Suggestion_Reported.attachment3).all()
+                    db_suggestion_reported.DB_Suggestion_Reported.attachment2, db_suggestion_reported.DB_Suggestion_Reported.attachment3).limit(limit).offset(skip).all()
     return generalResponse(message="list of suggestions return successfully", data=issues)
