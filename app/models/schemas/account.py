@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 class AccountModel(BaseModel):
     mobile_number : str
-    os_type: str
     country_id: int
+    os_type: str
     device_type_name: str
     os_version: str
     app_version: str
