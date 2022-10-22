@@ -37,12 +37,100 @@ def upgrade() -> None:
     op.bulk_insert(DB_Countries.__table__,
     [
         {
+            "flag_image" : "bahrain.png",
+            "name_english" : "Bahrain",         
+            "name_arabic" : "البحرين",         
+            "currency_arabic" : "د.ب",
+            "currency_english" : "BD",        
+            "prefix_number" : "00973"
+        },
+        {
+            "flag_image" : "egypt.png",
+            "name_english" : "Eqypt",         
+            "name_arabic" : "مصر",         #Done
+            "currency_arabic" : "ج.م",
+            "currency_english" : "EGP",        
+            "prefix_number" : "0020"
+        }, 
+        {
+            "flag_image" : "iraq.png",
+            "name_english" : "Iraq",         
+            "name_arabic" : "العراق",            #Done 
+            "currency_arabic" : "د.ع",
+            "currency_english" : "IQD",        
+            "prefix_number" : "00964"
+        }, 
+        {
             "flag_image" : "jordan.png",
             "name_english" : "Jordan",         
             "name_arabic" : "الاردن",         
-            "currency_arabic" : "د.ا",
+            "currency_arabic" : "د.ا",    #Done
             "currency_english" : "JD",        
             "prefix_number" : "00962"
+        },
+        {
+            "flag_image" : "kuwait.png",
+            "name_english" : "Kuwait",         
+            "name_arabic" : "الكويت",         
+            "currency_arabic" : "د.ك",
+            "currency_english" : "KWD",        
+            "prefix_number" : "00965"
+        },
+        {
+            "flag_image" : "oman.png",
+            "name_english" : "Oman",         
+            "name_arabic" : "عمان",         
+            "currency_arabic" : "ر.ع",
+            "currency_english" : "R.O",        
+            "prefix_number" : "00968"
+        },
+        {
+            "flag_image" : "palestine.png",
+            "name_english" : "Palestine",         
+            "name_arabic" : "فلسطين",         
+            "currency_arabic" : "شيكل",
+            "currency_english" : "₪",        
+            "prefix_number" : "00970"
+        }, 
+        {
+            "flag_image" : "qatar.png",
+            "name_english" : "Qatar",         
+            "name_arabic" : "قطر",         
+            "currency_arabic" : "ر.ق",
+            "currency_english" : "QR",        
+            "prefix_number" : "00974"
+        }, 
+        {
+            "flag_image" : "saudi.png",
+            "name_english" : "Saudi Arabia",         
+            "name_arabic" : "المملكة العربية السعودية",         
+            "currency_arabic" : "ر.س",
+            "currency_english" : "Riyal",        
+            "prefix_number" : "00966"
+        }, 
+        {
+            "flag_image" : "syria.png",
+            "name_english" : "Syria",         
+            "name_arabic" : "سوريا",         
+            "currency_arabic" : "ل.س",
+            "currency_english" : "SYP",        
+            "prefix_number" : "00963"
+        },
+        {
+            "flag_image" : "emirates.png",
+            "name_english" : "United Arab Emirates",         
+            "name_arabic" : "الإمارات العربيّة المتّحدة",         
+            "currency_arabic" : "د.إ",
+            "currency_english" : "Dh",           #Done
+            "prefix_number" : "00971"
+        }, 
+        {
+            "flag_image" : "othercountry.png",
+            "name_english" : "Other",         
+            "name_arabic" : "اخرى",         
+            "currency_arabic" : "دولار",       #Done
+            "currency_english" : "USD",        
+            "prefix_number" : ""
         }
     ]
     )
@@ -50,11 +138,60 @@ def upgrade() -> None:
     op.bulk_insert(DB_Categories.__table__,
     [
         {
-            "name_english" : "Doctor",         
+            "name_english" : "Medical",         
             "name_arabic" : "طب",         
             "description_arabic" : "",
             "description_english" : "",        
             "icon" : "1.png"
+        },
+         {
+            "name_english" : "Psychology",         
+            "name_arabic" : "طب نفسي",         
+            "description_arabic" : "",
+            "description_english" : "",        
+            "icon" : "2.png"
+        },
+         {
+            "name_english" : "Pediatrics",         
+            "name_arabic" : "طب اطفال",         
+            "description_arabic" : "",
+            "description_english" : "",        
+            "icon" : "3.png"
+        },
+         {
+            "name_english" : "Diet & Nutrition",         
+            "name_arabic" : "دايت و تغذيه",         
+            "description_arabic" : "",
+            "description_english" : "",        
+            "icon" : "4.png"
+        },
+         {
+            "name_english" : "Sexology",         
+            "name_arabic" : "مشاكل جنسيه",         
+            "description_arabic" : "",
+            "description_english" : "",        
+            "icon" : "5.png"
+        },
+         {
+            "name_english" : "Dermatology",         
+            "name_arabic" : "مشاكل جلديه",         
+            "description_arabic" : "",
+            "description_english" : "",        
+            "icon" : "6.png"
+        },
+         {
+            "name_english" : "Gynecology",         
+            "name_arabic" : "امراض نسائيه",         
+            "description_arabic" : "",
+            "description_english" : "",        
+            "icon" : "7.png"
+        },
+         {
+            "name_english" : "Homeopathy",         
+            "name_arabic" : "علاج بالمواد الطبيعيه",         
+            "description_arabic" : "",
+            "description_english" : "",        
+            "icon" : "8.png"
         }
     ]
     )
