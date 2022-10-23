@@ -1,26 +1,26 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
-from app.models.database import db_user
-from app.models.schemas.account import AccountModel, AccountVerifyModel
+from app.models.database.client.db_client_user import DB_Client_Users
+from app.models.schemas.client.client_account import ClientAccountModel, ClientAccountVerifyModel
 from app.utils.generate import generateAPIKey, generateOTP, generateRequestId
-from app.utils.database.database import get_db
+from app.utils.database import get_db
 from app.models.respond import general, login
 from app.utils.validation import verifyKey
 from app.utils.oauth2 import create_access_token
 
 router = APIRouter(    
-    prefix="/auth",
+    prefix="/client-auth",
     tags=["Authentication"]
 )
 
 @router.post('/', response_model=login.LoginResponse)
-def authentication(payload: AccountModel, db: Session =  Depends(get_db)):
-    query = db.query(db_user.DB_Users).filter(db_user.DB_Users.mobile_number == payload.mobile_number)
+def authentication(payload: ClientAccountModel, db: Session =  Depends(get_db)):
+    query = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
     payload.last_otp = generateOTP()
     
     if query.first() == None:
         payload.api_key = generateAPIKey()
-        obj = db_user.Accounts(**payload.dict())
+        obj = DB_Client_Users(**payload.dict())
         db.add(obj)
         db.commit()
         db.refresh(obj)
@@ -31,13 +31,13 @@ def authentication(payload: AccountModel, db: Session =  Depends(get_db)):
     return general.generalResponse(message= "OTP Sended successfully", data=query.first())
 
 @router.post('-debug', response_model=login.LoginDebugResponse)
-def authentication(payload: AccountModel, db: Session =  Depends(get_db)):
-    query = db.query(db_user.DB_Users).filter(db_user.DB_Users.mobile_number == payload.mobile_number)
+def authentication(payload: ClientAccountModel, db: Session =  Depends(get_db)):
+    query = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
     payload.last_otp = generateOTP()
     
     if query.first() == None:
         payload.api_key = generateAPIKey()
-        obj = db_user.DB_Users(**payload.dict())
+        obj = DB_Client_Users(**payload.dict())
         db.add(obj)
         db.commit()
         db.refresh(obj)
@@ -48,8 +48,8 @@ def authentication(payload: AccountModel, db: Session =  Depends(get_db)):
     return general.generalResponse(message= "OTP Sended successfully", data=query.first())
 
 @router.post('-verify/')
-def verify_otp(payload: AccountVerifyModel, db: Session =  Depends(get_db)):
-    query = db.query(db_user.DB_Users).filter(db_user.DB_Users.mobile_number == payload.mobile_number)
+def verify_otp(payload: ClientAccountVerifyModel, db: Session =  Depends(get_db)):
+    query = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
 
     if query.first() == None:
       raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Mobile number is not valid", "request_id": generateRequestId()})

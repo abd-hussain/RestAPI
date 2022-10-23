@@ -10,7 +10,8 @@ import sqlalchemy as sa
 
 from app.models.database.db_versions import DB_Versions
 from app.models.database.db_country import DB_Countries
-from app.models.database.db_user import DB_Users
+from app.models.database.client.db_client_user import DB_Client_Users
+from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.database.db_category import DB_Categories
 
 
@@ -39,7 +40,7 @@ def upgrade() -> None:
         {
             "flag_image" : "bahrain.png",
             "name_english" : "Bahrain",         
-            "name_arabic" : "البحرين",         
+            "name_arabic" : "البحرين",   
             "currency_arabic" : "د.ب",
             "currency_english" : "BD",        
             "prefix_number" : "00973"
@@ -47,7 +48,7 @@ def upgrade() -> None:
         {
             "flag_image" : "egypt.png",
             "name_english" : "Eqypt",         
-            "name_arabic" : "مصر",         #Done
+            "name_arabic" : "مصر",     
             "currency_arabic" : "ج.م",
             "currency_english" : "EGP",        
             "prefix_number" : "0020"
@@ -55,7 +56,7 @@ def upgrade() -> None:
         {
             "flag_image" : "iraq.png",
             "name_english" : "Iraq",         
-            "name_arabic" : "العراق",            #Done 
+            "name_arabic" : "العراق",  
             "currency_arabic" : "د.ع",
             "currency_english" : "IQD",        
             "prefix_number" : "00964"
@@ -64,7 +65,7 @@ def upgrade() -> None:
             "flag_image" : "jordan.png",
             "name_english" : "Jordan",         
             "name_arabic" : "الاردن",         
-            "currency_arabic" : "د.ا",    #Done
+            "currency_arabic" : "د.ا",   
             "currency_english" : "JD",        
             "prefix_number" : "00962"
         },
@@ -76,22 +77,6 @@ def upgrade() -> None:
             "currency_english" : "KWD",        
             "prefix_number" : "00965"
         },
-        {
-            "flag_image" : "oman.png",
-            "name_english" : "Oman",         
-            "name_arabic" : "عمان",         
-            "currency_arabic" : "ر.ع",
-            "currency_english" : "R.O",        
-            "prefix_number" : "00968"
-        },
-        {
-            "flag_image" : "palestine.png",
-            "name_english" : "Palestine",         
-            "name_arabic" : "فلسطين",         
-            "currency_arabic" : "شيكل",
-            "currency_english" : "₪",        
-            "prefix_number" : "00970"
-        }, 
         {
             "flag_image" : "qatar.png",
             "name_english" : "Qatar",         
@@ -109,28 +94,20 @@ def upgrade() -> None:
             "prefix_number" : "00966"
         }, 
         {
-            "flag_image" : "syria.png",
-            "name_english" : "Syria",         
-            "name_arabic" : "سوريا",         
-            "currency_arabic" : "ل.س",
-            "currency_english" : "SYP",        
-            "prefix_number" : "00963"
-        },
-        {
             "flag_image" : "emirates.png",
             "name_english" : "United Arab Emirates",         
             "name_arabic" : "الإمارات العربيّة المتّحدة",         
             "currency_arabic" : "د.إ",
-            "currency_english" : "Dh",           #Done
+            "currency_english" : "Dh",       
             "prefix_number" : "00971"
         }, 
         {
             "flag_image" : "othercountry.png",
             "name_english" : "Other",         
             "name_arabic" : "اخرى",         
-            "currency_arabic" : "دولار",       #Done
+            "currency_arabic" : "دولار",     
             "currency_english" : "USD",        
-            "prefix_number" : ""
+            "prefix_number" : "00000"
         }
     ]
     )
@@ -196,7 +173,7 @@ def upgrade() -> None:
     ]
     )
     
-    op.bulk_insert(DB_Users.__table__,
+    op.bulk_insert(DB_Client_Users.__table__,
     [
         {
             "first_name" : "abed alrahman",
@@ -213,6 +190,25 @@ def upgrade() -> None:
             "os_type" : "iOS",         
             "device_type_name" : "iPhone XR",        
             "os_version" : "16.2",         
+            "app_version" : "1.0",         
+            "date_of_birth" : "22/05/1992",         
+            "last_otp" : "0000",         
+            "api_key" : "00100",         
+            "country_id" : 1
+        }
+    ]
+    )
+    
+    op.bulk_insert(DB_Mentor_Users.__table__,
+    [
+        {
+            "first_name" : "DR abed alrahman",
+            "last_name" : "al haj hussain",         
+            "mobile_number" : "00962795190663",        
+            "email" : "aboud.masoud.92@gmail.com",         
+            "gender" : 1,         
+            "referal_code" : "",
+            "profile_img" : "me.png",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         

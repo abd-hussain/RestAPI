@@ -1,5 +1,5 @@
 from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, text
-from app.utils.database.database import Base
+from app.utils.database import Base
 
 class DB_Leads(Base):
     __tablename__ = "leads"
@@ -8,7 +8,9 @@ class DB_Leads(Base):
     full_name = Column(String)
     mobile_number = Column(String)
     email = Column(String)
-    owner_id = Column(Integer, ForeignKey(
-        "users.id", ondelete="CASCADE"), nullable=False)
+    client_owner_id = Column(Integer, ForeignKey(
+        "client-users.id", ondelete="CASCADE"))
+    mentor_owner_id = Column(Integer, ForeignKey(
+        "mentor-users.id", ondelete="CASCADE"))
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))

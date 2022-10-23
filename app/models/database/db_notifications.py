@@ -1,5 +1,5 @@
 from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, text
-from app.utils.database.database import Base
+from app.utils.database import Base
 
 class DB_Notifications(Base):
     __tablename__ = "notifications"
@@ -9,6 +9,7 @@ class DB_Notifications(Base):
     title_arabic = Column(String)
     content_english = Column(String)
     content_arabic = Column(String)
+    reciver_type = Column(String)
     receiver_id = Column(Integer, ForeignKey(
         "users.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),

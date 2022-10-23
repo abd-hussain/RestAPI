@@ -1,5 +1,5 @@
 from sqlalchemy import TIMESTAMP, Column, Integer, String, Numeric, Boolean, text
-from app.utils.database.database import Base
+from app.utils.database import Base
 
 class DB_Versions(Base):
     __tablename__ = "versions"

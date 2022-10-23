@@ -1,6 +1,6 @@
 
 from sqlalchemy import TIMESTAMP, Boolean, Column, ForeignKey, Integer, String, text
-from app.utils.database.database import Base
+from app.utils.database import Base
 
 class DB_Subcategories(Base):
     __tablename__ = "subcategories"

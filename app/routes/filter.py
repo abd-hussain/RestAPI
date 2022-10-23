@@ -1,7 +1,7 @@
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter
-from app.utils.database.database import get_db
+from app.utils.database import get_db
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_country import DB_Countries
 from app.utils.validation import validateLanguageHeader

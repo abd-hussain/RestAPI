@@ -1,5 +1,5 @@
 
-from app.utils.database.database import Base
+from app.utils.database import Base
 from sqlalchemy import TIMESTAMP, Column, Integer, String, Boolean, text
 
 class DB_Countries(Base):

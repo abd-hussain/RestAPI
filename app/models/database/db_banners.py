@@ -1,6 +1,6 @@
 
 from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, Boolean, text
-from app.utils.database.database import Base
+from app.utils.database import Base
 
 class DB_Main_banners(Base):
     __tablename__ = "main_banners"

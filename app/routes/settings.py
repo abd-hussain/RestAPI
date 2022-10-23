@@ -6,10 +6,11 @@ from app.models.schemas.leads import ListLeads
 from app.models.schemas.notifications import Notifications
 from app.models.database.db_terms import DB_Terms
 from app.models.database.db_leads import DB_Leads
-from app.models.database.db_user import DB_Users
+from app.models.database.client.db_client_user import DB_Client_Users
+from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.database.db_notifications import DB_Notifications
 from app.models.respond.general import generalResponse
-from app.utils.database.database import get_db
+from app.utils.database import get_db
 from app.utils.generate import generateRequestId
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
@@ -61,10 +62,11 @@ async def upload_leads(payload: ListLeads,request: Request, db: Session = Depend
 @router.get("/notifications")
 async def get_Notifications(id: int ,request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user), limit: int = 10, skip: int = 0, search: Optional[str] = ""):
     myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Users.id).filter(DB_Users.id == id)
-
-    if query.first() == None:
-      raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"This ID not exsist", "request_id": generateRequestId()})
+    client_query = db.query(DB_Client_Users).filter(DB_Client_Users.id == id)
+    mentor_query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == id)
+    
+    if client_query.first() == None and mentor_query.first() == None:
+      raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"This User ID not exsist", "request_id": generateRequestId()})
 
     data = db.query(DB_Notifications.id, DB_Notifications.title_english.label(
         "title"), DB_Notifications.content_english.label(
@@ -79,9 +81,11 @@ async def get_Notifications(id: int ,request: Request, db: Session = Depends(get
 @router.delete("/notifications")
 async def delete_Notifications(payload: Notifications ,request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Users.id).filter(DB_Users.id == payload.user_id)
 
-    if query.first() == None:
+    client_query = db.query(DB_Client_Users).filter(DB_Client_Users.id == payload.user_id)
+    mentor_query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == payload.user_id)
+    
+    if client_query.first() == None and mentor_query.first() == None:
       raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"This ID not exsist", "request_id": generateRequestId()})
 
     for val in payload.list:
