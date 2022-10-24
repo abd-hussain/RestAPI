@@ -24,12 +24,7 @@ router = APIRouter(
 @router.get("/")
 async def get_Posts(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user), limit: int = 10, skip: int = 0, search: Optional[str] = ""):
     myHeader = validateLanguageHeader(request)
-    client_query = db.query(DB_Client_Users).filter(DB_Client_Users.id == id)
-    mentor_query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == id)
     
-    if client_query.first() == None and mentor_query.first() == None:
-      raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"This User ID not exsist", "request_id": generateRequestId()})
-
     data = db.query(DB_Notifications.id, DB_Notifications.title_english.label(
         "title"), DB_Notifications.content_english.label(
         "content")).filter(DB_Notifications.receiver_id == id).filter(DB_Notifications.title_english.contains(search)).limit(limit).offset(skip).all()
