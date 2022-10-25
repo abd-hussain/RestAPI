@@ -6,7 +6,7 @@ class DB_Issues_Reported(Base):
 
     id = Column(Integer, primary_key=True, nullable=False, index=True)
     user_id = Column(Integer, ForeignKey(
-        "users.id", ondelete="CASCADE"), nullable=False)
+        "client-users.id", ondelete="CASCADE"), nullable=False)
     content = Column(String)
     attachment1 = Column(String)
     attachment2 = Column(String)
