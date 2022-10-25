@@ -5,8 +5,10 @@ class DB_Suggestion_Reported(Base):
     __tablename__ = "suggestion_issue"
 
     id = Column(Integer, primary_key=True, nullable=False, index=True)
-    user_id = Column(Integer, ForeignKey(
-        "client-users.id", ondelete="CASCADE"), nullable=False)
+    client_owner_id = Column(Integer, ForeignKey(
+        "client-users.id", ondelete="CASCADE"))
+    mentor_owner_id = Column(Integer, ForeignKey(
+        "mentor-users.id", ondelete="CASCADE"))
     content = Column(String)
     attachment1 = Column(String)
     attachment2 = Column(String)

@@ -10,7 +10,9 @@ class DB_Notifications(Base):
     content_english = Column(String)
     content_arabic = Column(String)
     reciver_type = Column(String)
-    receiver_id = Column(Integer, ForeignKey(
-        "users.id", ondelete="CASCADE"), nullable=False)
+    client_owner_id = Column(Integer, ForeignKey(
+        "client-users.id", ondelete="CASCADE"))
+    mentor_owner_id = Column(Integer, ForeignKey(
+        "mentor-users.id", ondelete="CASCADE"))
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
