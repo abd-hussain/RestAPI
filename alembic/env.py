@@ -5,7 +5,8 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from app.models.database.db_user import Base
+from app.models.database.client.db_client_user import Base
+from app.models.database.mentor.db_mentor_user import Base
 from app.models.database.db_banners import Base
 from app.models.database.db_category import Base
 from app.models.database.db_country import Base
