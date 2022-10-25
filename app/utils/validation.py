@@ -1,5 +1,5 @@
 from fastapi import Request, HTTPException, status
-from app.models.schemas.header import HeaderRequest, PreLoginHeaderRequest
+from app.models.schemas.header import PreLoginHeaderRequest
 from app.utils.generate import generateRequestId
 
 def verifyKey(passsed_key, original_key):

@@ -1,7 +1,6 @@
 import random
 import secrets
 
-
 def generateAPIKey() -> str:
     return secrets.token_hex(32)
 
