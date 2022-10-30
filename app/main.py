@@ -6,10 +6,12 @@ from app.routes.mentor import mentor_auth, mentor_account
 from app.utils.public_api import origins
 from app.utils.database import engine
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 db_client_user.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,

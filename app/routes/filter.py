@@ -41,8 +41,9 @@ async def get_countries(request: Request, db: Session = Depends(get_db), limit: 
     myHeader = validateLanguageHeader(request)
     countries = db.query(DB_Countries.id, DB_Countries.flag_image, DB_Countries.name_english.label(
         "name"), DB_Countries.currency_english.label("currency"), DB_Countries.prefix_number).filter(DB_Countries.name_english.contains(search)).limit(limit).offset(skip).all()
-    print(countries)
     if (myHeader.language == "ar"):
         countries = db.query(DB_Countries.id, DB_Countries.flag_image, DB_Countries.name_arabic.label(
             "name"), DB_Countries.currency_arabic.label("currency"), DB_Countries.prefix_number).filter(DB_Countries.name_arabic.contains(search)).limit(limit).offset(skip).all()
+   
+   
     return generalResponse(message="list of countries return successfully", data=countries)
