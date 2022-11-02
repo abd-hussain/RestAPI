@@ -47,7 +47,7 @@ def authentication(payload: ClientAccountModel, db: Session =  Depends(get_db)):
     db.commit()
     return general.generalResponse(message= "OTP Sended successfully", data=query.first())
 
-@router.post('-verify/')
+@router.post('-verify')
 def verify_otp(payload: ClientAccountVerifyModel, db: Session =  Depends(get_db)):
     query = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
 
