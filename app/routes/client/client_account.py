@@ -10,7 +10,7 @@ from app.models.schemas.client.client_account import UpdateClientAccountModel
 
 
 router = APIRouter(
-    prefix="/client-account",
+    prefix="/clientaccount",
     tags=["Account"]
 )
 
