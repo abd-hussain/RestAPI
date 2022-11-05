@@ -15,9 +15,9 @@ router = APIRouter(
 )
 
 @router.get("/")
-async def get_account(id :int , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def get_account(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Client_Users).filter(DB_Client_Users.id == id)
+    query = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id)
 
     if query.first() == None:
        return generalResponse(message="profile was not found", data=None)
