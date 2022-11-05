@@ -1,16 +1,16 @@
 import random
 import secrets
+from random import randint
 
 def generateAPIKey() -> str:
     return secrets.token_hex(32)
 
 
 def generateOTP() -> str:
-    try:
-        return str(random.sample(range(1, 999999), 1)[0])
-    except ValueError:
-        print('Sample size exceeded population size.')
-        return "000000"
+        range_start = 10**(5)
+        range_end = (10**6)-1
+        return randint(range_start, range_end)
+
 
 def generateinvetationCode() -> str:
     try:
