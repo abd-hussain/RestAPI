@@ -12,7 +12,7 @@ def generateOTP() -> str:
         return randint(range_start, range_end)
 
 
-def generateinvetationCode() -> str:
+def generateActvationCode() -> str:
         range_start = 10**(5)
         range_end = (10**6)-1
         return randint(range_start, range_end)

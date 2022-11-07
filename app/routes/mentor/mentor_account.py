@@ -5,7 +5,7 @@ from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
-from app.utils.generate import generateinvetationCode
+from app.utils.generate import generateActvationCode
 from app.models.schemas.mentor.mentor_account import UpdateMentorAccountModel
 
 
@@ -33,7 +33,7 @@ async def update_account(id :int , payload: UpdateMentorAccountModel , request: 
        return generalResponse(message="profile was not found", data=None)
 
     if query["invitation_code"] == "" :
-        query.update({"invitation_code" : generateinvetationCode()}, synchronize_session=False)
+        query.update({"invitation_code" : generateActvationCode()}, synchronize_session=False)
         
     if payload.first_name != None:
         query.update({"first_name" : payload.first_name}, synchronize_session=False)
