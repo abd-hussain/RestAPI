@@ -12,7 +12,8 @@ class HTTPException(StarletteHTTPException):
         detail: Any = None,
         headers: Optional[Dict[str, Any]] = None,
     ) -> None:
-        super().__init__(status_code=status_code, detail=detail, headers=headers)
+        super().__init__(status_code=status_code, detail=detail)
+        self.headers = headers
 
 
 RequestErrorModel: Type[BaseModel] = create_model("Request")
