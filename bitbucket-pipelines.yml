@@ -31,12 +31,12 @@ jobs:
     #       --health-retries 5
     runs-on: ubuntu-latest
     steps:
-      - name: pulling git repo
-        uses: actions/checkout@v2
-      - name: Install python version 3.9
-        uses: actions/setup-python@v2git a
-        with:
-          python-version: "3.9"
+      # - name: pulling git repo
+      #   uses: actions/checkout@v2
+      # - name: Install python version 3.9
+      #   uses: actions/setup-python@v2git a
+      #   with:
+      #     python-version: "3.9"
       - name: Say hi
         run: echo "hello aboud"
       # - name: update pip
