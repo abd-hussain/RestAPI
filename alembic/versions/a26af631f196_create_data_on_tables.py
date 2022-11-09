@@ -6,7 +6,6 @@ Create Date: 2022-10-20 12:40:47.209451
 
 """
 from alembic import op
-import sqlalchemy as sa
 
 from app.models.database.db_versions import DB_Versions
 from app.models.database.db_country import DB_Countries

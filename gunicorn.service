@@ -1,7 +1,7 @@
 
 
 [Unit]
-Description=demo academy application
+Description=HelpEra application
 After=network.target
 
 [Service]
