@@ -119,8 +119,8 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
         query.update({"allow_notifications" : payload.allow_notifications}, synchronize_session=False)
         
     if profile_picture is not None:
-        if profile_picture.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Profile Image Format is not valid", "request_id": generateRequestId()})
+        # if profile_picture.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
+        #     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Profile Image Format is not valid", "request_id": generateRequestId()})
 
         file_location = f"static/profileImg/{get_current_user.user_id}.png"
         
