@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, EmailStr
+from pydantic.types import SecretStr, constr
 
 class ClientAccountModel(BaseModel):
     mobile_number : str

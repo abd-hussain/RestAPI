@@ -1,16 +1,18 @@
+from app.config import Settings
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
-from fastapi import Request, Depends, APIRouter, File, UploadFile, Form
+from fastapi import Request, Depends, APIRouter, File, UploadFile, Form, HTTPException, status
 from app.utils.database import get_db
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
-from app.utils.generate import generateActvationCode
+from app.utils.generate import generateActvationCode, generateRequestId
 from app.models.schemas.client.client_account import UpdateClientAccountModel
 from pydantic import BaseModel, EmailStr, Field
 from pydantic.types import SecretStr, constr
 from pydantic.networks import EmailStr
 from fastapi.encoders import jsonable_encoder
+from pathlib import Path
 
 router = APIRouter(
     prefix="/client-account",
@@ -75,7 +77,7 @@ async def get_account(request: Request, db: Session = Depends(get_db), get_curre
 
 @router.put("/update")
 async def update_account(request: Request,first_name: str = Form(None),last_name: str = Form(None),email: str = Form(None),gender: int = Form(None),
-                         country_id: int = Form(None), referal_code: str = Form(None),date_of_birth: str = Form(None),profile_picture: UploadFile = File(None), 
+                         country_id: int = Form(None), referal_code: str = Form(None),date_of_birth: str = Form(None),profile_picture: UploadFile = File(default=None), 
                          os_type: str = Form(""),device_type_name: str = Form(""),app_version: str = Form(""),
                          db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
@@ -115,17 +117,27 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
         query.update({"country_id" : payload.country_id}, synchronize_session=False)
     if payload.allow_notifications != None:
         query.update({"allow_notifications" : payload.allow_notifications}, synchronize_session=False)
+        
+    if profile_picture is not None:
+        if profile_picture.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Profile Image Format is not valid", "request_id": generateRequestId()})
 
+        file_location = f"static/profileImg/{get_current_user.user_id}.png"
+        
+        try:
+            contents = profile_picture.file.read()
+            with open(file_location, 'wb+') as out_file:
+                out_file.write(contents)
+                query.update({"profile_img" : file_location}, synchronize_session=False)
+        except Exception:
+            return {"message": "There was an error uploading the file"}
+        finally:
+            profile_picture.file.close()
+        
     db.commit()
     
     return generalResponse(message="Profile updated successfully", data=query.first())
-    # if profile_picture is not None:
-    #     marketplace_domain = await get_request_source(request)
-    #     upload_path = marketplace_domain + "/users/" + instance.username
-    #     if not await upload_file(profile_picture, upload_path, settings.ALLOWED_IMAGE_TYPES, settings.FILE_SERVICE):
-    #         raise HTTPException(detail=”file could not be uploaded”,status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    #     update_data[“profile_picture”] = upload_path + “/” + profile_picture.filename
 
 
 
