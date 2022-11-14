@@ -40,5 +40,4 @@ class UpdateClientAccountModel(BaseModel):
     app_version : Optional[str]
     date_of_birth : Optional[str] 
     country_id : Optional[int] 
-    allow_notifications : Optional[bool] 
     last_usage: datetime = datetime.now()

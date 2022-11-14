@@ -28,13 +28,13 @@ async def get_account(request: Request, db: Session = Depends(get_db), get_curre
 @router.put("/update")
 async def update_account(request: Request,first_name: str = Form(None),last_name: str = Form(None),email: str = Form(None),gender: int = Form(None),
                          country_id: int = Form(None), referal_code: str = Form(None),date_of_birth: str = Form(None),profile_picture: UploadFile = File(default=None), 
-                         os_type: str = Form(""),device_type_name: str = Form(""),app_version: str = Form(""),allow_notifications: str = Form(""),
+                         os_type: str = Form(""),device_type_name: str = Form(""),app_version: str = Form(""),
                          db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
     query = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id)
     payload = UpdateClientAccountModel(first_name = first_name, last_name = last_name, email = email, date_of_birth = date_of_birth, 
                                      country_id = country_id, gender = gender, referal_code = referal_code, 
-                                      os_type = os_type, device_type_name = device_type_name, app_version = app_version, allow_notifications = allow_notifications )
+                                      os_type = os_type, device_type_name = device_type_name, app_version = app_version)
     
     if query.first().invitation_code is None:
         query.update({"invitation_code" : generateActvationCode()}, synchronize_session=False)
@@ -65,8 +65,6 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
         query.update({"date_of_birth" : payload.date_of_birth}, synchronize_session=False)
     if payload.country_id != None:
         query.update({"country_id" : payload.country_id}, synchronize_session=False)
-    if payload.allow_notifications != None:
-        query.update({"allow_notifications" : payload.allow_notifications}, synchronize_session=False)
         
     if profile_picture is not None:
         if profile_picture.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
