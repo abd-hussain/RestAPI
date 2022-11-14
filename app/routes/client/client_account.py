@@ -8,11 +8,6 @@ from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
 from app.utils.generate import generateActvationCode, generateRequestId
 from app.models.schemas.client.client_account import UpdateClientAccountModel
-from pydantic import BaseModel, EmailStr, Field
-from pydantic.types import SecretStr, constr
-from pydantic.networks import EmailStr
-from fastapi.encoders import jsonable_encoder
-from pathlib import Path
 
 router = APIRouter(
     prefix="/client-account",
@@ -78,13 +73,13 @@ async def get_account(request: Request, db: Session = Depends(get_db), get_curre
 @router.put("/update")
 async def update_account(request: Request,first_name: str = Form(None),last_name: str = Form(None),email: str = Form(None),gender: int = Form(None),
                          country_id: int = Form(None), referal_code: str = Form(None),date_of_birth: str = Form(None),profile_picture: UploadFile = File(default=None), 
-                         os_type: str = Form(""),device_type_name: str = Form(""),app_version: str = Form(""),
+                         os_type: str = Form(""),device_type_name: str = Form(""),app_version: str = Form(""),allow_notifications: str = Form(""),
                          db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
     query = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id)
     payload = UpdateClientAccountModel(first_name = first_name, last_name = last_name, email = email, date_of_birth = date_of_birth, 
                                      country_id = country_id, gender = gender, referal_code = referal_code, 
-                                      os_type = os_type, device_type_name = device_type_name, app_version = app_version)
+                                      os_type = os_type, device_type_name = device_type_name, app_version = app_version, allow_notifications = allow_notifications )
     
     if query.first().invitation_code is None:
         query.update({"invitation_code" : generateActvationCode()}, synchronize_session=False)
@@ -119,7 +114,7 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
         query.update({"allow_notifications" : payload.allow_notifications}, synchronize_session=False)
         
     if profile_picture is not None:
-        if profile_picture.content_type not in ["image/jpeg", "image/png", "image/jpg", "jpeg", "png", "jpg"]:
+        if profile_picture.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Profile Image Format is not valid", "request_id": generateRequestId()})
 
         file_location = f"static/profileImg/{get_current_user.user_id}.png"
