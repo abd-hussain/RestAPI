@@ -1,4 +1,3 @@
-from app.config import Settings
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter, File, UploadFile, Form, HTTPException, status
