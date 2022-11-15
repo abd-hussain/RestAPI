@@ -38,6 +38,4 @@ app.include_router(report.router)
 
 # TODO: Handle Send SMS For Verifications
 # TODO: Handle Send Push Notifications
-# TODO: Handle Upload Image
-# TODO: Handle Return Images
 
