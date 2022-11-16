@@ -9,4 +9,4 @@ jobs:
       - name: pulling git repo
         uses: actions/checkout@v2
       - name: print
-        uses: echo ${{secrets.DATABASE_PASSWORD}}
+        run: echo ${{secrets.DATABASE_PASSWORD}}
