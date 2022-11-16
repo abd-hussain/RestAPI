@@ -170,7 +170,7 @@ async def get_issue(request: Request, db: Session = Depends(get_db), limit: int 
 @router.get("/suggestion")
 async def get_suggestion(request: Request, db: Session = Depends(get_db), limit: int = 10, skip: int = 0):
     myHeader = validateLanguageHeader(request)
-    issues = db.query(db_suggestion_reported.DB_Suggestion_Reported.id, db_suggestion_reported.DB_Suggestion_Reported.client_owner_id, db_suggestion_reported.DB_Suggestion_Reported.mentor_owner_id,
+    suggestion = db.query(db_suggestion_reported.DB_Suggestion_Reported.id, db_suggestion_reported.DB_Suggestion_Reported.client_owner_id, db_suggestion_reported.DB_Suggestion_Reported.mentor_owner_id,
                     db_suggestion_reported.DB_Suggestion_Reported.content, db_suggestion_reported.DB_Suggestion_Reported.attachment1, 
-                    db_suggestion_reported.DB_Suggestion_Reported.attachment2, db_suggestion_reported.DB_Suggestion_Reported.attachment3, db_issue_reported.DB_Issues_Reported.solved).limit(limit).offset(skip).all()
-    return generalResponse(message="list of suggestions return successfully", data=issues)
+                    db_suggestion_reported.DB_Suggestion_Reported.attachment2, db_suggestion_reported.DB_Suggestion_Reported.attachment3, db_suggestion_reported.DB_Suggestion_Reported.solved).limit(limit).offset(skip).all()
+    return generalResponse(message="list of suggestions return successfully", data=suggestion)
