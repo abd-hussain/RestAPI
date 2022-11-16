@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": " -#- Welcome To HelpEra API's On Heroku-#- "}
+    return {"message": " -#- Welcome To HelpEra API's On Prod-#- "}
 
 app.include_router(client_auth.router)
 app.include_router(mentor_auth.router)
