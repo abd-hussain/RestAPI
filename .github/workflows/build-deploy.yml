@@ -27,9 +27,11 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          
+
     runs-on: ubuntu-latest
     steps:
+      - name: print
+        uses: echo ${{secrets.DATABASE_PASSWORD}}
       - name: pulling git repo
         uses: actions/checkout@v2
       - name: Install python version 3.9
