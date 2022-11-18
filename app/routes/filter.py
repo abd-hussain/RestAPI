@@ -5,7 +5,6 @@ from app.utils.database import get_db
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_country import DB_Countries
 from app.utils.validation import validateLanguageHeader
-from app.models.database.db_subcategory import DB_Subcategories
 from typing import Optional
 
 router = APIRouter(
@@ -13,29 +12,18 @@ router = APIRouter(
 )
 
 @router.get("/categories")
-async def get_categories(request: Request, db: Session = Depends(get_db), limit: int = 10, skip: int = 0, search: Optional[str] = ""):
+async def get_categories(request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
     
     categories = db.query(DB_Categories.id, DB_Categories.name_english.label(
         "name"), DB_Categories.icon, DB_Categories.description_english.label(
-        "description")).filter(DB_Categories.name_english.contains(search)).limit(limit).offset(skip).all()
+        "description")).all()
     if (myHeader.language == "ar"):
         categories = db.query(DB_Categories.id, DB_Categories.name_arabic.label(
             "name"), DB_Categories.icon, DB_Categories.description_arabic.label(
-        "description")).filter(DB_Categories.name_arabic.contains(search)).limit(limit).offset(skip).all()
+        "description")).all()
 
     return generalResponse(message="list of categories return successfully", data=categories)
-
-@router.get("/subcategories")
-async def get_subcategories(cat_id: int, request: Request, db: Session = Depends(get_db), limit: int = 10, skip: int = 0, search: Optional[str] = ""):
-    myHeader = validateLanguageHeader(request)
-
-    subCategories = db.query(DB_Subcategories.id, DB_Subcategories.name_english.label(
-        "name")).filter(DB_Subcategories.category_id == cat_id).filter( DB_Subcategories.name_english.contains(search)).limit(limit).offset(skip).all()
-    if (myHeader.language == "ar"):
-        subCategories = db.query(DB_Subcategories.id, DB_Subcategories.name_arabic.label(
-            "name")).filter(DB_Subcategories.category_id == cat_id).filter(DB_Subcategories.name_arabic.contains(search)).limit(limit).offset(skip).all()
-    return generalResponse(message="list of subCategories return successfully", data=subCategories)
 
 @router.get("/countries")
 async def get_countries(request: Request, db: Session = Depends(get_db), limit: int = 10, skip: int = 0, search: Optional[str] = ""):

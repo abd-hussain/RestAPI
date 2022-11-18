@@ -5,6 +5,8 @@ class DB_Mentor_Users(Base):
     __tablename__ = "mentor-users"
 
     id = Column(Integer, primary_key=True, nullable=False, index=True)
+    category_id = Column(Integer, ForeignKey(
+        "categories.id", ondelete="CASCADE"), nullable=False)
     first_name = Column(String)
     last_name = Column(String)
     mobile_number = Column(String, nullable=False, unique=True)

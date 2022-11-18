@@ -13,7 +13,6 @@ from app.models.database.db_country import Base
 from app.models.database.db_issue_reported import Base
 from app.models.database.db_leads import Base
 from app.models.database.db_notifications import Base
-from app.models.database.db_subcategory import Base
 from app.models.database.db_suggestion_reported import Base
 from app.models.database.db_terms import Base
 from app.models.database.db_versions import Base

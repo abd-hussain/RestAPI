@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from app.routes import filter, report, settings , posts
 from app.models.database.client import db_client_user
 from app.routes.client import client_auth, client_account
-from app.routes.mentor import mentor_auth, mentor_account
+from app.routes.mentor import mentor_auth, mentor_account, mentor_list
 from app.utils.public_api import origins
 from app.utils.database import engine
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,6 +29,7 @@ app.include_router(client_auth.router)
 app.include_router(mentor_auth.router)
 app.include_router(client_account.router)
 app.include_router(mentor_account.router)
+app.include_router(mentor_list.router)
 
 app.include_router(posts.router)
 app.include_router(filter.router)
