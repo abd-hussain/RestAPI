@@ -15,6 +15,7 @@ router = APIRouter(
 @router.get("/categories")
 async def get_categories(request: Request, db: Session = Depends(get_db), limit: int = 10, skip: int = 0, search: Optional[str] = ""):
     myHeader = validateLanguageHeader(request)
+    
     categories = db.query(DB_Categories.id, DB_Categories.name_english.label(
         "name"), DB_Categories.icon, DB_Categories.description_english.label(
         "description")).filter(DB_Categories.name_english.contains(search)).limit(limit).offset(skip).all()
