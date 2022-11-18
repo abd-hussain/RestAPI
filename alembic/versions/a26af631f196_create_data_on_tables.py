@@ -118,49 +118,49 @@ def upgrade() -> None:
             "name_arabic" : "طب نفسي",         
             "description_arabic" : "",
             "description_english" : "",        
-            "icon" : "2.png"
+            "icon" : "psychology.png"
         },
          {
             "name_english" : "Pediatrics",         
             "name_arabic" : "طب اطفال",         
             "description_arabic" : "",
             "description_english" : "",        
-            "icon" : "3.png"
+            "icon" : "pediatrics.png"
         },
          {
             "name_english" : "Diet & Nutrition",         
             "name_arabic" : "دايت و تغذيه",         
             "description_arabic" : "",
             "description_english" : "",        
-            "icon" : "4.png"
+            "icon" : "diet.png"
         },
          {
             "name_english" : "Sexology",         
             "name_arabic" : "مشاكل جنسيه",         
             "description_arabic" : "",
             "description_english" : "",        
-            "icon" : "5.png"
+            "icon" : "sexology.png"
         },
          {
             "name_english" : "Dermatology",         
             "name_arabic" : "مشاكل جلديه",         
             "description_arabic" : "",
             "description_english" : "",        
-            "icon" : "6.png"
+            "icon" : "dermatology.png"
         },
          {
             "name_english" : "Gynecology",         
             "name_arabic" : "امراض نسائيه",         
             "description_arabic" : "",
             "description_english" : "",        
-            "icon" : "7.png"
+            "icon" : "gynecology.png"
         },
          {
             "name_english" : "Homeopathy",         
             "name_arabic" : "علاج بالمواد الطبيعيه",         
             "description_arabic" : "",
             "description_english" : "",        
-            "icon" : "8.png"
+            "icon" : "homeopathy.png"
         }
     ]
     )
