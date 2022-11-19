@@ -393,7 +393,7 @@ def upgrade() -> None:
             "last_name" : "al haj hussain",         
             "mobile_number" : "009627900000012",        
             "email" : "aboud.masoud.12@gmail.com",
-            "category_id" : 8,  
+            "category_id" : 2,  
             "gender" : 0,         
             "referal_code" : "",
             "profile_img" : "me.png",
