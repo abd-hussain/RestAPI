@@ -12,6 +12,7 @@ from app.models.database.db_country import DB_Countries
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.database.db_category import DB_Categories
+from app.models.database.db_notifications import DB_Notifications
 
 
 # revision identifiers, used by Alembic.
@@ -450,6 +451,20 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "000015",         
             "country_id" : 2
+        }
+    ]
+    )
+    
+    
+    op.bulk_insert(DB_Notifications.__table__,
+    [
+        {
+            "id" : 1,
+            "title_english" : "notification title 1",
+            "title_arabic" : "تنبيه رقم ١",         
+            "content_english" : "notification content 1",
+            "content_arabic" : "محتوى التنبيه ١",          
+            "client_owner_id" : 1
         }
     ]
     )

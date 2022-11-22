@@ -2,7 +2,7 @@ server {
         listen 80 default_server;
         listen [::]:80 default_server;
 
-        server_name www.helpera.app helpera.app; # replace with specific domain name like sanjeev.com
+        server_name www.helpera.app helpera.app;
         
         location / {
                 proxy_pass http://localhost:8000;
