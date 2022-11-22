@@ -14,9 +14,8 @@ router = APIRouter(
 
 
 @router.get("/")
-async def get_accounts(categories_id :int , request: Request, db: Session = Depends(get_db)):
+async def get_accounts(categories_id :int ,request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
-    print("abed")
     query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.category_id == categories_id).all()
 
     if query == []:
