@@ -22,6 +22,7 @@ class DB_Client_Users(Base):
     date_of_birth = Column(String)
     last_usage = Column(String)
     last_otp = Column(String)
+    points = Column(Integer, nullable=False, server_default="0")
     api_key = Column(String, nullable=False, unique=True)
     country_id = Column(Integer, ForeignKey(
         "countries.id", ondelete="CASCADE"), nullable=False)

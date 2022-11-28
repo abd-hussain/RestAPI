@@ -13,7 +13,7 @@ from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
-
+from app.models.database.db_loyality_rules import DB_Loyality
 
 # revision identifiers, used by Alembic.
 revision = 'a26af631f1969'
@@ -465,6 +465,68 @@ def upgrade() -> None:
             "content_english" : "notification content 1",
             "content_arabic" : "محتوى التنبيه ١",          
             "client_owner_id" : 1
+        }
+    ]
+    )
+    
+    
+    op.bulk_insert(DB_Loyality.__table__,
+    [
+        {
+            "id" : 1,      
+            "content_english" : "Fill your profile details",
+            "content_arabic" : "املا معلومات الحساب الخاص بك",
+            "points" : 3,
+            "action" : "EDITPROFILE"      
+        },
+        {
+            "id" : 2,      
+            "content_english" : "For each Friend Invite",
+            "content_arabic" : "لكل دعوة صديق",
+            "points" : 2,
+            "action" : "INVITEFRIEND"         
+        },
+        {
+            "id" : 3,      
+            "content_english" : "Add Suggestion",
+            "content_arabic" : "اضافة اقتراح",
+            "points" : 1,
+            "action" : "REPORTSUGESTION"         
+        },
+        {
+            "id" : 4,      
+            "content_english" : "Add Issue",
+            "content_arabic" : "اضافة مشكلة",
+            "points" : 1,
+            "action" : "REPORTISSUE"         
+        },
+        {
+            "id" : 5,      
+            "content_english" : "Add Good Review",
+            "content_arabic" : "اضافة تقيم جيد للبرنامج",
+            "points" : 5,
+            "action" : "REVIEW"         
+        },
+        {
+            "id" : 6,      
+            "content_english" : "Like Our Facebook Page",
+            "content_arabic" : "متابعة صفحتنا على فيسبوك",
+            "points" : 1,
+            "action" : "LIKEFACEBOOK"         
+        },
+        {
+            "id" : 7,      
+            "content_english" : "Like Our LinkedIn Page",
+            "content_arabic" : "متابعة صفحتنا على لينكيدان",
+            "points" : 1,
+            "action" : "LIKELINKEDIN"         
+        },
+        {
+            "id" : 8,      
+            "content_english" : "Add Good Review To Mentor",
+            "content_arabic" : "اضافة تقيم جيد للمدرب",
+            "points" : 1,
+            "action" : "REVIEWMENTOR"         
         }
     ]
     )

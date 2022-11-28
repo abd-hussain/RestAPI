@@ -16,6 +16,7 @@ from app.models.database.db_notifications import Base
 from app.models.database.db_suggestion_reported import Base
 from app.models.database.db_terms import Base
 from app.models.database.db_versions import Base
+from app.models.database.db_loyality_rules import Base
 
 from app.config import settings
 
