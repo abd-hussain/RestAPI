@@ -14,6 +14,10 @@ from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
 from app.models.database.db_loyality_rules import DB_Loyality
+from app.models.database.db_client_banners import DB_Client_Banners
+from app.models.database.db_stories import DB_Stories
+from app.models.database.db_posts import DB_Posts
+from app.models.database.db_vote import DB_Votes
 
 # revision identifiers, used by Alembic.
 revision = 'a26af631f1969'
@@ -465,6 +469,14 @@ def upgrade() -> None:
             "content_english" : "notification content 1",
             "content_arabic" : "محتوى التنبيه ١",          
             "client_owner_id" : 1
+        },
+        {
+            "id" : 2,
+            "title_english" : "notification title 2",
+            "title_arabic" : "تنبيه رقم ٢",         
+            "content_english" : "notification content 2",
+            "content_arabic" : "محتوى التنبيه ٢",          
+            "client_owner_id" : 1
         }
     ]
     )
@@ -527,6 +539,130 @@ def upgrade() -> None:
             "content_arabic" : "اضافة تقيم جيد للمدرب",
             "points" : 1,
             "action" : "REVIEWMENTOR"         
+        }
+    ]
+    )
+    
+    op.bulk_insert(DB_Client_Banners.__table__,
+    [
+        {
+            "id" : 1,      
+            "language" : "en",
+            "image" : "banner1.jpg",
+            "published" : True      
+        },
+        {
+            "id" : 2,      
+            "language" : "en",
+            "image" : "banner2.jpg",
+            "action_type" : "https://www.youtube.com/watch?v=FrCO41i2tWM&ab_channel=%D8%AD%D8%B3%D9%86%D8%A7%D9%84%D9%81%D8%A7%D8%B6%D9%84%D9%8A-ElfadiliTV",
+            "published" : True         
+        },
+        {
+            "id" : 3,      
+            "language" : "ar",
+            "image" : "banner3.jpg",
+            "published" : True            
+        },
+        {
+            "id" : 4,      
+            "language" : "ar",
+            "image" : "banner4.jpg",
+            "published" : True           
+        },
+        {
+            "id" : 5,      
+            "language" : "ar",
+            "image" : "banner4.jpg",
+            "action_type" : "null",
+            "published" : False           
+        }
+    ]
+    )
+    
+    op.bulk_insert(DB_Stories.__table__,
+    [
+        {
+            "id" : 1,      
+            "language" : "en",
+            "assets1" : "story1",
+            "assets2" : "story2",
+            "owner_id" : 1,
+            "published" : True      
+        },
+        {
+            "id" : 2,      
+            "language" : "en",
+            "assets1" : "story2",
+            "assets2" : "story3",
+            "assets3" : "story1",
+            "owner_id" : 2,
+            "published" : True         
+        },
+        {
+            "id" : 3,      
+            "language" : "en",
+            "assets1" : "story4",
+            "assets2" : "story2",
+            "assets3" : "story1",
+            "owner_id" : 3,
+            "published" : False          
+        },
+        {
+            "id" : 4,      
+            "language" : "ar",
+            "assets1" : "story3",
+            "assets2" : "story1",
+            "owner_id" : 1,
+            "published" : True             
+        },
+        {
+            "id" : 5,      
+            "language" : "ar",
+            "assets1" : "story4",
+            "assets2" : "story2",
+            "assets3" : "story1",
+            "owner_id" : 3,
+            "published" : True                
+        }
+    ]
+    )
+    
+    op.bulk_insert(DB_Posts.__table__,
+    [
+        {
+            "id" : 1,      
+            "language" : "en",
+            "content" : "This is the First post published to our application",
+            "owner_id" : 1,
+            "published" : True      
+        },
+        {
+            "id" : 2,      
+            "language" : "en",
+            "content" : "This is the First post published to our application",
+            "owner_id" : 1,
+            "published" : False      
+        },
+        {
+            "id" : 3,      
+            "language" : "ar",
+            "content" : "اول مسنشور على التطبيق",
+            "owner_id" : 1,
+            "published" : True      
+        }
+    ]
+    )
+    
+    op.bulk_insert(DB_Votes.__table__,
+    [
+        {
+            "user_id" : 1,      
+            "post_id" : 1,
+        },
+        {
+            "user_id" : 1,      
+            "post_id" : 2,
         }
     ]
     )

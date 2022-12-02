@@ -7,7 +7,6 @@ from alembic import context
 
 from app.models.database.client.db_client_user import Base
 from app.models.database.mentor.db_mentor_user import Base
-from app.models.database.db_banners import Base
 from app.models.database.db_category import Base
 from app.models.database.db_country import Base
 from app.models.database.db_issue_reported import Base
@@ -17,7 +16,10 @@ from app.models.database.db_suggestion_reported import Base
 from app.models.database.db_terms import Base
 from app.models.database.db_versions import Base
 from app.models.database.db_loyality_rules import Base
-
+from app.models.database.db_client_banners import Base
+from app.models.database.db_stories import Base
+from app.models.database.db_posts import Base
+from app.models.database.db_vote import Base
 from app.config import settings
 
 # this is the Alembic Config object, which provides
