@@ -10,14 +10,11 @@ from alembic import op
 from app.models.database.db_versions import DB_Versions
 from app.models.database.db_country import DB_Countries
 from app.models.database.client.db_client_user import DB_Client_Users
-from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
+from app.models.database.mentor.db_mentor_user import DB_Mentor_Users,  DB_Stories, DB_StoryReports
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
 from app.models.database.db_loyality_rules import DB_Loyality
 from app.models.database.db_client_banners import DB_Client_Banners
-from app.models.database.db_stories import DB_Stories
-from app.models.database.db_posts import DB_Posts
-from app.models.database.db_vote import DB_Votes
 
 # revision identifiers, used by Alembic.
 revision = 'a26af631f1969'
@@ -201,7 +198,7 @@ def upgrade() -> None:
             "allow_notifications" : True,         
             "blocked" : False,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "os_type" : "iOS",         
             "device_type_name" : "iPhone XR",        
             "os_version" : "16.2",         
@@ -225,7 +222,7 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 1,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "1.png",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -241,7 +238,7 @@ def upgrade() -> None:
             "category_id" : 3,  
             "gender" : 2,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -257,7 +254,7 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -273,7 +270,7 @@ def upgrade() -> None:
             "category_id" : 4,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -289,7 +286,7 @@ def upgrade() -> None:
             "category_id" : 3,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -305,7 +302,7 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -321,7 +318,7 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -337,7 +334,7 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -353,7 +350,7 @@ def upgrade() -> None:
             "category_id" : 4,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -369,7 +366,7 @@ def upgrade() -> None:
             "category_id" : 3,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -385,7 +382,7 @@ def upgrade() -> None:
             "category_id" : 7,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -401,7 +398,7 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -417,7 +414,7 @@ def upgrade() -> None:
             "category_id" : 7,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -433,7 +430,7 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -449,7 +446,7 @@ def upgrade() -> None:
             "category_id" : 5,  
             "gender" : 0,         
             "referal_code" : "",
-            "profile_img" : "me.png",
+            "profile_img" : "",
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",         
             "last_otp" : "0000",         
@@ -585,84 +582,50 @@ def upgrade() -> None:
         {
             "id" : 1,      
             "language" : "en",
-            "assets1" : "story1",
-            "assets2" : "story2",
+            "assets" : "story1",
             "owner_id" : 1,
             "published" : True      
         },
         {
             "id" : 2,      
             "language" : "en",
-            "assets1" : "story2",
-            "assets2" : "story3",
-            "assets3" : "story1",
+            "assets" : "story2",
             "owner_id" : 2,
             "published" : True         
         },
         {
             "id" : 3,      
             "language" : "en",
-            "assets1" : "story4",
-            "assets2" : "story2",
-            "assets3" : "story1",
+            "assets" : "story3",
             "owner_id" : 3,
             "published" : False          
         },
         {
             "id" : 4,      
             "language" : "ar",
-            "assets1" : "story3",
-            "assets2" : "story1",
+            "assets" : "story3",
             "owner_id" : 1,
             "published" : True             
         },
         {
             "id" : 5,      
             "language" : "ar",
-            "assets1" : "story4",
-            "assets2" : "story2",
-            "assets3" : "story1",
+            "assets" : "story4",
             "owner_id" : 3,
             "published" : True                
         }
     ]
     )
     
-    op.bulk_insert(DB_Posts.__table__,
-    [
-        {
-            "id" : 1,      
-            "language" : "en",
-            "content" : "This is the First post published to our application",
-            "owner_id" : 1,
-            "published" : True      
-        },
-        {
-            "id" : 2,      
-            "language" : "en",
-            "content" : "This is the First post published to our application",
-            "owner_id" : 1,
-            "published" : False      
-        },
-        {
-            "id" : 3,      
-            "language" : "ar",
-            "content" : "اول مسنشور على التطبيق",
-            "owner_id" : 1,
-            "published" : True      
-        }
-    ]
-    )
-    
-    op.bulk_insert(DB_Votes.__table__,
+    op.bulk_insert(DB_StoryReports.__table__,
     [
         {
             "user_id" : 1,      
-            "post_id" : 1,
+            "story_id" : 1,
         },
         {
             "user_id" : 1,      
-            "post_id" : 2,
+            "story_id" : 2,
         }
     ]
     )

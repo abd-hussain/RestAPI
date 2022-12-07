@@ -17,9 +17,6 @@ from app.models.database.db_terms import Base
 from app.models.database.db_versions import Base
 from app.models.database.db_loyality_rules import Base
 from app.models.database.db_client_banners import Base
-from app.models.database.db_stories import Base
-from app.models.database.db_posts import Base
-from app.models.database.db_vote import Base
 from app.config import settings
 
 # this is the Alembic Config object, which provides
