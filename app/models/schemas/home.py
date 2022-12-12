@@ -27,10 +27,23 @@ class Story(BaseModel) :
     
     class Config:
         orm_mode = True
+        
+        
+class Tips(BaseModel) :
+    id: int
+    title: str
+    desc: str
+    note: str
+    referance: str
+    image: str
+    steps: int 
+    class Config:
+        orm_mode = True
 
 class HomeResponse(BaseModel) :
     main_banner: List[Banner]
     main_story: List[Story]
+    main_tips: List[Tips]
     
     class Config:
         orm_mode = True

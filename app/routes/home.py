@@ -4,9 +4,11 @@ from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
 from app.models.database.db_client_banners import DB_Client_Banners
 from app.models.database.mentor.db_mentor_user import DB_Stories, DB_StoryReports
+from app.models.database.db_tips import DB_Tips, DB_TipsQuestions
 from app.models.respond.general import generalResponse
 from app.models.schemas.home import HomeResponse
 from app.utils.oauth2 import get_current_user
+from sqlalchemy import func
 
 router = APIRouter(
     prefix="/home",
@@ -19,8 +21,19 @@ async def get_home(request: Request, db: Session = Depends(get_db)):
     
     main_banner = db.query(DB_Client_Banners).filter(DB_Client_Banners.language == myHeader.language).filter(DB_Client_Banners.published == True).all()
     main_story = db.query(DB_Stories).filter(DB_Stories.language == myHeader.language).filter(DB_Stories.published == True).all()
-       
-    respose = HomeResponse(main_banner = main_banner, main_story = main_story) 
+    
+    main_tips = db.query(DB_Tips.id, DB_Tips.title_english.label("title"), DB_Tips.desc_english.label("desc"), 
+                         DB_Tips.note_english.label("note"), DB_Tips.referance_english.label("referance"),  
+                         DB_Tips.image, func.count(DB_TipsQuestions.tips_id).label("steps")).join(
+        DB_TipsQuestions, DB_TipsQuestions.tips_id == DB_Tips.id, isouter=True).group_by(DB_Tips.id).all()
+   
+    if (myHeader.language == "ar"):
+        main_tips = db.query(DB_Tips.id, DB_Tips.title_arabic.label("title"), DB_Tips.desc_arabic.label("desc"), 
+                         DB_Tips.note_arabic.label("note"), DB_Tips.referance_arabic.label("referance"),  
+                         DB_Tips.image, func.count(DB_TipsQuestions.tips_id).label("steps")).join(
+        DB_TipsQuestions, DB_TipsQuestions.tips_id == DB_Tips.id, isouter=True).group_by(DB_Tips.id).all()
+        
+    respose = HomeResponse(main_banner = main_banner, main_story = main_story, main_tips = main_tips) 
     return generalResponse(message="home return successfully", data=respose)
 
 
