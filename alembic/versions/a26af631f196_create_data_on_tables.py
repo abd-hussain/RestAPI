@@ -639,7 +639,8 @@ def upgrade() -> None:
     op.bulk_insert(DB_Tips.__table__,
     [
         {
-            "id" : 1,      
+            "id" : 1,
+            "category_id" : 3,
             "title_arabic" : "البرنامج العلاجي لاضطراب الاكتئاب",
             "title_english" : "Therapeutic program for depressive disorder",
             "desc_arabic" : "سيساعدك هذا الاختبار البسيط على تقييم و معرفة مستوى الاكتئاب لديك، اجاباتك ستساعدنا في تحديد مستوى صحتك النفسية",
@@ -651,7 +652,8 @@ def upgrade() -> None:
             "image" : "therapeutic.jpeg",
         },
         {
-            "id" : 2,      
+            "id" : 2,
+            "category_id" : 1,
             "title_arabic" : "الاحتراق الوظيفي",
             "title_english" : "Job burnout",
             "desc_arabic" : "",
@@ -664,6 +666,7 @@ def upgrade() -> None:
         },
         {
             "id" : 3,      
+            "category_id" : 2,
             "title_arabic" : "الوسواس القهري",
             "title_english" : "Obsessive-compulsive disorder",
             "desc_arabic" : "",
@@ -675,7 +678,8 @@ def upgrade() -> None:
             "image" : "therapeutic.jpeg",
         },
         {
-            "id" : 4,      
+            "id" : 4,   
+            "category_id" : 4,   
             "title_arabic" : "ادارة الغضب",
             "title_english" : "Anger management",
             "desc_arabic" : "",

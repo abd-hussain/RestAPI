@@ -22,13 +22,13 @@ async def get_home(request: Request, db: Session = Depends(get_db)):
     main_banner = db.query(DB_Client_Banners).filter(DB_Client_Banners.language == myHeader.language).filter(DB_Client_Banners.published == True).all()
     main_story = db.query(DB_Stories).filter(DB_Stories.language == myHeader.language).filter(DB_Stories.published == True).all()
     
-    main_tips = db.query(DB_Tips.id, DB_Tips.title_english.label("title"), DB_Tips.desc_english.label("desc"), 
+    main_tips = db.query(DB_Tips.id, DB_Tips.category_id, DB_Tips.title_english.label("title"), DB_Tips.desc_english.label("desc"), 
                          DB_Tips.note_english.label("note"), DB_Tips.referance_english.label("referance"),  
                          DB_Tips.image, func.count(DB_TipsQuestions.tips_id).label("steps")).join(
         DB_TipsQuestions, DB_TipsQuestions.tips_id == DB_Tips.id, isouter=True).group_by(DB_Tips.id).all()
    
     if (myHeader.language == "ar"):
-        main_tips = db.query(DB_Tips.id, DB_Tips.title_arabic.label("title"), DB_Tips.desc_arabic.label("desc"), 
+        main_tips = db.query(DB_Tips.id, DB_Tips.category_id, DB_Tips.title_arabic.label("title"), DB_Tips.desc_arabic.label("desc"), 
                          DB_Tips.note_arabic.label("note"), DB_Tips.referance_arabic.label("referance"),  
                          DB_Tips.image, func.count(DB_TipsQuestions.tips_id).label("steps")).join(
         DB_TipsQuestions, DB_TipsQuestions.tips_id == DB_Tips.id, isouter=True).group_by(DB_Tips.id).all()

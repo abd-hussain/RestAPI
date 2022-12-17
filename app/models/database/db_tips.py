@@ -5,6 +5,8 @@ class DB_Tips(Base):
     __tablename__ = "tips"
 
     id = Column(Integer, primary_key=True, nullable=False, index=True)
+    category_id = Column(Integer, ForeignKey(
+        "categories.id", ondelete="CASCADE"))
     title_arabic = Column(String, nullable=False)
     title_english = Column(String, nullable=False)
     desc_arabic = Column(String, nullable=False)

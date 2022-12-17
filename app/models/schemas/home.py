@@ -31,12 +31,13 @@ class Story(BaseModel) :
         
 class Tips(BaseModel) :
     id: int
+    category_id: int
     title: str
     desc: str
     note: str
     referance: str
     image: str
-    steps: int 
+    steps: int
     class Config:
         orm_mode = True
 
