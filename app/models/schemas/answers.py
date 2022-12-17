@@ -4,6 +4,7 @@ from pydantic import BaseModel, EmailStr
 
 
 class AnswerModel(BaseModel):
+    question_id: int
     question : str
     answer: str
     point: int

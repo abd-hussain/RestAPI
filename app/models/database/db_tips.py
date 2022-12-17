@@ -1,4 +1,4 @@
-from sqlalchemy import TIMESTAMP, Column, Integer, String, Numeric, ForeignKey, text
+from sqlalchemy import TIMESTAMP, Column, Integer, String, ForeignKey, text
 from app.utils.database import Base
 
 class DB_Tips(Base):
@@ -23,7 +23,7 @@ class DB_TipsQuestions(Base):
 
     id = Column(Integer, primary_key=True, nullable=False, index=True)
     tips_id = Column(Integer, ForeignKey(
-        "tips.id", ondelete="CASCADE"), primary_key=True)
+        "tips.id", ondelete="CASCADE"))
     question_arabic = Column(String, nullable=False)
     question_english = Column(String, nullable=False)
     answer1_arabic = Column(String, nullable=False)
@@ -46,10 +46,28 @@ class DB_TipsUsersAnswer(Base):
     __tablename__ = "tips-users-answers"
 
     id = Column(Integer, primary_key=True, nullable=False, index=True)
+    question_id = Column(Integer, ForeignKey(
+        "tips-questions.id", ondelete="CASCADE"))
+    client_owner_id = Column(Integer, ForeignKey(
+        "client-users.id", ondelete="CASCADE"))
     question = Column(String, nullable=False)
     answer = Column(String, nullable=False)
     point = Column(Integer, nullable=False)
-    client_owner_id = Column(Integer, ForeignKey(
-        "client-users.id", ondelete="CASCADE"))
+    
+    created_at = Column(TIMESTAMP(timezone=True),
+                        nullable=False, server_default=text('now()'))
+    
+    
+class DB_TipsResult(Base):
+    __tablename__ = "tips-result"
+
+    id = Column(Integer, primary_key=True, nullable=False, index=True)
+    tips_id = Column(Integer, ForeignKey(
+        "tips.id", ondelete="CASCADE"))
+    point = Column(String, nullable=False)
+    title_arabic = Column(String, nullable=False)
+    title_english = Column(String, nullable=False)
+    desc_english = Column(String)
+    desc_arabic = Column(String)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))

@@ -15,7 +15,9 @@ from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
 from app.models.database.db_loyality_rules import DB_Loyality
 from app.models.database.db_client_banners import DB_Client_Banners
-from app.models.database.db_tips import DB_Tips, DB_TipsQuestions
+from app.models.database.db_tips import DB_Tips, DB_TipsQuestions, DB_TipsUsersAnswer, DB_TipsResult
+from app.models.database.client import db_client_user
+from app.utils.database import engine
 
 # revision identifiers, used by Alembic.
 revision = 'a26af631f1969'
@@ -25,6 +27,9 @@ depends_on = None
 
 
 def upgrade() -> None:
+    
+    db_client_user.Base.metadata.drop_all(bind=engine)
+    db_client_user.Base.metadata.create_all(bind=engine)
 
     op.bulk_insert(DB_Versions.__table__,
     [
@@ -833,6 +838,60 @@ def upgrade() -> None:
     ]
     )
     
+    op.bulk_insert(DB_TipsUsersAnswer.__table__,
+    [
+        {
+            "id" : 1,                  
+            "question_id" : 1,      
+            "client_owner_id" : 1,
+            "question" : "test",
+            "answer" : "test",
+            "point" : 0,
+        },
+    ]
+    )
+    
+    op.bulk_insert(DB_TipsResult.__table__,
+    [
+        {
+            "id" : 1,                  
+            "tips_id" : 1,      
+            "point" : "low", 
+            "title_arabic" : "لا يوجد اكتئاب",
+            "title_english" : "No Depression",
+            "desc_english" : "Your mental health calls for reassurance, we invite you to take care of increasing your mental health through a consultation from one of our specialists.",
+            "desc_arabic" : "صحتك النفسية تدعو للاطمئنان، ندعوك للاهتمام بزيادة صحتك النفسية من خلال استشارة من احد المختصين لدينا",
+        },
+        {
+            "id" : 2,                  
+            "tips_id" : 1,      
+            "point" : "mid", 
+            "title_arabic" : "اكتئاب منخفض",
+            "title_english" : "Low Depression",
+            "desc_english" : "Your mental health calls for reassurance, we invite you to take care of increasing your mental health through a consultation from one of our specialists.",
+            "desc_arabic" : "صحتك النفسية تدعو للاطمئنان، ندعوك للاهتمام بزيادة صحتك النفسية من خلال استشارة من احد المختصين لدينا",
+        },
+        {
+            "id" : 3,                  
+            "tips_id" : 1,      
+            "point" : "high", 
+            "title_arabic" : "اكتئاب مرتفع",
+            "title_english" : "High Depression",
+            "desc_english" : "We invite you to take care of your mental health and request a session from a specialist. Do not worry, you are not alone. We are here to help.",
+            "desc_arabic" : "ندعوك للعناية بصحتك النفسية وطلب جلسة من احد المختصين، لا تقلق انت لست لوحدك نحن هنا للمساعدة",
+        },
+        {
+            "id" : 4,                  
+            "tips_id" : 1,      
+            "point" : "very high", 
+            "title_arabic" : "اكتئاب مرتفع جداً",
+            "title_english" : "Very High Depression",
+            "desc_english" : "We invite you to take care of your mental health and request a session from a specialist as soon as possible. Do not worry, you are not alone. We are here to help.",
+            "desc_arabic" : "ندعوك للعناية بصحتك النفسية وطلب جلسة من احد المختصين باقرب وقت ممكن ، لا تقلق انت لست لوحدك نحن هنا للمساعدة",
+        },
+    ]
+    )
+
     pass
 
 
