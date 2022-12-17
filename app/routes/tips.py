@@ -63,9 +63,11 @@ async def postQuestionAnswers(tip_id :int, payload: AnswersModel, request: Reque
             db.commit()
       
     result_query = db.query(DB_TipsResult.id, DB_TipsResult.tips_id, DB_TipsResult.point, 
-                            DB_TipsResult.title_english, DB_TipsResult.title_arabic, 
-                            DB_TipsResult.desc_english, DB_TipsResult.desc_arabic)
-  
+                            DB_TipsResult.title_english.label("title"), DB_TipsResult.desc_english.label("desc"))
+    if (myHeader.language == "ar"):
+        result_query = db.query(DB_TipsResult.id, DB_TipsResult.tips_id, DB_TipsResult.point, 
+                            DB_TipsResult.title_arabic.label("title"), DB_TipsResult.desc_arabic.label("desc"))
+        
     if numberOfPoints >= 100:
         result_query = result_query.filter(DB_TipsResult.tips_id == tip_id).filter(DB_TipsResult.point == "very high").first()
     elif numberOfPoints >= 75 and numberOfPoints < 100:
