@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel, EmailStr
 
 class MentorAccountModel(BaseModel):
@@ -31,3 +31,30 @@ class UpdateMentorAccountModel(BaseModel):
     date_of_birth : Optional[str] 
     country_id : Optional[int] 
     last_usage: datetime = datetime.now()
+    
+    
+
+class MentorObjForListResponse(BaseModel) :
+    id: int
+    category_name: str
+    suffixe_name: str
+    first_name: str
+    last_name: str
+    class_min: int
+    hour_rate_by_JD: float
+    rate: float
+    gender: int
+    blocked: bool
+    profile_img: str
+    date_of_birth: str
+    country_id: int
+
+    class Config:
+        orm_mode = True
+class MentorListResponse(BaseModel) :
+    list: List[MentorObjForListResponse]
+
+    class Config:
+        orm_mode = True
+        
+        

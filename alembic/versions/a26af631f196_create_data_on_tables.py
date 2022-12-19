@@ -238,9 +238,6 @@ def upgrade() -> None:
         }
     ]
     )
-    
-          # "hour_rate_by_JD" : 27.4,
-            # "rate" : 3.3,
             
     op.bulk_insert(DB_Mentor_Users.__table__,
     [
