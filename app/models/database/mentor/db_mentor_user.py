@@ -1,4 +1,4 @@
-from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, Boolean, text
+from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, DECIMAL, Boolean, text
 from app.utils.database import Base
 from sqlalchemy.orm import relationship
 
@@ -8,12 +8,16 @@ class DB_Mentor_Users(Base):
     id = Column(Integer, primary_key=True, nullable=False, index=True)
     category_id = Column(Integer, ForeignKey(
         "categories.id", ondelete="CASCADE"), nullable=False)
+    suffixe_name = Column(String)
     first_name = Column(String)
     last_name = Column(String)
+    class_min = Column(Integer, nullable=False)
+    hour_rate_by_JD = Column(DECIMAL, nullable=False, server_default=text('10.0'))
+    rate = Column(DECIMAL, nullable=False, server_default=text('5.0'))
     mobile_number = Column(String, nullable=False, unique=True)
     email = Column(String, unique=True)
     gender = Column(Integer)
-    blocked = Column(Boolean, server_default='FALSE')
+    blocked = Column(Boolean, server_default='FALSE') 
     referal_code = Column(String)
     invitation_code = Column(String)
     profile_img = Column(String)

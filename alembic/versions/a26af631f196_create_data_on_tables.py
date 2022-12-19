@@ -9,7 +9,6 @@ from alembic import op
 
 from app.models.database.db_versions import DB_Versions
 from app.models.database.db_country import DB_Countries
-from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users,  DB_Stories, DB_StoryReports
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
@@ -17,6 +16,7 @@ from app.models.database.db_loyality_rules import DB_Loyality
 from app.models.database.db_client_banners import DB_Client_Banners
 from app.models.database.db_tips import DB_Tips, DB_TipsQuestions, DB_TipsUsersAnswer, DB_TipsResult
 from app.models.database.client import db_client_user
+from app.models.database.client.db_client_user import DB_Client_Users
 from app.utils.database import engine
 
 # revision identifiers, used by Alembic.
@@ -209,23 +209,50 @@ def upgrade() -> None:
             "device_type_name" : "iPhone XR",        
             "os_version" : "16.2",         
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "1992/05/22",         
             "last_otp" : "0000",         
             "api_key" : "00101",         
+            "country_id" : 4
+        },
+        {
+            "id" : 2,
+            "first_name" : "mohammed",
+            "last_name" : "maswadeh",         
+            "mobile_number" : "00962795190661",        
+            "email" : "aboud.masoud.91@gmail.com",         
+            "gender" : 2,         
+            "hide_number" : False,         
+            "hide_email" : False,        
+            "allow_notifications" : True,         
+            "blocked" : True,         
+            "referal_code" : "",
+            "profile_img" : "",
+            "os_type" : "iOS",         
+            "device_type_name" : "iPhone XR",        
+            "os_version" : "16.2",         
+            "app_version" : "1.0",         
+            "date_of_birth" : "1992/05/22",         
+            "last_otp" : "0000",         
+            "api_key" : "00102",         
             "country_id" : 4
         }
     ]
     )
     
+          # "hour_rate_by_JD" : 27.4,
+            # "rate" : 3.3,
+            
     op.bulk_insert(DB_Mentor_Users.__table__,
     [
         {
             "id" : 1,
-            "first_name" : "DR abed alrahman 1",
-            "last_name" : "al haj hussain",         
+            "category_id" : 2,
+            "suffixe_name" : "Sr.",
+            "first_name" : "abed alrahman 1",
+            "last_name" : "al haj hussain",
+            "class_min" : 30,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
             "mobile_number" : "00962790000001",        
             "email" : "aboud.masoud.1@gmail.com",
-            "category_id" : 2,  
             "gender" : 1,         
             "referal_code" : "",
             "profile_img" : "1.png",
@@ -237,8 +264,10 @@ def upgrade() -> None:
         },
         {
             "id" : 2,
-            "first_name" : "DR abed alrahman 2",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Dr.",
+            "first_name" : "abed alrahman 2",
+            "last_name" : "al haj hussain",
+            "class_min" : 45,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
             "mobile_number" : "00962790000002",        
             "email" : "aboud.masoud.2@gmail.com",
             "category_id" : 3,  
@@ -253,8 +282,10 @@ def upgrade() -> None:
         },        
         {
             "id" : 3,
-            "first_name" : "DR abed alrahman 3",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Dr.",
+            "first_name" : "abed alrahman 3",
+            "last_name" : "al haj hussain", 
+            "class_min" : "45",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
             "mobile_number" : "00962790000003",        
             "email" : "aboud.masoud.3@gmail.com",
             "category_id" : 2,  
@@ -269,8 +300,10 @@ def upgrade() -> None:
         },
         {
             "id" : 4,
-            "first_name" : "DR abed alrahman 4",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Mr.",
+            "first_name" : "abed alrahman 4",
+            "last_name" : "al haj hussain",
+            "class_min" : "30",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
             "mobile_number" : "00962790000004",        
             "email" : "aboud.masoud.4@gmail.com",
             "category_id" : 4,  
@@ -285,8 +318,10 @@ def upgrade() -> None:
         },
         {
             "id" : 5,
-            "first_name" : "DR abed alrahman 5",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Mrs.",
+            "first_name" : "abed alrahman 5",
+            "last_name" : "al haj hussain",
+            "class_min" : "15",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             "mobile_number" : "00962790000005",        
             "email" : "aboud.masoud.5@gmail.com",
             "category_id" : 3,  
@@ -301,8 +336,10 @@ def upgrade() -> None:
         },
         {
             "id" : 6,
-            "first_name" : "DR abed alrahman 6",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Mrs.",
+            "first_name" : "abed alrahman 6",
+            "last_name" : "al haj hussain", 
+            "class_min" : "15",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             "mobile_number" : "00962790000006",        
             "email" : "aboud.masoud.6@gmail.com",
             "category_id" : 2,  
@@ -317,8 +354,10 @@ def upgrade() -> None:
         },
         {
             "id" : 7,
-            "first_name" : "DR abed alrahman 7",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Mr.",
+            "first_name" : "abed alrahman 7",
+            "last_name" : "al haj hussain",
+            "class_min" : "15",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             "mobile_number" : "00962790000007",        
             "email" : "aboud.masoud.7@gmail.com",
             "category_id" : 2,  
@@ -333,8 +372,10 @@ def upgrade() -> None:
         },
         {
             "id" : 8,
-            "first_name" : "DR abed alrahman 8",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Sr.",
+            "first_name" : "abed alrahman 8",
+            "last_name" : "al haj hussain",
+            "class_min" : "45",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             "mobile_number" : "00962790000008",        
             "email" : "aboud.masoud.8@gmail.com",
             "category_id" : 2,  
@@ -349,8 +390,10 @@ def upgrade() -> None:
         },
         {
             "id" : 9,
-            "first_name" : "DR abed alrahman 9",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Dr.",
+            "first_name" : "abed alrahman 9",
+            "last_name" : "al haj hussain",
+            "class_min" : "60",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             "mobile_number" : "00962790000009",        
             "email" : "aboud.masoud.9@gmail.com",
             "category_id" : 4,  
@@ -365,8 +408,10 @@ def upgrade() -> None:
         },
         {
             "id" : 10,
-            "first_name" : "DR abed alrahman 10",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Dr.",
+            "first_name" : "abed alrahman 10",
+            "last_name" : "al haj hussain",
+            "class_min" : "60",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             "mobile_number" : "009627900000010",        
             "email" : "aboud.masoud.10@gmail.com",
             "category_id" : 3,  
@@ -381,8 +426,10 @@ def upgrade() -> None:
         },
         {
             "id" : 11,
-            "first_name" : "DR abed alrahman 11",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Dr.",
+            "first_name" : "abed alrahman 11",
+            "last_name" : "al haj hussain",
+            "class_min" : "30",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
             "mobile_number" : "009627900000011",        
             "email" : "aboud.masoud.11@gmail.com",
             "category_id" : 7,  
@@ -397,8 +444,10 @@ def upgrade() -> None:
         },
         {
             "id" : 12,
-            "first_name" : "DR abed alrahman 12",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Dr.",
+            "first_name" : "abed alrahman 12",
+            "last_name" : "al haj hussain",
+            "class_min" : "50",                                                                                                                                                                                                                                                                                                                                                           
             "mobile_number" : "009627900000012",        
             "email" : "aboud.masoud.12@gmail.com",
             "category_id" : 2,  
@@ -413,8 +462,10 @@ def upgrade() -> None:
         },
         {
             "id" : 13,
-            "first_name" : "DR abed alrahman 13",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Dr.",
+            "first_name" : "abed alrahman 13",
+            "last_name" : "al haj hussain",
+            "class_min" : "50",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
             "mobile_number" : "009627900000013",        
             "email" : "aboud.masoud.13@gmail.com",
             "category_id" : 7,  
@@ -429,8 +480,10 @@ def upgrade() -> None:
         },
         {
             "id" : 14,
-            "first_name" : "DR abed alrahman 14",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Mr.",
+            "first_name" : "abed alrahman 14",
+            "last_name" : "al haj hussain",
+            "class_min" : "50",                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
             "mobile_number" : "009627900000014",        
             "email" : "aboud.masoud.14@gmail.com",
             "category_id" : 2,  
@@ -445,8 +498,10 @@ def upgrade() -> None:
         },
         {
             "id" : 15,
-            "first_name" : "DR abed alrahman 15",
-            "last_name" : "al haj hussain",         
+            "suffixe_name" : "Mr.",
+            "first_name" : "abed alrahman 15",
+            "last_name" : "al haj hussain",
+            "class_min" : "50",                                                                                                                                                                                                                                                                                                                                                                    
             "mobile_number" : "009627900000015",        
             "email" : "aboud.masoud.15@gmail.com",
             "category_id" : 5,  
