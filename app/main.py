@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import filter, report, settings , notifications,loyality, home, tips
+from app.routes import filter, report, settings, notifications, loyality, home, tips
 from app.models.database.client import db_client_user
 from app.routes.client import client_auth, client_account
 from app.routes.mentor import mentor_auth, mentor_account, mentor_list
