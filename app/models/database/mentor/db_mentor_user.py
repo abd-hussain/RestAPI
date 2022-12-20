@@ -55,3 +55,13 @@ class DB_StoryReports(Base):
         "client-users.id", ondelete="CASCADE"), primary_key=True)
     story_id = Column(Integer, ForeignKey(
         "stories.id", ondelete="CASCADE"), primary_key=True)
+    
+    
+class DB_Mentor_Review(Base):
+    __tablename__ = "mentor_review"
+    mentor_id = Column(Integer, ForeignKey(
+        "mentor-users.id", ondelete="CASCADE"), primary_key=True)
+    client_id = Column(Integer, ForeignKey(
+        "client-users.id", ondelete="CASCADE"), primary_key=True)
+    stars = Column(DECIMAL, nullable=False, server_default=text('5.0'))
+    comment = Column(String)
