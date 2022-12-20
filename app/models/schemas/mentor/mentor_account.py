@@ -17,23 +17,6 @@ class MentorAccountVerifyModel(BaseModel):
     otp: str
     api_key: str
     
-class UpdateMentorAccountModel(BaseModel):
-    first_name : Optional[str] 
-    last_name : Optional[str] 
-    mobile_number : Optional[str] 
-    email : Optional[EmailStr]
-    gender : Optional[int]
-    blocked : Optional[bool] 
-    referal_code : Optional[str] 
-    invitation_code : Optional[str]
-    profile_img : Optional[str] 
-    app_version : Optional[str] 
-    date_of_birth : Optional[str] 
-    country_id : Optional[int] 
-    last_usage: datetime = datetime.now()
-    
-    
-
 class MentorObjForListResponse(BaseModel) :
     id: int
     category_name: str
@@ -57,4 +40,22 @@ class MentorListResponse(BaseModel) :
     class Config:
         orm_mode = True
         
+        
+class MentorDetailsResponse(BaseModel) :
+    suffixe_name: str    
+    first_name: str
+    last_name: str
+    bio: str
+    speaking_language: list[str]
+    class_min: int
+    hour_rate_by_JD: float
+    rate: float
+    gender: int
+    profile_img: str
+    date_of_birth: str
+    category_name: str
+    country: str
+    country_flag: str
+    major: list[str]
+
         

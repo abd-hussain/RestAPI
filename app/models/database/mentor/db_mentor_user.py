@@ -1,4 +1,4 @@
-from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, DECIMAL, Boolean, text
+from sqlalchemy import ARRAY, TIMESTAMP, Column, ForeignKey, Integer, String, DECIMAL, Boolean, text
 from app.utils.database import Base
 from sqlalchemy.orm import relationship
 
@@ -8,9 +8,12 @@ class DB_Mentor_Users(Base):
     id = Column(Integer, primary_key=True, nullable=False, index=True)
     category_id = Column(Integer, ForeignKey(
         "categories.id", ondelete="CASCADE"), nullable=False)
-    suffixe_name = Column(String)
-    first_name = Column(String)
-    last_name = Column(String)
+    suffixe_name = Column(String, nullable=False)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
+    bio = Column(String, nullable=False)
+    speaking_language = Column(ARRAY(String), nullable=False)
+    majors = Column(ARRAY(Integer), nullable=False)
     class_min = Column(Integer, nullable=False)
     hour_rate_by_JD = Column(DECIMAL, nullable=False, server_default=text('10.0'))
     rate = Column(DECIMAL, nullable=False, server_default=text('5.0'))
@@ -30,7 +33,6 @@ class DB_Mentor_Users(Base):
         "countries.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
-    
     
 class DB_Stories(Base):
     __tablename__ = "stories"

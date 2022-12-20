@@ -1,12 +1,15 @@
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter
+from app.models.schemas.mentor.mentor_account import MentorDetailsResponse
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
+from app.models.database.db_category import DB_Categories
+from app.models.database.db_country import DB_Countries
+from app.models.database.db_majors import DB_Majors
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
 from app.utils.generate import generateActvationCode
-from app.models.schemas.mentor.mentor_account import UpdateMentorAccountModel
 
 
 router = APIRouter(
@@ -17,47 +20,55 @@ router = APIRouter(
 @router.get("/")
 async def get_account(id :int , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == id)
-
-    if query.first() == None:
+    query = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
+                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.bio,
+                    DB_Mentor_Users.class_min, DB_Mentor_Users.hour_rate_by_JD, DB_Mentor_Users.rate, 
+                    DB_Mentor_Users.gender, DB_Mentor_Users.profile_img, DB_Mentor_Users.date_of_birth,
+                    DB_Mentor_Users.country_id, DB_Categories.name_english.label("category_name"), 
+                    DB_Countries.name_english.label("country"), DB_Countries.flag_image.label("country_flag")
+                    ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True).join(DB_Countries, DB_Countries.id == DB_Mentor_Users.country_id, isouter=True).filter(DB_Mentor_Users.id == id).first()
+                     
+    if query == None:
        return generalResponse(message="profile was not found", data=None)
+   
+    if (myHeader.language == "ar"):
+        query = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
+                    DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.bio,
+                    DB_Mentor_Users.speaking_language, DB_Mentor_Users.majors,
+                    DB_Mentor_Users.class_min, DB_Mentor_Users.hour_rate_by_JD, DB_Mentor_Users.rate, 
+                    DB_Mentor_Users.gender, DB_Mentor_Users.profile_img, DB_Mentor_Users.date_of_birth,
+                    DB_Mentor_Users.country_id, DB_Categories.name_arabic.label("category_name"), 
+                    DB_Countries.name_arabic.label("country"), DB_Countries.flag_image.label("country_flag")
+                    ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True).join(DB_Countries, DB_Countries.id == DB_Mentor_Users.country_id, isouter=True).filter(DB_Mentor_Users.id == id).first()
 
-    return generalResponse(message="Profile return successfully", data=query.first())
+
+    majors_list = []
+    major_query = db.query(DB_Majors.id, DB_Majors.name_english, DB_Majors.name_arabic)
     
-# @router.put("/update")
-# async def update_account(id :int , payload: UpdateMentorAccountModel , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-#     myHeader = validateLanguageHeader(request)
-#     query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == id)
+    for item in query["majors"]:
+        if (myHeader.language == "ar"):
+            ll = major_query[item]["name_arabic"]
+            majors_list.append(ll)
+        else:
+            ll = major_query[item]["name_english"]
+            majors_list.append(ll)
     
-#     if query.first() == None:
-#        return generalResponse(message="profile was not found", data=None)
-
-#     if query["invitation_code"] == "" :
-#         query.update({"invitation_code" : generateActvationCode()}, synchronize_session=False)
-        
-#     if payload.first_name != None:
-#         query.update({"first_name" : payload.first_name}, synchronize_session=False)
-#     if payload.last_name != None:
-#         query.update({"last_name" : payload.last_name}, synchronize_session=False)
-#     if payload.mobile_number != None:
-#         query.update({"mobile_number" : payload.mobile_number}, synchronize_session=False)
-#     if payload.email != None:
-#         query.update({"email" : payload.email}, synchronize_session=False)
-#     if payload.gender != None:
-#         query.update({"gender" : payload.gender}, synchronize_session=False)
-#     if payload.referal_code != None:
-#         query.update({"referal_code" : payload.referal_code}, synchronize_session=False)
-#     if payload.profile_img != None:
-#         query.update({"profile_img" : payload.profile_img}, synchronize_session=False)
-#     if payload.app_version != None:
-#         query.update({"app_version" : payload.app_version}, synchronize_session=False)
-#     if payload.date_of_birth != None:
-#         query.update({"date_of_birth" : payload.date_of_birth}, synchronize_session=False)
-#     if payload.country_id != None:
-#         query.update({"country_id" : payload.country_id}, synchronize_session=False)
-        
-#     db.commit()
-#     return generalResponse(message="Profile updated successfully", data=query.first())
-
-
+    mentor_dtails = MentorDetailsResponse(suffixe_name = query["suffixe_name"], 
+                                          first_name = query["first_name"], 
+                                          last_name = query["last_name"], 
+                                          bio = query["bio"], 
+                                          speaking_language = query["speaking_language"], 
+                                          class_min = query["class_min"], 
+                                          hour_rate_by_JD = query["hour_rate_by_JD"], 
+                                          gender = query["gender"], 
+                                          profile_img = query["profile_img"], 
+                                          date_of_birth = query["date_of_birth"], 
+                                          category_name = query["category_name"], 
+                                          country = query["country"], 
+                                          country_flag = query["country_flag"], 
+                                          rate = query["rate"], 
+                                          major = majors_list)
+    
+    return generalResponse(message="Profile return successfully", data= mentor_dtails)
+    
    
