@@ -34,7 +34,9 @@ class MentorObjForListResponse(BaseModel) :
         
 class ReviewsResponse(BaseModel) :
     id: int
-    client_id: int
+    client_first_name: str
+    client_last_name: str
+    client_profile_img: str
     mentor_id: int
     stars: float
     comments: str
