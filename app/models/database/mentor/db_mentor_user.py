@@ -16,7 +16,6 @@ class DB_Mentor_Users(Base):
     majors = Column(ARRAY(Integer), nullable=False)
     class_min = Column(Integer, nullable=False)
     hour_rate_by_JD = Column(DECIMAL, nullable=False, server_default=text('10.0'))
-    rate = Column(DECIMAL, nullable=False, server_default=text('5.0'))
     mobile_number = Column(String, nullable=False, unique=True)
     email = Column(String, unique=True)
     gender = Column(Integer)
@@ -59,9 +58,12 @@ class DB_StoryReports(Base):
     
 class DB_Mentor_Review(Base):
     __tablename__ = "mentor_review"
+    id = Column(Integer, primary_key=True, nullable=False, index=True)
     mentor_id = Column(Integer, ForeignKey(
         "mentor-users.id", ondelete="CASCADE"), primary_key=True)
     client_id = Column(Integer, ForeignKey(
         "client-users.id", ondelete="CASCADE"), primary_key=True)
     stars = Column(DECIMAL, nullable=False, server_default=text('5.0'))
     comment = Column(String)
+    created_at = Column(TIMESTAMP(timezone=True),
+                        nullable=False, server_default=text('now()'))

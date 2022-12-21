@@ -23,19 +23,14 @@ class MentorObjForListResponse(BaseModel) :
     suffixe_name: str
     first_name: str
     last_name: str
+    rate: float
     class_min: int
     hour_rate_by_JD: float
-    rate: float
     gender: int
     blocked: bool
     profile_img: str
     date_of_birth: str
     country_id: int
-
-    class Config:
-        orm_mode = True
-class MentorListResponse(BaseModel) :
-    list: List[MentorObjForListResponse]
 
     class Config:
         orm_mode = True

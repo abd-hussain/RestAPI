@@ -9,7 +9,7 @@ from alembic import op
 
 from app.models.database.db_versions import DB_Versions
 from app.models.database.db_country import DB_Countries
-from app.models.database.mentor.db_mentor_user import DB_Mentor_Users,  DB_Stories, DB_StoryReports
+from app.models.database.mentor.db_mentor_user import DB_Mentor_Users,  DB_Stories, DB_StoryReports, DB_Mentor_Review
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
 from app.models.database.db_loyality_rules import DB_Loyality
@@ -746,6 +746,24 @@ def upgrade() -> None:
     ]
     )
     
+    op.bulk_insert(DB_Mentor_Review.__table__,
+    [
+        {
+            "id" : 1,
+            "mentor_id" : 4,
+            "client_id" : 1,         
+            "stars" : 4.7,        
+            "comment" : "nice 1"
+        },
+        {
+            "id" : 2,
+            "mentor_id" : 4,
+            "client_id" : 2,         
+            "stars" : 3.2,        
+            "comment" : "nice 2"
+        },
+    ]
+    )
     
     op.bulk_insert(DB_Notifications.__table__,
     [
