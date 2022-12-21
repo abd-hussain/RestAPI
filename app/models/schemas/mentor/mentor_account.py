@@ -26,11 +26,7 @@ class MentorObjForListResponse(BaseModel) :
     rate: float
     class_min: int
     hour_rate_by_JD: float
-    gender: int
-    blocked: bool
     profile_img: str
-    date_of_birth: str
-    country_id: int
 
     class Config:
         orm_mode = True
