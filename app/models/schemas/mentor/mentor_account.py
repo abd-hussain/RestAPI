@@ -1,6 +1,6 @@
+from typing import Optional
+from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional, List
-from pydantic import BaseModel, EmailStr
 
 class MentorAccountModel(BaseModel):
     mobile_number : str
@@ -32,6 +32,16 @@ class MentorObjForListResponse(BaseModel) :
         orm_mode = True
         
         
+class ReviewsResponse(BaseModel) :
+    id: int
+    client_id: int
+    mentor_id: int
+    stars: float
+    comments: str
+    created_at: datetime                  
+    class Config:
+        orm_mode = True
+        
 class MentorDetailsResponse(BaseModel) :
     suffixe_name: str    
     first_name: str
@@ -40,7 +50,7 @@ class MentorDetailsResponse(BaseModel) :
     speaking_language: list[str]
     class_min: int
     hour_rate_by_JD: float
-    rate: float
+    total_rate: float
     gender: int
     profile_img: str
     date_of_birth: str
@@ -48,5 +58,6 @@ class MentorDetailsResponse(BaseModel) :
     country: str
     country_flag: str
     major: list[str]
+    reviews: list[ReviewsResponse]
 
         
