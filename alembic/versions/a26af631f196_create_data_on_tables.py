@@ -18,6 +18,7 @@ from app.models.database.db_tips import DB_Tips, DB_TipsQuestions, DB_TipsUsersA
 from app.models.database.client import db_client_user
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_majors import DB_Majors
+from app.models.database.db_discount import DB_Discount
 
 from app.utils.database import engine
 
@@ -33,6 +34,39 @@ def upgrade() -> None:
     db_client_user.Base.metadata.drop_all(bind=engine)
     db_client_user.Base.metadata.create_all(bind=engine)
 
+    op.bulk_insert(DB_Discount.__table__,
+    [
+        {
+            "id" : 1,
+            "code" : "abdo50",
+            "percent_value" : 50,         
+        },
+        {
+            "id" : 2,
+            "code" : "abdo30",
+            "percent_value" : 50,         
+        },
+        {
+            "id" : 3,
+            "code" : "abdo10",
+            "percent_value" : 50,         
+        },
+        {
+            "id" : 4,
+            "code" : "abdo90",
+            "percent_value" : 50,         
+        },
+        {
+            "id" : 5,
+            "code" : "abd100",
+            "percent_value" : 50,         
+        }
+    ]
+    )
+    
+    
+ 
+    
     op.bulk_insert(DB_Versions.__table__,
     [
         {
