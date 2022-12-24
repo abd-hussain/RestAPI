@@ -44,22 +44,22 @@ def upgrade() -> None:
         {
             "id" : 2,
             "code" : "abdo30",
-            "percent_value" : 50,         
+            "percent_value" : 30,         
         },
         {
             "id" : 3,
             "code" : "abdo10",
-            "percent_value" : 50,         
+            "percent_value" : 10,         
         },
         {
             "id" : 4,
             "code" : "abdo90",
-            "percent_value" : 50,         
+            "percent_value" : 90,         
         },
         {
             "id" : 5,
             "code" : "abd100",
-            "percent_value" : 50,         
+            "percent_value" : 100,         
         }
     ]
     )
