@@ -20,6 +20,7 @@ from app.models.database.db_tips import Base
 from app.models.database.db_client_banners import Base
 from app.models.database.db_majors import Base
 from app.models.database.db_discount import Base
+from app.models.database.db_appointment import Base
 
 from app.config import settings
 

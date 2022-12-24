@@ -24,7 +24,6 @@ class MentorObjForListResponse(BaseModel) :
     first_name: str
     last_name: str
     rate: float
-    class_min: int
     hour_rate_by_JD: float
     profile_img: str
 
@@ -50,7 +49,6 @@ class MentorDetailsResponse(BaseModel) :
     last_name: str
     bio: str
     speaking_language: list[str]
-    class_min: int
     hour_rate_by_JD: float
     total_rate: float
     gender: int

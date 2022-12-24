@@ -22,7 +22,7 @@ async def get_accounts(categories_id :int ,request: Request, db: Session = Depen
     myHeader = validateLanguageHeader(request)
     query = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                      DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, 
-                     DB_Mentor_Users.class_min, DB_Mentor_Users.hour_rate_by_JD, 
+                     DB_Mentor_Users.hour_rate_by_JD, 
                      DB_Mentor_Users.blocked, DB_Mentor_Users.profile_img,
                      DB_Categories.name_english, DB_Categories.name_arabic).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True)\
                     .filter(DB_Mentor_Users.category_id == categories_id).filter(DB_Mentor_Users.blocked == False).all()
@@ -43,7 +43,7 @@ async def get_accounts(categories_id :int ,request: Request, db: Session = Depen
         response_list.append(MentorObjForListResponse(id = i["id"], category_name = i["name_arabic"] if (myHeader.language == "ar") else  i["name_english"], 
                                              suffixe_name = i["suffixe_name"], first_name = i["first_name"], 
                                              last_name = i["last_name"], rate = rate_avg, 
-                                             class_min = i["class_min"], hour_rate_by_JD = i["hour_rate_by_JD"], 
+                                             hour_rate_by_JD = i["hour_rate_by_JD"], 
                                              profile_img = i["profile_img"]))
  
     return generalResponse(message="Mentors return successfully", data=response_list)
