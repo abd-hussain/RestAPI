@@ -58,6 +58,11 @@ class MentorDetailsResponse(BaseModel) :
     country: str
     country_flag: str
     major: list[str]
+    working_hours_saturday: list[int]
+    working_hours_sunday: list[int]
+    working_hours_monday: list[int]
+    working_hours_tuesday: list[int]
+    working_hours_wednesday: list[int]
+    working_hours_thursday: list[int]
+    working_hours_friday: list[int]
     reviews: list[ReviewsResponse]
-
-        

@@ -16,7 +16,6 @@ router = APIRouter(
     tags=["Mentor"]
 )
 
-
 @router.get("/")
 async def get_accounts(categories_id :int ,request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
