@@ -10,13 +10,12 @@ class DB_Mentors_WorkingHours(Base):
     
     
     
-# class DB_Mentors_Reservations(Base):
-#     __tablename__ = "appointment_duration"
+class DB_Mentors_Reservations(Base):
+    __tablename__ = "mentors_appointment"
 
-#     id = Column(Integer, primary_key=True, nullable=False, index=True)
-#     mentor_id = Column(Integer, ForeignKey(
-#         "mentor-users.id", ondelete="CASCADE"), primary_key=True)
-#     date = Column(DateTime, nullable=False)
-#     time = Column(DateTime, nullable=False)
-#     created_at = Column(TIMESTAMP(timezone=True),
-#                         nullable=False, server_default=text('now()'))
+    id = Column(Integer, primary_key=True, nullable=False, index=True)
+    mentor_id = Column(Integer, ForeignKey(
+        "mentor-users.id", ondelete="CASCADE"), primary_key=True)
+    date = Column(DateTime, nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True),
+                        nullable=False, server_default=text('now()'))

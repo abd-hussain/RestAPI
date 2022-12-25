@@ -5,6 +5,7 @@ Revises:
 Create Date: 2022-10-20 12:40:47.209451
 
 """
+import datetime
 from alembic import op
 
 from app.models.database.db_versions import DB_Versions
@@ -19,7 +20,7 @@ from app.models.database.client import db_client_user
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_majors import DB_Majors
 from app.models.database.db_discount import DB_Discount
-from app.models.database.db_appointment import  DB_Mentors_WorkingHours
+from app.models.database.db_appointment import  DB_Mentors_WorkingHours, DB_Mentors_Reservations
 
 from app.utils.database import engine
 
@@ -521,8 +522,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "00962790000001",        
             "email" : "aboud.masoud.1@gmail.com",
             "gender" : 1,         
@@ -547,8 +548,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "00962790000002",        
             "email" : "aboud.masoud.2@gmail.com",
             "category_id" : 1,  
@@ -574,8 +575,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "00962790000003",        
             "email" : "aboud.masoud.3@gmail.com",
             "category_id" : 2,  
@@ -601,8 +602,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "00962790000004",        
             "email" : "aboud.masoud.4@gmail.com",
             "category_id" : 4,  
@@ -628,8 +629,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "00962790000005",        
             "email" : "aboud.masoud.5@gmail.com",
             "category_id" : 3,  
@@ -655,8 +656,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "00962790000006",        
             "email" : "aboud.masoud.6@gmail.com",
             "category_id" : 2,  
@@ -682,8 +683,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "00962790000007",        
             "email" : "aboud.masoud.7@gmail.com",
             "category_id" : 2,  
@@ -709,8 +710,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "00962790000008",        
             "email" : "aboud.masoud.8@gmail.com",
             "category_id" : 2,  
@@ -736,8 +737,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "00962790000009",        
             "email" : "aboud.masoud.9@gmail.com",
             "category_id" : 4,  
@@ -763,8 +764,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "009627900000010",        
             "email" : "aboud.masoud.10@gmail.com",
             "category_id" : 3,  
@@ -790,8 +791,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "009627900000011",        
             "email" : "aboud.masoud.11@gmail.com",
             "category_id" : 7,  
@@ -817,8 +818,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "009627900000012",        
             "email" : "aboud.masoud.12@gmail.com",
             "category_id" : 2,  
@@ -844,8 +845,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "009627900000013",        
             "email" : "aboud.masoud.13@gmail.com",
             "category_id" : 7,  
@@ -871,8 +872,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "009627900000014",        
             "email" : "aboud.masoud.14@gmail.com",
             "category_id" : 2,  
@@ -898,8 +899,8 @@ def upgrade() -> None:
             "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
-            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24],
-            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 24],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
             "mobile_number" : "009627900000015",        
             "email" : "aboud.masoud.15@gmail.com",
             "category_id" : 5,  
@@ -911,6 +912,81 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "000015",         
             "country_id" : 2
+        }
+    ]
+    )
+    
+    op.bulk_insert(DB_Mentors_Reservations.__table__,
+    [
+        {
+            "id" : 1,
+            "mentor_id" : 1,
+            "date" : datetime.datetime(2022, 12, 30, 8),     
+        },
+        {
+            "id" : 2,
+            "mentor_id" : 1,
+            "date" : datetime.datetime(2022, 12, 30, 14),     
+        },
+        {
+            "id" : 3,
+            "mentor_id" : 2,
+            "date" : datetime.datetime(2022, 12, 30, 10),     
+        },
+        {
+            "id" : 4,
+            "mentor_id" : 2,
+            "date" : datetime.datetime(2022, 12, 30, 0),     
+        },
+        {
+            "id" : 5,
+            "mentor_id" : 3,
+            "date" : datetime.datetime(2022, 12, 30, 10),     
+        },
+        {
+            "id" : 6,
+            "mentor_id" : 3,
+            "date" : datetime.datetime(2022, 12, 30, 19),     
+        },
+        {
+            "id" : 7,
+            "mentor_id" : 4,
+            "date" : datetime.datetime(2022, 12, 30, 10),     
+        },
+        {
+            "id" : 8,
+            "mentor_id" : 4,
+            "date" : datetime.datetime(2022, 12, 30, 17),     
+        },
+        {
+            "id" : 9,
+            "mentor_id" : 5,
+            "date" : datetime.datetime(2022, 12, 30, 14),     
+        },
+        {
+            "id" : 10,
+            "mentor_id" : 5,
+            "date" : datetime.datetime(2022, 12, 30, 15),     
+        },
+        {
+            "id" : 11,
+            "mentor_id" : 6,
+            "date" : datetime.datetime(2022, 12, 30, 14),     
+        },
+        {
+            "id" : 12,
+            "mentor_id" : 6,
+            "date" : datetime.datetime(2022, 12, 30, 15),     
+        },
+        {
+            "id" : 13,
+            "mentor_id" : 7,
+            "date" : datetime.datetime(2022, 12, 30, 14),     
+        },
+        {
+            "id" : 14,
+            "mentor_id" : 7,
+            "date" : datetime.datetime(2022, 12, 30, 15),     
         }
     ]
     )

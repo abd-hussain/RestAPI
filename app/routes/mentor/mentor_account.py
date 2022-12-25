@@ -1,3 +1,4 @@
+import datetime
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter
@@ -9,6 +10,7 @@ from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_country import DB_Countries
 from app.models.database.db_majors import DB_Majors
+from app.models.database.db_appointment import DB_Mentors_Reservations
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
 
@@ -90,4 +92,9 @@ async def get_account(id :int , request: Request, db: Session = Depends(get_db),
     
     return generalResponse(message="Profile return successfully", data= mentor_dtails)
     
-   
+@router.get("/appointment")
+async def get_mentorAppointment(id :int , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+    query = db.query(DB_Mentors_Reservations.mentor_id, DB_Mentors_Reservations.date
+                     ).filter(DB_Mentors_Reservations.mentor_id == id).filter(DB_Mentors_Reservations.date > datetime.datetime.now()).all()
+    return generalResponse(message="list of appointments return successfully", data=query)
