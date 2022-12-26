@@ -9,6 +9,16 @@ class MentorAccountModel(BaseModel):
     last_otp: Optional[str]
     api_key: Optional[str]
     
+class InstantMentor(BaseModel) :
+    id: int
+    suffixe_name: str
+    first_name: str
+    last_name: str
+    rate: float
+    profile_img: str               
+    class Config:
+        orm_mode = True
+    
 class MentorAccountVerifyModel(BaseModel):
     mobile_number : str
     user_id: int
