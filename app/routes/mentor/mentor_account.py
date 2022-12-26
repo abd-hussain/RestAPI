@@ -102,7 +102,7 @@ async def get_mentorAppointment(id :int , request: Request, db: Session = Depend
 
 
 @router.get("/mentor-avaliable")
-async def get_mentorAvaliableWithin60min(catId :int , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def get_mentorAvaliableWithin60min(catId :int, hour :int, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
     
     speaking_language = "English"
@@ -116,46 +116,42 @@ async def get_mentorAvaliableWithin60min(catId :int , request: Request, db: Sess
     if (currentTimeDayname == "Saturday"):
         query_of_mentors_depend_on_category = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.profile_img, 
-                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, 
+                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, DB_Mentor_Users.hour_rate_by_JD,
                     DB_Mentor_Users.working_hours_saturday.label("working_hour"))
     elif (currentTimeDayname == "Sunday"):
         query_of_mentors_depend_on_category = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.profile_img, 
-                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, 
+                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, DB_Mentor_Users.hour_rate_by_JD,
                     DB_Mentor_Users.working_hours_sunday.label("working_hour"))
     elif (currentTimeDayname == "Monday"):
         query_of_mentors_depend_on_category = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.profile_img, 
-                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, 
+                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, DB_Mentor_Users.hour_rate_by_JD,
                     DB_Mentor_Users.working_hours_monday.label("working_hour"))
     elif (currentTimeDayname == "Tuesday"):
         query_of_mentors_depend_on_category = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.profile_img, 
-                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, 
+                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, DB_Mentor_Users.hour_rate_by_JD,
                     DB_Mentor_Users.working_hours_tuesday.label("working_hour"))
     elif (currentTimeDayname == "Wednesday"):
         query_of_mentors_depend_on_category = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.profile_img, 
-                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, 
+                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, DB_Mentor_Users.hour_rate_by_JD,
                     DB_Mentor_Users.working_hours_wednesday.label("working_hour"))
     elif (currentTimeDayname == "Thursday"):
         query_of_mentors_depend_on_category = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.profile_img, 
-                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, 
+                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, DB_Mentor_Users.hour_rate_by_JD,
                     DB_Mentor_Users.working_hours_thursday.label("working_hour"))
     elif (currentTimeDayname == "Friday"):
         query_of_mentors_depend_on_category = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.profile_img, 
-                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, 
+                    DB_Mentor_Users.category_id, DB_Mentor_Users.speaking_language, DB_Mentor_Users.hour_rate_by_JD,
                     DB_Mentor_Users.working_hours_friday.label("working_hour"))
             
     query_of_mentors_depend_on_category = query_of_mentors_depend_on_category.filter(DB_Mentor_Users.category_id == catId).all()
     
     review_query =  db.query(DB_Mentor_Review.id, DB_Mentor_Review.client_id, DB_Mentor_Review.mentor_id, DB_Mentor_Review.stars, 
-                             DB_Mentor_Review.comment, DB_Mentor_Review.created_at, 
-                             DB_Client_Users.first_name.label("client_first_name"), 
-                             DB_Client_Users.last_name.label("client_last_name"),
-                             DB_Client_Users.profile_img.label("client_profile_img"),
                              ).join(DB_Client_Users, DB_Client_Users.id == DB_Mentor_Review.client_id, isouter=True).all()
     
     list_of_mentors: list[InstantMentor] = []
@@ -165,7 +161,7 @@ async def get_mentorAvaliableWithin60min(catId :int , request: Request, db: Sess
             list_of_stars: list[float] = []
             listOfWorking_hour = mentor["working_hour"]
             for hour in listOfWorking_hour:
-                if int((datetime.now() + timedelta(hours=2)).hour) >= hour:
+                if int((datetime.now() + timedelta(hours=hour)).hour) >= hour:
                     query_of_reservations = db.query(DB_Mentors_Reservations.mentor_id, DB_Mentors_Reservations.date
                             ).filter(DB_Mentors_Reservations.mentor_id == mentor["id"]).all()
                     if (query_of_reservations == []):
@@ -183,7 +179,8 @@ async def get_mentorAvaliableWithin60min(catId :int , request: Request, db: Sess
               
                         list_of_mentors.append(InstantMentor(id = mentor["id"], suffixe_name = mentor["suffixe_name"], 
                                                              first_name = mentor["first_name"], last_name = mentor["last_name"], 
-                                                             profile_img = mentor["profile_img"], rate = getAverage(list_of_stars)))
+                                                             profile_img = mentor["profile_img"], hour_rate_by_JD = mentor["hour_rate_by_JD"],
+                                                             rate = getAverage(list_of_stars)))
                             
    
 

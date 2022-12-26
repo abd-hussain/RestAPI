@@ -519,7 +519,7 @@ def upgrade() -> None:
             "majors" : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
             "working_hours_saturday" : [1, 2, 3, 4, 6, 7],
             "working_hours_sunday" : [3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-            "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21],
+            "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 0],
             "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22],
             "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
             "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],

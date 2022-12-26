@@ -15,7 +15,8 @@ class InstantMentor(BaseModel) :
     first_name: str
     last_name: str
     rate: float
-    profile_img: str               
+    profile_img: str 
+    hour_rate_by_JD: float              
     class Config:
         orm_mode = True
     
