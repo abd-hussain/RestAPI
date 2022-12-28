@@ -20,7 +20,7 @@ from app.models.database.client import db_client_user
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_majors import DB_Majors
 from app.models.database.db_discount import DB_Discount
-from app.models.database.db_appointment import  DB_Mentors_WorkingHours, DB_Mentors_Reservations
+from app.models.database.db_appointment import DB_Mentors_Reservations
 
 from app.utils.database import engine
 
@@ -62,83 +62,6 @@ def upgrade() -> None:
             "id" : 5,
             "code" : "abd100",
             "percent_value" : 100,         
-        }
-    ]
-    )
-    
-    op.bulk_insert(DB_Mentors_WorkingHours.__table__,
-    [
-        {
-            "id" : 1,
-        },
-        {
-            "id" : 2,
-        },
-        {
-            "id" : 3,
-        },
-        {
-            "id" : 4,
-        },
-        {
-            "id" : 5,
-        },
-        {
-            "id" : 6,
-        },
-        {
-            "id" : 7,
-        },
-        {
-            "id" : 8,
-        },
-        {
-            "id" : 9,
-        },
-        {
-            "id" : 10,
-        },
-        {
-            "id" : 11,
-        },
-        {
-            "id" : 12,
-        },
-        {
-            "id" : 13,
-        },
-        {
-            "id" : 14,
-        },
-        {
-            "id" : 15,
-        },
-        {
-            "id" : 16,
-        },
-        {
-            "id" : 17,
-        },
-        {
-            "id" : 18,
-        },
-        {
-            "id" : 19,
-        },
-        {
-            "id" : 20,
-        },
-        {
-            "id" : 21,
-        },
-        {
-            "id" : 22,
-        },
-        {
-            "id" : 23,
-        },
-        {
-            "id" : 24,
         }
     ]
     )
