@@ -1,4 +1,4 @@
-from fastapi import Request, Depends, APIRouter
+from fastapi import Request, Depends, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 from app.models.schemas.appointment import AppointmentRequest
 from app.utils.database import get_db
@@ -16,41 +16,47 @@ router = APIRouter(
 @router.get("/mentor")
 async def get_all_mentor_appointment(id :int , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Mentors_Reservations.mentor_id, DB_Mentors_Reservations.date
-                     ).filter(DB_Mentors_Reservations.mentor_id == id).filter(DB_Mentors_Reservations.date > datetime.now()).all()
+    query = db.query(DB_Mentors_Reservations).filter(DB_Mentors_Reservations.mentor_id == id).filter(DB_Mentors_Reservations.date_from > datetime.now()).all()
     return generalResponse(message="list of appointments return successfully", data=query)
 
 
 @router.get("/client")
 async def get_clientAppointment(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Mentors_Reservations.id, DB_Mentors_Reservations.client_id, DB_Mentors_Reservations.date
-                     ).filter(DB_Mentors_Reservations.client_id == get_current_user.user_id).filter(DB_Mentors_Reservations.date > datetime.now()).all()
+    query = db.query(DB_Mentors_Reservations).filter(DB_Mentors_Reservations.date_from > datetime.now()).all()
     return generalResponse(message="list of appointments return successfully", data=query)
 
 @router.post("/book")
 async def bookAppointment(payload: AppointmentRequest, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
     
-    date = datetime(payload.dateYear, payload.dateMonth, payload.dateDay, payload.dateHour, payload.dateMin)
+    dateFrom = datetime(payload.dateFrom.year, payload.dateFrom.month, payload.dateFrom.day, payload.dateFrom.hour, payload.dateFrom.min)
+    dateTo = datetime(payload.dateTo.year, payload.dateTo.month, payload.dateTo.day, payload.dateTo.hour, payload.dateTo.min)
     
-    if date <= datetime.now():
-        return generalResponse(message="dateTime not valid", data=None)
+    if dateFrom <= datetime.now():
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"dateTime not valid"})
+    
+    if dateFrom >= dateTo:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"dateTime not valid from > to"})
 
     appointments_query = db.query(DB_Mentors_Reservations)
     
-    filterd_appointments_query = appointments_query.filter(DB_Mentors_Reservations.mentor_id == payload.mentorId).filter(DB_Mentors_Reservations.date >= date).all()
-    for item in filterd_appointments_query:
-        if item.date == date:
-            return generalResponse(message="mentor already have appointment in that date", data=None)
-
+    filterd_appointments_query = appointments_query.filter(DB_Mentors_Reservations.mentor_id == payload.mentorId
+                                                           ).filter(DB_Mentors_Reservations.date_from == dateFrom).all()
+    
+    if filterd_appointments_query != []:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"mentor already have appointment in that date"})
 
     all_appointments_query = appointments_query.all()
     id = 1
-    for item in all_appointments_query:
+    for _ in all_appointments_query:
         id = id + 1
     
-    obj = DB_Mentors_Reservations(**{"id" : id, "mentor_id" : payload.mentorId, "client_id" : get_current_user.user_id, "date" : date})
+    obj = DB_Mentors_Reservations(**{"id" : id, "mentor_id" : payload.mentorId, 
+                                     "client_id" : get_current_user.user_id, 
+                                     "date_from" : dateFrom, "date_to" : dateTo, 
+                                     "price_before_discount" : payload.priceWithoutDescount, 
+                                     "discount_id" : payload.descountId})
     db.add(obj)
     db.commit()
     return generalResponse(message="appoitment booked successfuly", data=None)
