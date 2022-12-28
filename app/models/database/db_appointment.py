@@ -4,7 +4,7 @@ from sqlalchemy import TIMESTAMP, ForeignKey, Column, Integer, DateTime, text
 class DB_Mentors_WorkingHours(Base):
     __tablename__ = "appointment_hours"
 
-    id = Column(Integer, primary_key=True, nullable=False, index=True)
+    id = Column(Integer, primary_key=True, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
     
