@@ -921,72 +921,92 @@ def upgrade() -> None:
         {
             "id" : 1,
             "mentor_id" : 1,
+            "client_id" : 1,
             "date" : datetime.datetime(2022, 12, 30, 8),     
         },
         {
             "id" : 2,
-            "mentor_id" : 1,
+            "mentor_id" : 1,            
+            "client_id" : 2,
             "date" : datetime.datetime(2022, 12, 30, 14),     
         },
         {
             "id" : 3,
             "mentor_id" : 2,
+            "client_id" : 1,
             "date" : datetime.datetime(2022, 12, 30, 10),     
         },
         {
             "id" : 4,
             "mentor_id" : 2,
+            "client_id" : 2,
             "date" : datetime.datetime(2022, 12, 30, 0),     
         },
         {
             "id" : 5,
             "mentor_id" : 3,
+            "client_id" : 1,
             "date" : datetime.datetime(2022, 12, 30, 10),     
         },
         {
             "id" : 6,
             "mentor_id" : 3,
+            "client_id" : 2,
             "date" : datetime.datetime(2022, 12, 30, 19),     
         },
         {
             "id" : 7,
             "mentor_id" : 4,
+            "client_id" : 2,
             "date" : datetime.datetime(2022, 12, 30, 10),     
         },
         {
             "id" : 8,
             "mentor_id" : 4,
+            "client_id" : 1,
             "date" : datetime.datetime(2022, 12, 30, 17),     
         },
         {
             "id" : 9,
             "mentor_id" : 5,
+            "client_id" : 1,
             "date" : datetime.datetime(2022, 12, 30, 14),     
         },
         {
             "id" : 10,
             "mentor_id" : 5,
+            "client_id" : 2,
             "date" : datetime.datetime(2022, 12, 30, 15),     
         },
         {
             "id" : 11,
             "mentor_id" : 6,
+            "client_id" : 2,
             "date" : datetime.datetime(2022, 12, 30, 14),     
         },
         {
             "id" : 12,
             "mentor_id" : 6,
+            "client_id" : 1,
             "date" : datetime.datetime(2022, 12, 30, 15),     
         },
         {
             "id" : 13,
             "mentor_id" : 7,
+            "client_id" : 1,
             "date" : datetime.datetime(2022, 12, 30, 14),     
         },
         {
             "id" : 14,
             "mentor_id" : 7,
+            "client_id" : 2,
             "date" : datetime.datetime(2022, 12, 30, 15),     
+        },
+        {
+            "id" : 15,
+            "mentor_id" : 7,
+            "client_id" : 2,
+            "date" : datetime.datetime(2022, 12, 28, 17),     
         }
     ]
     )

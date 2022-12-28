@@ -93,13 +93,6 @@ async def get_account(id :int , request: Request, db: Session = Depends(get_db),
     
     return generalResponse(message="Profile return successfully", data= mentor_dtails)
     
-@router.get("/appointment")
-async def get_mentorAppointment(id :int , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Mentors_Reservations.mentor_id, DB_Mentors_Reservations.date
-                     ).filter(DB_Mentors_Reservations.mentor_id == id).filter(DB_Mentors_Reservations.date > datetime.datetime.now()).all()
-    return generalResponse(message="list of appointments return successfully", data=query)
-
 
 @router.get("/mentor-avaliable")
 async def get_mentorAvaliableWithin60min(catId :int, hour :int, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
@@ -161,7 +154,7 @@ async def get_mentorAvaliableWithin60min(catId :int, hour :int, request: Request
             list_of_stars: list[float] = []
             listOfWorking_hour = mentor["working_hour"]
             for hour in listOfWorking_hour:
-                if int((datetime.now() + timedelta(hours=hour)).hour) >= hour:
+                if int((datetime.now() + timedelta(hours=hour)).hour) == hour:
                     query_of_reservations = db.query(DB_Mentors_Reservations.mentor_id, DB_Mentors_Reservations.date
                             ).filter(DB_Mentors_Reservations.mentor_id == mentor["id"]).all()
                     if (query_of_reservations == []):
