@@ -153,7 +153,7 @@ async def get_mentorAvaliableWithin60min(catId :int, after: int, request: Reques
                         list_of_mentors.remove(mentor)
                     
         else:
-            return generalResponse(message="There is no mentor avaliable", data=[])
+            return generalResponse(message="There is no mentor avaliable", data=None)
 
     index = 0
     for mentor in list_of_mentors:
