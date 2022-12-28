@@ -9,12 +9,29 @@ class MentorAccountModel(BaseModel):
     last_otp: Optional[str]
     api_key: Optional[str]
     
+    
+class MentorFilter1(BaseModel) :
+    id: int
+    suffixe_name: str
+    first_name: str
+    last_name: str
+    gender: int
+    profile_img: str 
+    hour_rate_by_JD: float
+    bio: str
+    date_of_birth: str
+    working_hours: list[int]
+    rate: Optional[float]
+    class Config:
+        orm_mode = True
+    
 class InstantMentor(BaseModel) :
     id: int
     suffixe_name: str
     first_name: str
     last_name: str
     rate: float
+    gender: int
     profile_img: str 
     hour_rate_by_JD: float              
     class Config:
