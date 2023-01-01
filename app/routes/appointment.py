@@ -27,17 +27,19 @@ async def get_clientAppointment(request: Request, db: Session = Depends(get_db),
     
     if myHeader.language == "en" :
         query = db.query(DB_Mentors_Reservations.id, DB_Mentors_Reservations.date_from, DB_Mentors_Reservations.date_to, 
-                     DB_Mentors_Reservations.client_id, DB_Mentors_Reservations.mentor_id, 
-                     DB_Mentors_Reservations.price_before_discount, DB_Mentors_Reservations.discount_id, DB_Mentor_Users.suffixe_name, 
-                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.last_name, DB_Mentor_Users.category_id, DB_Categories.name_english.label("categoryName"), 
+                     DB_Mentors_Reservations.client_id, DB_Mentors_Reservations.mentor_id, DB_Mentors_Reservations.appointment_type, 
+                     DB_Mentors_Reservations.price_before_discount, DB_Mentors_Reservations.discount_id, DB_Mentor_Users.profile_img,
+                     DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.last_name, 
+                     DB_Mentor_Users.category_id, DB_Categories.name_english.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Mentors_Reservations.mentor_id, isouter=True
                      ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True
                             ).filter(DB_Mentors_Reservations.client_id == get_current_user.user_id).all()
     else:
         query = db.query(DB_Mentors_Reservations.id, DB_Mentors_Reservations.date_from, DB_Mentors_Reservations.date_to, 
-                     DB_Mentors_Reservations.client_id, DB_Mentors_Reservations.mentor_id, 
-                     DB_Mentors_Reservations.price_before_discount, DB_Mentors_Reservations.discount_id, DB_Mentor_Users.suffixe_name, 
-                     DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.last_name, DB_Mentor_Users.category_id, DB_Categories.name_arabic.label("categoryName"), 
+                     DB_Mentors_Reservations.client_id, DB_Mentors_Reservations.mentor_id, DB_Mentors_Reservations.appointment_type, 
+                     DB_Mentors_Reservations.price_before_discount, DB_Mentors_Reservations.discount_id, DB_Mentor_Users.profile_img, 
+                     DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.last_name, 
+                     DB_Mentor_Users.category_id, DB_Categories.name_arabic.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Mentors_Reservations.mentor_id, isouter=True
                      ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True
                             ).filter(DB_Mentors_Reservations.client_id == get_current_user.user_id).all()
@@ -76,7 +78,8 @@ async def bookAppointment(payload: AppointmentRequest, request: Request, db: Ses
                                      "client_id" : get_current_user.user_id, 
                                      "date_from" : dateFrom, "date_to" : dateTo, 
                                      "price_before_discount" : payload.priceWithoutDescount, 
-                                     "discount_id" : payload.descountId})
+                                     "discount_id" : payload.descountId,
+                                     "appointment_type" : payload.type})
     db.add(obj)
     db.commit()
     return generalResponse(message="appoitment booked successfuly", data=None)

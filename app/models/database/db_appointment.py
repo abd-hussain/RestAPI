@@ -1,5 +1,5 @@
 from app.utils.database import Base
-from sqlalchemy import DECIMAL, TIMESTAMP, ForeignKey, Column, Integer, DateTime, text
+from sqlalchemy import DECIMAL, TIMESTAMP, ForeignKey, Column, Integer, String, DateTime, text
     
 class DB_Mentors_Reservations(Base):
     __tablename__ = "mentors_appointment"
@@ -9,6 +9,7 @@ class DB_Mentors_Reservations(Base):
         "mentor-users.id", ondelete="CASCADE"), primary_key=True)
     client_id = Column(Integer, ForeignKey(
         "client-users.id", ondelete="CASCADE"), primary_key=True)
+    appointment_type = Column(String, nullable=False)
     date_from = Column(DateTime, nullable=False)
     date_to = Column(DateTime, nullable=False)
     price_before_discount = Column(DECIMAL, nullable=False, server_default=text('10.0'))

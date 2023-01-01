@@ -14,6 +14,7 @@ class AppointmentFromTo(BaseModel):
         
 class AppointmentRequest(BaseModel):
     mentorId: int
+    type: str
     priceWithoutDescount: float
     descountId: Optional[int]
     dateFrom : AppointmentFromTo

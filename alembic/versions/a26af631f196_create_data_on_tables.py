@@ -848,6 +848,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 8),
             "date_to" : datetime.datetime(2022, 12, 30, 9),
             "price_before_discount" : 20,
+            "appointment_type" : "schudule",
             "discount_id" : 1,
         },
         {
@@ -857,6 +858,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 14),    
             "date_to" : datetime.datetime(2022, 12, 30, 14, 30),
             "price_before_discount" : 9.9,
+            "appointment_type" : "schudule",
             "discount_id" : 2,
         },
         {
@@ -865,7 +867,8 @@ def upgrade() -> None:
             "client_id" : 1,
             "date_from" : datetime.datetime(2022, 12, 30, 10),    
             "date_to" : datetime.datetime(2022, 12, 30, 10, 15),
-            "price_before_discount" : 10,  
+            "price_before_discount" : 10,
+            "appointment_type" : "schudule",
             "discount_id" : 3,     
         },
         {
@@ -875,6 +878,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 0),    
             "date_to" : datetime.datetime(2022, 12, 30, 0, 30),
             "price_before_discount" : 14,
+            "appointment_type" : "schudule",
             "discount_id" : 3,           
         },
         {
@@ -884,6 +888,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 10),    
             "date_to" : datetime.datetime(2022, 12, 30, 10, 15),
             "price_before_discount" : 21,
+            "appointment_type" : "schudule",
             "discount_id" : 5,       
         },
         {
@@ -893,6 +898,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 19),    
             "date_to" : datetime.datetime(2022, 12, 30, 19, 30),
             "price_before_discount" : 17,  
+            "appointment_type" : "schudule",
             "discount_id" : None,           
         },
         {
@@ -902,6 +908,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 10),    
             "date_to" : datetime.datetime(2022, 12, 30, 11),
             "price_before_discount" : 12,
+            "appointment_type" : "schudule",
             "discount_id" : None,                
         },
         {
@@ -911,6 +918,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 17),    
             "date_to" : datetime.datetime(2022, 12, 30, 18),
             "price_before_discount" : 9,
+            "appointment_type" : "schudule",
             "discount_id" : None,                   
         },
         {
@@ -920,6 +928,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 14),    
             "date_to" : datetime.datetime(2022, 12, 30, 14, 15),
             "price_before_discount" : 12,
+            "appointment_type" : "schudule",
             "discount_id" : None,                       
         },
         {
@@ -928,7 +937,8 @@ def upgrade() -> None:
             "client_id" : 2,
             "date_from" : datetime.datetime(2022, 12, 30, 15),    
             "date_to" : datetime.datetime(2022, 12, 30, 15, 15),
-            "price_before_discount" : 16.3,    
+            "price_before_discount" : 16.3,  
+            "appointment_type" : "schudule",  
             "discount_id" : None,                        
         },
         {
@@ -938,6 +948,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 14),    
             "date_to" : datetime.datetime(2022, 12, 30, 14, 30),
             "price_before_discount" : 12, 
+            "appointment_type" : "schudule",  
             "discount_id" : None,                       
         },
         {
@@ -946,7 +957,8 @@ def upgrade() -> None:
             "client_id" : 1,
             "date_from" : datetime.datetime(2022, 12, 30, 15),    
             "date_to" : datetime.datetime(2022, 12, 30, 15, 30),
-            "price_before_discount" : 12,   
+            "price_before_discount" : 12,  
+            "appointment_type" : "schudule",  
             "discount_id" : None,   
         },
         {
@@ -956,6 +968,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 14),    
             "date_to" : datetime.datetime(2022, 12, 30, 15),
             "price_before_discount" : 12,    
+            "appointment_type" : "schudule", 
             "discount_id" : None,   
         },
         {
@@ -964,7 +977,8 @@ def upgrade() -> None:
             "client_id" : 2,
             "date_from" : datetime.datetime(2022, 12, 30, 15),    
             "date_to" : datetime.datetime(2022, 12, 30, 16),
-            "price_before_discount" : 11,    
+            "price_before_discount" : 11,   
+            "appointment_type" : "schudule",  
             "discount_id" : None,     
         },
         {
@@ -974,6 +988,7 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 17),    
             "date_to" : datetime.datetime(2022, 12, 30, 18),
             "price_before_discount" : 7.8,     
+            "appointment_type" : "schudule", 
             "discount_id" : None,   
         }
     ]
