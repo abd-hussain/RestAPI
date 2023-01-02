@@ -3,7 +3,7 @@ import calendar
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter
-from app.models.schemas.mentor.mentor_account import InstantMentor, MentorDetailsResponse, MentorFilter1, ReviewsResponse
+from app.models.schemas.mentor.mentor_account import MentorDetailsResponse, MentorFilter1, ReviewsResponse
 from app.utils.average import getAverage
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users, DB_Mentor_Review
@@ -11,7 +11,7 @@ from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_country import DB_Countries
 from app.models.database.db_majors import DB_Majors
-from app.models.database.db_appointment import DB_Mentors_Reservations
+from app.models.database.db_appointment import DB_Appointments, AppointmentsState
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
 
@@ -145,8 +145,9 @@ async def get_mentorAvaliableWithin60min(catId :int, after: int, request: Reques
     
     for mentor in list_of_mentors:
         if (booking_time).hour in mentor.working_hours:
-            query_of_reservations = db.query(DB_Mentors_Reservations.mentor_id, DB_Mentors_Reservations.date_from, DB_Mentors_Reservations.date_to
-                             ).filter(DB_Mentors_Reservations.mentor_id == mentor.id).all()
+            query_of_reservations = db.query(DB_Appointments.mentor_id, DB_Appointments.date_from, DB_Appointments.date_to, DB_Appointments.state
+                             ).filter(DB_Appointments.mentor_id == mentor.id
+                                      ).filter(DB_Appointments.state == AppointmentsState.active).all()
             if (query_of_reservations != []):
                 for reservations in query_of_reservations:
                     if reservations["date_from"] <= booking_time <= reservations["date_to"]:

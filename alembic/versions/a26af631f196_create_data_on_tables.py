@@ -20,7 +20,7 @@ from app.models.database.client import db_client_user
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_majors import DB_Majors
 from app.models.database.db_discount import DB_Discount
-from app.models.database.db_appointment import DB_Mentors_Reservations
+from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType
 
 from app.utils.database import engine
 
@@ -839,7 +839,7 @@ def upgrade() -> None:
     ]
     )
     
-    op.bulk_insert(DB_Mentors_Reservations.__table__,
+    op.bulk_insert(DB_Appointments.__table__,
     [
         {
             "id" : 1,
@@ -848,17 +848,19 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 8),
             "date_to" : datetime.datetime(2022, 12, 30, 9),
             "price_before_discount" : 20,
-            "appointment_type" : "schudule",
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.completed,
             "discount_id" : 1,
         },
         {
             "id" : 2,
             "mentor_id" : 1,            
             "client_id" : 2,
-            "date_from" : datetime.datetime(2022, 12, 30, 14),    
-            "date_to" : datetime.datetime(2022, 12, 30, 14, 30),
+            "date_from" : datetime.datetime(2023, 1, 4, 14),    
+            "date_to" : datetime.datetime(2023, 1, 4, 14, 30),
             "price_before_discount" : 9.9,
-            "appointment_type" : "schudule",
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.active,
             "discount_id" : 2,
         },
         {
@@ -868,7 +870,8 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 10),    
             "date_to" : datetime.datetime(2022, 12, 30, 10, 15),
             "price_before_discount" : 10,
-            "appointment_type" : "schudule",
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.completed,
             "discount_id" : 3,     
         },
         {
@@ -878,7 +881,8 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 0),    
             "date_to" : datetime.datetime(2022, 12, 30, 0, 30),
             "price_before_discount" : 14,
-            "appointment_type" : "schudule",
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.completed,
             "discount_id" : 3,           
         },
         {
@@ -888,7 +892,8 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 10),    
             "date_to" : datetime.datetime(2022, 12, 30, 10, 15),
             "price_before_discount" : 21,
-            "appointment_type" : "schudule",
+            "appointment_type" : AppointmentsType.instant,
+            "state" : AppointmentsState.mentor_cancel,
             "discount_id" : 5,       
         },
         {
@@ -898,7 +903,8 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 19),    
             "date_to" : datetime.datetime(2022, 12, 30, 19, 30),
             "price_before_discount" : 17,  
-            "appointment_type" : "schudule",
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.mentor_cancel,
             "discount_id" : None,           
         },
         {
@@ -908,7 +914,8 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 10),    
             "date_to" : datetime.datetime(2022, 12, 30, 11),
             "price_before_discount" : 12,
-            "appointment_type" : "schudule",
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.client_cancel,
             "discount_id" : None,                
         },
         {
@@ -918,7 +925,8 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 17),    
             "date_to" : datetime.datetime(2022, 12, 30, 18),
             "price_before_discount" : 9,
-            "appointment_type" : "schudule",
+            "appointment_type" : AppointmentsType.instant,
+            "state" : AppointmentsState.client_cancel,
             "discount_id" : None,                   
         },
         {
@@ -928,7 +936,8 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 14),    
             "date_to" : datetime.datetime(2022, 12, 30, 14, 15),
             "price_before_discount" : 12,
-            "appointment_type" : "schudule",
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.mentor_miss,
             "discount_id" : None,                       
         },
         {
@@ -938,37 +947,41 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 15),    
             "date_to" : datetime.datetime(2022, 12, 30, 15, 15),
             "price_before_discount" : 16.3,  
-            "appointment_type" : "schudule",  
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.client_miss, 
             "discount_id" : None,                        
         },
         {
             "id" : 11,
             "mentor_id" : 6,
             "client_id" : 2,
-            "date_from" : datetime.datetime(2022, 12, 30, 14),    
-            "date_to" : datetime.datetime(2022, 12, 30, 14, 30),
+            "date_from" : datetime.datetime(2023, 1, 3, 14),    
+            "date_to" : datetime.datetime(2023, 1, 3, 14, 30),
             "price_before_discount" : 12, 
-            "appointment_type" : "schudule",  
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.active, 
             "discount_id" : None,                       
         },
         {
             "id" : 12,
             "mentor_id" : 6,
             "client_id" : 1,
-            "date_from" : datetime.datetime(2022, 12, 30, 15),    
-            "date_to" : datetime.datetime(2022, 12, 30, 15, 30),
+            "date_from" : datetime.datetime(2023, 1, 3, 15),    
+            "date_to" : datetime.datetime(2023, 1, 3, 15, 30),
             "price_before_discount" : 12,  
-            "appointment_type" : "schudule",  
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.active, 
             "discount_id" : None,   
         },
         {
             "id" : 13,
             "mentor_id" : 7,
             "client_id" : 1,
-            "date_from" : datetime.datetime(2022, 12, 30, 14),    
-            "date_to" : datetime.datetime(2022, 12, 30, 15),
+            "date_from" : datetime.datetime(2022, 1, 6, 14),    
+            "date_to" : datetime.datetime(2022, 1, 6, 15),
             "price_before_discount" : 12,    
-            "appointment_type" : "schudule", 
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.active,
             "discount_id" : None,   
         },
         {
@@ -978,7 +991,8 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 15),    
             "date_to" : datetime.datetime(2022, 12, 30, 16),
             "price_before_discount" : 11,   
-            "appointment_type" : "schudule",  
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.completed,
             "discount_id" : None,     
         },
         {
@@ -988,7 +1002,8 @@ def upgrade() -> None:
             "date_from" : datetime.datetime(2022, 12, 30, 17),    
             "date_to" : datetime.datetime(2022, 12, 30, 18),
             "price_before_discount" : 7.8,     
-            "appointment_type" : "schudule", 
+            "appointment_type" : AppointmentsType.schudule,
+            "state" : AppointmentsState.completed,
             "discount_id" : None,   
         }
     ]
