@@ -53,8 +53,8 @@ async def get_clientAppointment(request: Request, db: Session = Depends(get_db),
 async def cancelAppointment(id: int, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
     query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.client_id == get_current_user.user_id
-                                                                              ).filter(DB_Appointments.state == AppointmentsState.active).first()
-    if query is  None:
+                                                                              ).filter(DB_Appointments.state == AppointmentsState.active)
+    if query.first() is  None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"appoitment id not valid"})
     
     
