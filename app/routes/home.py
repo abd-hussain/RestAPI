@@ -7,7 +7,7 @@ from app.models.database.mentor.db_mentor_user import DB_Stories, DB_StoryReport
 from app.models.database.db_event import DB_Events, EventState
 from app.models.database.db_tips import DB_Tips, DB_TipsQuestions
 from app.models.respond.general import generalResponse
-from app.models.schemas.home import HomeResponse
+from app.models.schemas.home import HomeResponse, Story
 from app.utils.oauth2 import get_current_user
 from sqlalchemy import func
 from datetime import datetime
@@ -41,8 +41,8 @@ async def get_home(request: Request, db: Session = Depends(get_db)):
 
 
 @router.post("/reportstory")
-async def reportStory(storyId: int, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-   
+async def reportStory(storyId: int, request: Request,  db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
    
     story = db.query(DB_Stories).filter(DB_Stories.id == storyId).first()
     
@@ -62,4 +62,17 @@ async def reportStory(storyId: int, db: Session = Depends(get_db), get_current_u
     obj = DB_StoryReports(**{"user_id" : get_current_user.user_id, "story_id" : storyId})
     db.add(obj)
     db.commit()
-    return generalResponse(message= "successfully report this story", data= None)
+    
+    story_query = db.query(DB_Stories).filter(DB_Stories.language == myHeader.language).filter(DB_Stories.published == True).all()
+    report_query = db.query(DB_StoryReports).filter(DB_Stories.language == myHeader.language).filter(DB_Stories.published == True).all()
+    
+    newList : list[Story] = []
+
+    
+    for report in report_query:
+        for story in story_query:
+            if story.id != report.story_id:
+                newList.append(Story(id = story.id, assets = story.assets))
+
+
+    return generalResponse(message= "successfully report this story", data= newList)

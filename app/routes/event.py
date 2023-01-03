@@ -18,7 +18,7 @@ async def get_event_details(id :int ,request: Request, db: Session = Depends(get
     myHeader = validateLanguageHeader(request)
     query = db.query(DB_Events).filter(DB_Events.id == id).first()
         
-    if query.first() is  None:
+    if query is  None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"event id not valid"})
 
     return generalResponse(message="Event return successfully", data=query)
