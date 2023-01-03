@@ -14,7 +14,11 @@ router = APIRouter(
 
 
 @router.get("/")
-async def get_all_events(request: Request, db: Session = Depends(get_db)):
+async def get_event_details(id :int ,request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Events).filter(DB_Events.state == EventState.active).filter(DB_Events.date_from > datetime.now()).all()
-    return generalResponse(message="list of appointments return successfully", data=query)
+    query = db.query(DB_Events).filter(DB_Events.id == id).first()
+        
+    if query.first() is  None:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"event id not valid"})
+
+    return generalResponse(message="Event return successfully", data=query)
