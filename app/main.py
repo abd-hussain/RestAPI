@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import filter, report, settings, notifications, loyality, home, tips, discount, appointment
+from app.routes import filter, report, settings, notifications, loyality, home, tips, discount, appointment, event
 from app.models.database.client import db_client_user
 from app.routes.client import client_auth, client_account
 from app.routes.mentor import mentor_auth, mentor_account, mentor_list
@@ -31,6 +31,7 @@ app.include_router(client_account.router)
 app.include_router(mentor_account.router)
 app.include_router(mentor_list.router)
 app.include_router(appointment.router)
+app.include_router(event.router)
 
 app.include_router(filter.router)
 app.include_router(settings.router)

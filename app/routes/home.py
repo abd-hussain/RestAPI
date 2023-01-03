@@ -4,11 +4,13 @@ from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
 from app.models.database.db_client_banners import DB_Client_Banners
 from app.models.database.mentor.db_mentor_user import DB_Stories, DB_StoryReports
+from app.models.database.db_event import DB_Events, EventState
 from app.models.database.db_tips import DB_Tips, DB_TipsQuestions
 from app.models.respond.general import generalResponse
 from app.models.schemas.home import HomeResponse
 from app.utils.oauth2 import get_current_user
 from sqlalchemy import func
+from datetime import datetime
 
 router = APIRouter(
     prefix="/home",
@@ -19,6 +21,7 @@ router = APIRouter(
 async def get_home(request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
     
+    main_events = db.query(DB_Events).filter(DB_Events.state == EventState.active).filter(DB_Events.date_from > datetime.now()).all()
     main_banner = db.query(DB_Client_Banners).filter(DB_Client_Banners.language == myHeader.language).filter(DB_Client_Banners.published == True).all()
     main_story = db.query(DB_Stories).filter(DB_Stories.language == myHeader.language).filter(DB_Stories.published == True).all()
     
@@ -33,7 +36,7 @@ async def get_home(request: Request, db: Session = Depends(get_db)):
                          DB_Tips.image, func.count(DB_TipsQuestions.tips_id).label("steps")).join(
         DB_TipsQuestions, DB_TipsQuestions.tips_id == DB_Tips.id, isouter=True).group_by(DB_Tips.id).all()
         
-    respose = HomeResponse(main_banner = main_banner, main_story = main_story, main_tips = main_tips) 
+    respose = HomeResponse(main_banner = main_banner, main_story = main_story, main_tips = main_tips, main_event = main_events) 
     return generalResponse(message="home return successfully", data=respose)
 
 

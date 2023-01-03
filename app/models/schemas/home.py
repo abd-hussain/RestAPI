@@ -1,5 +1,8 @@
 from pydantic import BaseModel
 from typing import List, Optional
+from datetime import datetime
+
+from app.models.database.db_event import EventState
 
 class MentorOut(BaseModel):
     id: int
@@ -40,11 +43,27 @@ class Tips(BaseModel) :
     steps: int
     class Config:
         orm_mode = True
+        
+class Event(BaseModel) :
+    id: int
+    title: str
+    image: str
+    description: str
+    joining_clients_ids: List[int]
+    max_number_of_attendance: int
+    date_from: datetime
+    date_to: datetime
+    price: float
+    state: EventState
+
+    class Config:
+        orm_mode = True
 
 class HomeResponse(BaseModel) :
     main_banner: List[Banner]
     main_story: List[Story]
     main_tips: List[Tips]
-    
+    main_event: List[Event]
+
     class Config:
         orm_mode = True
