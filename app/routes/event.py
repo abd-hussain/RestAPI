@@ -12,7 +12,6 @@ router = APIRouter(
     tags=["Event"]
 )
 
-
 @router.get("/")
 async def get_event_details(id :int ,request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)

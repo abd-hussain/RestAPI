@@ -68,7 +68,6 @@ async def reportStory(storyId: int, request: Request,  db: Session = Depends(get
     
     newList : list[Story] = []
 
-    
     for report in report_query:
         for story in story_query:
             if story.id != report.story_id:
