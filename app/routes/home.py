@@ -3,11 +3,11 @@ from sqlalchemy.orm import Session
 from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
 from app.models.database.db_client_banners import DB_Client_Banners
-from app.models.database.mentor.db_mentor_user import DB_Stories, DB_StoryReports
-from app.models.database.db_event import DB_Events, EventState
+from app.models.database.db_story import DB_Stories, DB_StoryReports
+from app.models.database.db_event import DB_Events, EventState, DB_EventReports
 from app.models.database.db_tips import DB_Tips, DB_TipsQuestions
 from app.models.respond.general import generalResponse
-from app.models.schemas.home import HomeResponse, Story
+from app.models.schemas.home import HomeResponse, Story, Event
 from app.utils.oauth2 import get_current_user
 from sqlalchemy import func
 from datetime import datetime
@@ -74,5 +74,44 @@ async def reportStory(storyId: int, request: Request,  db: Session = Depends(get
             if story.id != report.story_id:
                 newList.append(Story(id = story.id, assets = story.assets))
 
-
     return generalResponse(message= "successfully report this story", data= newList)
+
+
+@router.post("/reportevent")
+async def reportStory(eventId: int, request: Request,  db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+   
+    event = db.query(DB_Events).filter(DB_Events.id == eventId).first()
+    
+    if not event:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Event with id: {eventId} does not exist")
+        
+    report_event_query = db.query(DB_EventReports).filter(
+        DB_EventReports.event_id == eventId, DB_EventReports.user_id == get_current_user.user_id)
+    
+    alreadyReport = report_event_query.first()
+
+    if alreadyReport:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                                detail=f"user {get_current_user.user_id} has alredy report this event")
+    
+    obj = DB_EventReports(**{"user_id" : get_current_user.user_id, "event_id" : eventId})
+    db.add(obj)
+    db.commit()
+    
+    events_query = db.query(DB_Events).filter(DB_Events.state == EventState.active).filter(DB_Stories.published == True).all()
+    report_query = db.query(DB_EventReports).filter(DB_EventReports.user_id == get_current_user.user_id).all()
+    
+    newList : list[Event] = []
+    
+    for report in report_query:
+        for event in events_query:
+            if event.id != report.event_id:
+                newList.append(Event(id = event.id, title = event.title, image = event.image, 
+                                     description = event.description, joining_clients_ids = event.joining_clients_ids, 
+                                     max_number_of_attendance = event.max_number_of_attendance, 
+                                     date_from = event.date_from, date_to = event.date_to, 
+                                     price = event.price, state = event.state))
+
+    return generalResponse(message= "successfully report this event", data= newList)
