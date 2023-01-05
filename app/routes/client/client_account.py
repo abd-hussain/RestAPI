@@ -23,6 +23,19 @@ async def get_account(request: Request, db: Session = Depends(get_db), get_curre
 
     return generalResponse(message="Profile return successfully", data=query.first())
 
+
+@router.delete("/delete")
+async def delete_account(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+    query = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id)
+
+    if query.first() == None:
+       return generalResponse(message="profile was not found", data=None)
+   
+    query.delete()
+    db.commit()
+    return generalResponse(message="Profile deleted successfully", data=None)
+
 @router.put("/update")
 async def update_account(request: Request,first_name: str = Form(None),last_name: str = Form(None),email: str = Form(None),gender: int = Form(None),
                          country_id: int = Form(None), referal_code: str = Form(None),date_of_birth: str = Form(None),profile_picture: UploadFile = File(default=None), 
