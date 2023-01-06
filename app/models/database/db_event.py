@@ -18,7 +18,6 @@ class DB_Events(Base):
     image = Column(String, nullable=False)
     title = Column(String, nullable=False)
     description = Column(String, nullable=False)
-    joining_clients_ids = Column(ARRAY(Integer))
     max_number_of_attendance = Column(Integer, nullable=False)
     date_from = Column(DateTime, nullable=False)
     date_to = Column(DateTime, nullable=False)
@@ -28,6 +27,15 @@ class DB_Events(Base):
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))    
     owner = relationship("DB_Mentor_Users")
+    
+    
+class DB_Events_Appointments(Base):
+    __tablename__ = "event_appointments"
+
+    id = Column(Integer, primary_key=True, nullable=False, index=True)
+    client_id = Column(Integer, ForeignKey(
+        "client-users.id", ondelete="CASCADE"), primary_key=True)
+    event_id = Column(Integer, ForeignKey("event.id", ondelete="CASCADE"), primary_key=True)
 
 class DB_EventReports(Base):
     __tablename__ = "event_reports"

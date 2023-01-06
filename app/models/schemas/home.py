@@ -49,7 +49,7 @@ class Event(BaseModel) :
     title: str
     image: str
     description: str
-    joining_clients_ids: List[int]
+    joining_clients: int
     max_number_of_attendance: int
     date_from: datetime
     date_to: datetime
