@@ -2,14 +2,11 @@ from fastapi import Request, Depends, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 from app.utils.database import get_db
 from app.utils.validation import validateLanguageHeader
-from app.models.database.db_event import DB_Events, DB_Events_Appointments
+from app.models.database.db_event import DB_Events, DB_Events_Appointments, EventState
 from app.models.respond.general import generalResponse
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.database.db_category import DB_Categories
 from app.utils.oauth2 import get_current_user
-from sqlalchemy import func
-from app.models.schemas.home import Event
-
 
 router = APIRouter(
     prefix="/event",
@@ -47,6 +44,32 @@ async def get_event_details(id :int ,request: Request, db: Session = Depends(get
 
     return generalResponse(message="Event return successfully", data=json)
 
+@router.get("/client")
+async def get_clientEventAppointment(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+    
+    if myHeader.language == "en" :
+        query = db.query(DB_Events_Appointments.id, DB_Events_Appointments.client_id, DB_Events_Appointments.event_id,
+                     DB_Events.title, DB_Events.description, DB_Events.image, DB_Events.date_from, DB_Events.date_to, 
+                     DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name,                     
+                     DB_Categories.name_english.label("category_name")
+                     ).join(DB_Events, DB_Events.id == DB_Events_Appointments.event_id, isouter=True
+                     ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Events.owner_id, isouter=True
+                     ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True
+                     ).filter(DB_Events_Appointments.client_id == get_current_user.user_id
+                     ).filter(DB_Events.published == True).filter(DB_Events.state == EventState.active).all()
+    else:
+        query = db.query(DB_Events_Appointments.id, DB_Events_Appointments.client_id, DB_Events_Appointments.event_id,
+                     DB_Events.title, DB_Events.description, DB_Events.image, DB_Events.date_from, DB_Events.date_to, 
+                     DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name,                     
+                     DB_Categories.name_arabic.label("category_name")
+                     ).join(DB_Events, DB_Events.id == DB_Events_Appointments.event_id, isouter=True
+                     ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Events.owner_id, isouter=True
+                     ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True
+                     ).filter(DB_Events_Appointments.client_id == get_current_user.user_id
+                     ).filter(DB_Events.published == True).filter(DB_Events.state == EventState.active).all()
+                     
+    return generalResponse(message="list of appointments return successfully", data=query)
 
 @router.post("/bookcancel")
 async def cancelEventAppointment(id: int, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
