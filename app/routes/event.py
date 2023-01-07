@@ -51,7 +51,7 @@ async def get_clientEventAppointment(request: Request, db: Session = Depends(get
     if myHeader.language == "en" :
         query = db.query(DB_Events_Appointments.id, DB_Events_Appointments.client_id, DB_Events_Appointments.event_id,
                      DB_Events.title, DB_Events.description, DB_Events.image, DB_Events.date_from, DB_Events.date_to, 
-                     DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name,                     
+                     DB_Mentor_Users.id.label("mentor_id"), DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name,                     
                      DB_Categories.name_english.label("category_name")
                      ).join(DB_Events, DB_Events.id == DB_Events_Appointments.event_id, isouter=True
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Events.owner_id, isouter=True
@@ -61,7 +61,7 @@ async def get_clientEventAppointment(request: Request, db: Session = Depends(get
     else:
         query = db.query(DB_Events_Appointments.id, DB_Events_Appointments.client_id, DB_Events_Appointments.event_id,
                      DB_Events.title, DB_Events.description, DB_Events.image, DB_Events.date_from, DB_Events.date_to, 
-                     DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name,                     
+                     DB_Mentor_Users.id.label("mentor_id"), DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name,                     
                      DB_Categories.name_arabic.label("category_name")
                      ).join(DB_Events, DB_Events.id == DB_Events_Appointments.event_id, isouter=True
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Events.owner_id, isouter=True
