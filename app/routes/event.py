@@ -76,12 +76,10 @@ async def bookEvent(id: int, request: Request, db: Session = Depends(get_db), ge
     if count >= query["max_number_of_attendance"]:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"event reach the max number of attendance"})
     
-
-    
     idCount = 1
     for item in query_event_appointments:
         idCount = idCount + 1
-        if item["client_id"] == get_current_user.user_id:
+        if item["client_id"] == get_current_user.user_id and item["event_id"] == id:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"User already book on this event"})
 
     obj = DB_Events_Appointments(**{"id" : idCount, "event_id" : id, "client_id" : get_current_user.user_id })
