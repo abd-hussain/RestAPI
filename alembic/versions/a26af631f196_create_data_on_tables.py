@@ -23,6 +23,7 @@ from app.models.database.db_majors import DB_Majors
 from app.models.database.db_discount import DB_Discount
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType
 from app.models.database.db_event import DB_Events, EventState, DB_EventReports
+from app.models.database.db_suffix import DB_Suffix
 
 from app.utils.database import engine
 
@@ -166,6 +167,36 @@ def upgrade() -> None:
     ]
     )
     
+    op.bulk_insert(DB_Suffix.__table__,
+    [
+         {
+            "id" : 1,
+            "name_english" : "Mr.",         
+            "name_arabic" : "سيد .",         
+        },
+         {
+            "id" : 2,
+            "name_english" : "Mrs.",         
+            "name_arabic" : "سيدة .",     
+        },
+         {
+            "id" : 3,
+            "name_english" : "Dr.",         
+            "name_arabic" : "د .",     
+        },
+         {
+            "id" : 4,
+            "name_english" : "Eng.",         
+            "name_arabic" : "م .",     
+        },
+        {
+            "id" : 5,
+            "name_english" : "Ph.",         
+            "name_arabic" : "ب .",     
+        },
+    ]
+    )
+        
     op.bulk_insert(DB_Categories.__table__,
     [
          {
