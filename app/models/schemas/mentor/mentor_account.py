@@ -2,12 +2,16 @@ from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
 
-class MentorAccountModel(BaseModel):
-    mobile_number : str
-    country_id: int
-    app_version: str
-    last_otp: Optional[str]
-    api_key: Optional[str]
+class MentorAuth(BaseModel):
+    email : str
+    password: str
+
+# class MentorAccountModel(BaseModel):
+#     mobile_number : str
+#     country_id: int
+#     app_version: str
+#     last_otp: Optional[str]
+#     api_key: Optional[str]
     
     
 class MentorFilter1(BaseModel) :
@@ -37,13 +41,13 @@ class InstantMentor(BaseModel) :
     class Config:
         orm_mode = True
     
-class MentorAccountVerifyModel(BaseModel):
-    mobile_number : str
-    user_id: int
-    country_id: int
-    app_version: str
-    otp: str
-    api_key: str
+# class MentorAccountVerifyModel(BaseModel):
+#     mobile_number : str
+#     user_id: int
+#     country_id: int
+#     app_version: str
+#     otp: str
+#     api_key: str
     
 class MentorObjForListResponse(BaseModel) :
     id: int

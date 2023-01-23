@@ -15,6 +15,7 @@ class DB_Mentor_Users(Base):
     majors = Column(ARRAY(Integer), nullable=False)
     hour_rate_by_JD = Column(DECIMAL, nullable=False, server_default=text('10.0'))
     mobile_number = Column(String, nullable=False, unique=True)
+    password = Column(String, nullable=False)
     email = Column(String, unique=True)
     gender = Column(Integer)
     blocked = Column(Boolean, server_default='FALSE') 
