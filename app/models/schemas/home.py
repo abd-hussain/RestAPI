@@ -59,10 +59,19 @@ class Event(BaseModel) :
     class Config:
         orm_mode = True
 
-class HomeResponse(BaseModel) :
+class ClientHomeResponse(BaseModel) :
     main_banner: List[Banner]
     main_story: List[Story]
     main_tips: List[Tips]
+    main_event: List[Event]
+
+    class Config:
+        orm_mode = True
+        
+        
+class MentorHomeResponse(BaseModel) :
+    main_banner: List[Banner]
+    main_story: List[Story]
     main_event: List[Event]
 
     class Config:

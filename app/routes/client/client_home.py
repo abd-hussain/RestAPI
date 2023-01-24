@@ -7,7 +7,7 @@ from app.models.database.db_story import DB_Stories, DB_StoryReports
 from app.models.database.db_event import DB_Events, EventState, DB_EventReports, DB_Events_Appointments
 from app.models.database.db_tips import DB_Tips, DB_TipsQuestions
 from app.models.respond.general import generalResponse
-from app.models.schemas.home import HomeResponse, Story, Event
+from app.models.schemas.home import ClientHomeResponse, Story, Event
 from app.utils.oauth2 import get_current_user
 from sqlalchemy import func
 from datetime import datetime
@@ -64,7 +64,7 @@ async def get_home(request: Request, db: Session = Depends(get_db)):
                                  ))
 
         
-    respose = HomeResponse(main_banner = main_banner, main_story = main_story, main_tips = main_tips, main_event = listOfEvent) 
+    respose = ClientHomeResponse(main_banner = main_banner, main_story = main_story, main_tips = main_tips, main_event = listOfEvent) 
     return generalResponse(message="home return successfully", data=respose)
 
 

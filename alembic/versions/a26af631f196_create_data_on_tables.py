@@ -16,6 +16,7 @@ from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
 from app.models.database.db_loyality_rules import DB_Loyality
 from app.models.database.db_client_banners import DB_Client_Banners
+from app.models.database.db_mentor_banners import DB_Mentor_Banners
 from app.models.database.db_tips import DB_Tips, DB_TipsQuestions, DB_TipsUsersAnswer, DB_TipsResult
 from app.models.database.client import db_client_user
 from app.models.database.client.db_client_user import DB_Client_Users
@@ -1167,6 +1168,38 @@ def upgrade() -> None:
     ]
     )
     
+    
+    
+    op.bulk_insert(DB_Mentor_Banners.__table__,
+    [
+        {
+            "id" : 1,      
+            "language" : "en",
+            "image" : "banner1.jpg",
+            "published" : True      
+        },
+        {
+            "id" : 2,      
+            "language" : "en",
+            "image" : "banner2.jpg",
+            "action_type" : "https://www.youtube.com/watch?v=FrCO41i2tWM&ab_channel=%D8%AD%D8%B3%D9%86%D8%A7%D9%84%D9%81%D8%A7%D8%B6%D9%84%D9%8A-ElfadiliTV",
+            "published" : True         
+        },
+        {
+            "id" : 3,      
+            "language" : "ar",
+            "image" : "banner3.jpg",
+            "published" : True            
+        },
+        {
+            "id" : 4,      
+            "language" : "ar",
+            "image" : "banner4.jpeg",
+            "published" : True           
+        },
+    ]
+    )
+    
     op.bulk_insert(DB_Client_Banners.__table__,
     [
         {
@@ -1197,7 +1230,7 @@ def upgrade() -> None:
         {
             "id" : 5,      
             "language" : "ar",
-            "image" : "banner4.jpg",
+            "image" : "banner4.jpeg",
             "action_type" : "null",
             "published" : False           
         }
