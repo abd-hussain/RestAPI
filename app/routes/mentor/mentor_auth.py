@@ -25,7 +25,7 @@ def login(payload: MentorAuth, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid Credentials")
         
-    access_token = create_access_token(data={"user_id": user.id})
-    
+    access_token = create_access_token(data={"api_key" : "079", "user_id" : user.id})
+
     return general.generalResponse(message= "Logged In successfully", data=access_token)
         

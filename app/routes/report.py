@@ -9,6 +9,10 @@ from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.utils.validation import validateLanguageHeader
 from app.utils.generate import generateRequestId
 from app.utils.time import current_milli_time
+from app.models.database.db_story import DB_Stories, DB_StoryReports
+from app.models.database.db_event import DB_Events, EventState, DB_EventReports, DB_Events_Appointments
+from app.models.schemas.home import Story, Event
+from app.utils.oauth2 import get_current_user
 
 router = APIRouter(
     prefix="/report",
@@ -158,18 +162,69 @@ def create_suggestion(request: Request,
     return generalResponse(message= "successfully created suggestion", data= None)
 
 
-@router.get("/issue")
-async def get_issue(request: Request, db: Session = Depends(get_db), limit: int = 10, skip: int = 0):
+@router.post("/story")
+async def reportStory(storyId: int, isMentor : bool, request: Request,  db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    issues = db.query(db_issue_reported.DB_Issues_Reported.id, db_issue_reported.DB_Issues_Reported.client_owner_id, db_issue_reported.DB_Issues_Reported.mentor_owner_id,
-                    db_issue_reported.DB_Issues_Reported.content, db_issue_reported.DB_Issues_Reported.attachment1, 
-                    db_issue_reported.DB_Issues_Reported.attachment2, db_issue_reported.DB_Issues_Reported.attachment3, db_issue_reported.DB_Issues_Reported.solved).limit(limit).offset(skip).all()
-    return generalResponse(message="list of issues return successfully", data=issues)
+   
+    story = db.query(DB_Stories).filter(DB_Stories.id == storyId).first()
+    
+    if not story:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Story with id: {storyId} does not exist")
+    
+    if isMentor :
+        report_story_query = db.query(DB_StoryReports).filter(
+            DB_StoryReports.story_id == storyId).filter(DB_EventReports.mentor_id == get_current_user.user_id)
+        alreadyReport = report_story_query.first()
+        if alreadyReport:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                                detail=f"user {get_current_user.user_id} has alredy report this story")
+        obj = DB_StoryReports(**{"mentor_id" : get_current_user.user_id, "story_id" : storyId})
+        db.add(obj)
+        db.commit()
+    else:
+        report_story_query = db.query(DB_StoryReports).filter(
+            DB_StoryReports.story_id == storyId).filter(DB_EventReports.user_id == get_current_user.user_id)
+        alreadyReport = report_story_query.first()
+        if alreadyReport:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                                detail=f"user {get_current_user.user_id} has alredy report this story")
+        obj = DB_StoryReports(**{"user_id" : get_current_user.user_id, "story_id" : storyId})
+        db.add(obj)
+        db.commit()
 
-@router.get("/suggestion")
-async def get_suggestion(request: Request, db: Session = Depends(get_db), limit: int = 10, skip: int = 0):
+    return generalResponse(message= "successfully report this story", data= None)
+
+
+@router.post("/event")
+async def reportEvent(eventId: int, isMentor : bool, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    suggestion = db.query(db_suggestion_reported.DB_Suggestion_Reported.id, db_suggestion_reported.DB_Suggestion_Reported.client_owner_id, db_suggestion_reported.DB_Suggestion_Reported.mentor_owner_id,
-                    db_suggestion_reported.DB_Suggestion_Reported.content, db_suggestion_reported.DB_Suggestion_Reported.attachment1, 
-                    db_suggestion_reported.DB_Suggestion_Reported.attachment2, db_suggestion_reported.DB_Suggestion_Reported.attachment3, db_suggestion_reported.DB_Suggestion_Reported.solved).limit(limit).offset(skip).all()
-    return generalResponse(message="list of suggestions return successfully", data=suggestion)
+   
+    event = db.query(DB_Events).filter(DB_Events.id == eventId).first()
+    
+    if not event:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Event with id: {eventId} does not exist")
+        
+    if isMentor :
+        report_event_query = db.query(DB_EventReports).filter(
+            DB_EventReports.event_id == eventId).filter(DB_EventReports.mentor_id == get_current_user.user_id)
+        alreadyReport = report_event_query.first()
+        if alreadyReport:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                                detail=f"user {get_current_user.user_id} has alredy report this event")
+        obj = DB_EventReports(**{"mentor_id" : get_current_user.user_id, "event_id" : eventId})
+        db.add(obj)
+        db.commit()
+    else:
+        report_event_query = db.query(DB_EventReports).filter(
+            DB_EventReports.event_id == eventId).filter(DB_EventReports.user_id == get_current_user.user_id)
+        alreadyReport = report_event_query.first()
+        if alreadyReport:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                                detail=f"user {get_current_user.user_id} has alredy report this event")
+        obj = DB_EventReports(**{"user_id" : get_current_user.user_id, "event_id" : eventId})
+        db.add(obj)
+        db.commit()
+    
+    return generalResponse(message= "successfully report this event", data= None)

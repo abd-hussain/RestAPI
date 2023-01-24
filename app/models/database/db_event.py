@@ -39,9 +39,10 @@ class DB_Events_Appointments(Base):
 
 class DB_EventReports(Base):
     __tablename__ = "event_reports"
-    
-    user_id = Column(Integer, ForeignKey("client-users.id", ondelete="CASCADE"), primary_key=True)
-    event_id = Column(Integer, ForeignKey("event.id", ondelete="CASCADE"), primary_key=True)
+    id = Column(Integer, primary_key=True, nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey("client-users.id", ondelete="CASCADE"))
+    mentor_id = Column(Integer, ForeignKey("mentor-users.id", ondelete="CASCADE"))
+    event_id = Column(Integer, ForeignKey("event.id", ondelete="CASCADE"))
     
     
     

@@ -19,7 +19,7 @@ class DB_Stories(Base):
 
 class DB_StoryReports(Base):
     __tablename__ = "story_reports"
-    user_id = Column(Integer, ForeignKey(
-        "client-users.id", ondelete="CASCADE"), primary_key=True)
-    story_id = Column(Integer, ForeignKey(
-        "stories.id", ondelete="CASCADE"), primary_key=True)
+    id = Column(Integer, primary_key=True, nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey("client-users.id", ondelete="CASCADE"))
+    mentor_id = Column(Integer, ForeignKey("mentor-users.id", ondelete="CASCADE"))
+    story_id = Column(Integer, ForeignKey("stories.id", ondelete="CASCADE"))
