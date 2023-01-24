@@ -13,6 +13,6 @@ from sqlalchemy import func
 from datetime import datetime
 
 router = APIRouter(
-    prefix="/home_m",
+    prefix="/mentor-home",
     tags=["Home"]
 )
