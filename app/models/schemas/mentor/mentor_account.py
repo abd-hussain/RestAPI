@@ -5,6 +5,9 @@ from datetime import datetime
 class MentorAuth(BaseModel):
     email : str
     password: str
+    
+class MentorForgotPassword(BaseModel):
+    email : str
 
 # class MentorAccountModel(BaseModel):
 #     mobile_number : str
