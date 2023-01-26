@@ -16,6 +16,7 @@ conf = ConnectionConfig(
 )
     
 def send_email_background(background_tasks: BackgroundTasks, subject: str, email_to: str):
+    #TODO: Sending Email Not Working
     message = MessageSchema(
         subject=subject,
         recipients=[email_to],
