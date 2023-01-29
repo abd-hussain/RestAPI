@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import filter, report, settings, notifications, loyality, tips, discount, appointment, event, client_account, mentor_account, mentor_list
+from app.routes import filter, report, settings, notifications, loyality, tips, discount, appointment, event, client_account, mentor_account, mentor_list, messages
 from app.models.database.client import db_client_user
 from app.routes.mentor import mentor_auth, mentor_home
 from app.routes.client import client_auth, client_home
@@ -44,6 +44,8 @@ app.include_router(loyality.router)
 
 app.include_router(tips.router)
 app.include_router(discount.router)
+
+app.include_router(messages.router)
 
 
 # TODO: Handle Send SMS For Verifications

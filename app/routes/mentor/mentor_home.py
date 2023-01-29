@@ -1,15 +1,17 @@
-from fastapi import Request, Depends, status ,APIRouter, HTTPException
+from fastapi import Request, Depends, status ,APIRouter, HTTPException, File, UploadFile, Form
 from sqlalchemy.orm import Session
 from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
 from app.models.database.db_mentor_banners import DB_Mentor_Banners
-from app.models.database.db_story import DB_Stories, DB_StoryReports
-from app.models.database.db_event import DB_Events, EventState, DB_EventReports, DB_Events_Appointments
+from app.models.database.db_story import DB_Stories
+from app.models.database.db_event import DB_Events, EventState, DB_Events_Appointments
 from app.models.respond.general import generalResponse
-from app.models.schemas.home import MentorHomeResponse, Story, Event
+from app.models.schemas.home import MentorHomeResponse, Event
+from app.models.schemas.story import StoryPayload
 from app.utils.oauth2 import get_current_user
 from sqlalchemy import func
 from datetime import datetime
+from app.utils.time import current_milli_time
 
 router = APIRouter(
     prefix="/mentor-home",
@@ -53,3 +55,31 @@ async def get_home(request: Request, db: Session = Depends(get_db)):
 
     respose = MentorHomeResponse(main_banner = main_banner, main_story = main_story, main_event = listOfEvent) 
     return generalResponse(message="home return successfully", data=respose)
+
+@router.post("/story", status_code=status.HTTP_201_CREATED)
+async def create_story(request: Request, attach:  UploadFile = File(default=None), db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+        myHeader = validateLanguageHeader(request)
+        payload = StoryPayload(owner_id = get_current_user.user_id, language = myHeader.language, published = True)
+
+        if attach is not None:
+            if attach.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Attach Image Format is not valid")
+            filename = f"{current_milli_time()}.png"
+            file_location = f"static/story/{filename}"
+            
+            contents = attach.file.read()
+
+        try:
+            with open(file_location, 'wb+') as out_file1:
+                out_file1.write(contents)   
+            payload.assets = filename
+        except Exception:
+            return {"message": "There was an error uploading the file"}
+        finally:
+            attach.file.close()
+            
+        obj = DB_Stories(**payload.dict())
+        db.add(obj)
+        db.commit()
+                
+        return generalResponse(message= "successfully created story", data= None)
