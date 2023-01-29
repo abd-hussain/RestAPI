@@ -25,6 +25,7 @@ from app.models.database.db_discount import DB_Discount
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType
 from app.models.database.db_event import DB_Events, EventState, DB_EventReports
 from app.models.database.db_suffix import DB_Suffix
+from app.models.database.db_messages import DB_Messages, SendedFrom
 
 from app.utils.database import engine
 
@@ -1632,6 +1633,32 @@ def upgrade() -> None:
             "title_english" : "Very High Depression",
             "desc_english" : "We invite you to take care of your mental health and request a session from a specialist as soon as possible. Do not worry, you are not alone. We are here to help.",
             "desc_arabic" : "ندعوك للعناية بصحتك النفسية وطلب جلسة من احد المختصين باقرب وقت ممكن ، لا تقلق انت لست لوحدك نحن هنا للمساعدة",
+        },
+    ]
+    )
+ 
+    op.bulk_insert(DB_Messages.__table__,
+    [
+        {
+            "id" : 1,                  
+            "client_id" : 1,      
+            "mentor_id" : 1, 
+            "sendit" : SendedFrom.client,
+            "message" : "Hello",
+        },
+        {
+            "id" : 2,                  
+            "client_id" : 1,      
+            "mentor_id" : 1, 
+            "sendit" : SendedFrom.mentor,
+            "message" : "Hello 2",
+        },
+        {
+            "id" : 3,                  
+            "client_id" : 1,      
+            "mentor_id" : 1, 
+            "sendit" : SendedFrom.mentor,
+            "message" : "how i can help you ?",
         },
     ]
     )
