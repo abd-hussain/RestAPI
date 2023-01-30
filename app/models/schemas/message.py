@@ -4,7 +4,6 @@ from typing import Optional
 
 
 class Message(BaseModel):
-    client_id: int
-    mentor_id: int
+    message_id: int
     message : str
     sendit: Optional[SendedFrom] 
