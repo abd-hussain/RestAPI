@@ -70,8 +70,8 @@ async def create_story(request: Request, attach:  UploadFile = File(default=None
             contents = attach.file.read()
 
         try:
-            with open(file_location, 'wb+') as out_file1:
-                out_file1.write(contents)   
+            with open(file_location, 'wb+') as out_file:
+                out_file.write(contents)   
             payload.assets = filename
         except Exception:
             return {"message": "There was an error uploading the file"}
