@@ -1086,7 +1086,8 @@ def upgrade() -> None:
             "title_arabic" : "تنبيه رقم ١",         
             "content_english" : "notification content 1",
             "content_arabic" : "محتوى التنبيه ١",          
-            "client_owner_id" : 1
+            "client_owner_id" : 1,
+            "mentor_owner_id" : None,
         },
         {
             "id" : 2,
@@ -1094,17 +1095,27 @@ def upgrade() -> None:
             "title_arabic" : "تنبيه رقم ٢",         
             "content_english" : "notification content 2",
             "content_arabic" : "محتوى التنبيه ٢",          
-            "client_owner_id" : 1
+            "client_owner_id" : 1,
+            "mentor_owner_id" : None,
         },
         {
             "id" : 3,
-            "title_english" : "notification title 2",
-            "title_arabic" : "تنبيه رقم ٢",         
-            "content_english" : "notification content 2",
-            "content_arabic" : "محتوى التنبيه ٢",    
+            "title_english" : "notification title 3",
+            "title_arabic" : "تنبيه رقم 3",         
+            "content_english" : "notification content 3",
+            "content_arabic" : "محتوى التنبيه 3",    
             "client_owner_id" : None,      
             "mentor_owner_id" : 1,
-        }        
+        },
+        {
+            "id" : 4,
+            "title_english" : "notification title 4",
+            "title_arabic" : "تنبيه رقم 4",         
+            "content_english" : "notification content 4",
+            "content_arabic" : "محتوى التنبيه 4",    
+            "client_owner_id" : None,      
+            "mentor_owner_id" : 1,
+        }          
     ]
     )
     
