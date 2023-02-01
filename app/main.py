@@ -54,4 +54,5 @@ app.include_router(appointment.router)
 
 # TODO: Handle Send SMS For Verifications
 # TODO: Handle Send Push Notifications
+# TODO: Handle Send Email On Reset Password
 
