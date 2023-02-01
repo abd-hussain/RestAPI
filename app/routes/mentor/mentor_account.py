@@ -22,7 +22,7 @@ async def get_account(request: Request, db: Session = Depends(get_db), get_curre
                      DB_Mentor_Users.first_name, DB_Mentor_Users.email, 
                      DB_Mentor_Users.last_name,DB_Mentor_Users.gender,
                      DB_Mentor_Users.speaking_language, DB_Mentor_Users.country_id, 
-                     DB_Countries.name_english.label("country_english"), DB_Countries.name_arabic.label("country_arabic"), DB_Countries.flag_image.label("country_flag"),
+                     DB_Countries,
                      DB_Mentor_Users.referal_code,DB_Mentor_Users.id_img).join(DB_Countries, DB_Mentor_Users.country_id == DB_Countries.id, isouter=True)\
                          .filter(DB_Mentor_Users.id == get_current_user.user_id)
 
