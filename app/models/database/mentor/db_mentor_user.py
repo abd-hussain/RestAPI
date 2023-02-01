@@ -22,6 +22,7 @@ class DB_Mentor_Users(Base):
     referal_code = Column(String)
     invitation_code = Column(String)
     profile_img = Column(String)
+    id_img = Column(String)
     app_version = Column(String, nullable=False)
     date_of_birth = Column(String)
     last_usage = Column(String)
