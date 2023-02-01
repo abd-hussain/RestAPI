@@ -8,7 +8,6 @@ from app.utils.validation import validateLanguageHeader
 from app.models.respond.general import generalResponse
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users, DB_Mentor_Review
 from app.models.database.db_category import DB_Categories
-from sqlalchemy import func
 
 
 router = APIRouter(

@@ -17,7 +17,7 @@ from app.utils.validation import validateLanguageHeader
 
 
 router = APIRouter(
-    prefix="/mentor-account",
+    prefix="/mentors-details",
     tags=["Account"]
 )
 
