@@ -38,14 +38,24 @@ async def update_working_hours(payload: WorkingHoursRequest, request: Request, d
 
     if query.first() == None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid User")
-
-    query.update({"working_hours_saturday" : payload.working_hours_saturday,
-                  "working_hours_sunday" : payload.working_hours_sunday,
-                  "working_hours_monday" : payload.working_hours_monday,
-                  "working_hours_tuesday" : payload.working_hours_tuesday,
-                  "working_hours_wednesday" : payload.working_hours_wednesday,
-                  "working_hours_thursday" : payload.working_hours_thursday,
-                  "working_hours_friday" : payload.working_hours_friday,}, synchronize_session=False)
+    
+    if payload.dayName == "saturday":
+        query.update({"working_hours_saturday" : payload.working_hours}, synchronize_session=False)
+    elif payload.dayName == "sunday":
+        query.update({"working_hours_sunday" : payload.working_hours}, synchronize_session=False)
+    elif payload.dayName == "monday":
+        query.update({"working_hours_monday" : payload.working_hours}, synchronize_session=False)
+    elif payload.dayName == "tuesday":
+        query.update({"working_hours_tuesday" : payload.working_hours}, synchronize_session=False)
+    elif payload.dayName == "wednesday":
+        query.update({"working_hours_wednesday" : payload.working_hours}, synchronize_session=False)
+    elif payload.dayName == "thursday":
+        query.update({"working_hours_thursday" : payload.working_hours}, synchronize_session=False)
+    elif payload.dayName == "friday":
+        query.update({"working_hours_friday" : payload.working_hours}, synchronize_session=False)
+    else:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"day name is wrong")
+        
     db.commit()
     
     return generalResponse(message="Working Hours updated successfully", data=None)
