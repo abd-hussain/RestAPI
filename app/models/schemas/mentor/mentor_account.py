@@ -6,6 +6,10 @@ class MentorAuth(BaseModel):
     email : str
     password: str
     
+class MentorChangePassword(BaseModel):
+    oldpassword : str
+    newpassword: str
+    
 class MentorForgotPassword(BaseModel):
     email : str
 

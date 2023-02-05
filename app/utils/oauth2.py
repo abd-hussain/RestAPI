@@ -44,7 +44,7 @@ def get_current_user(token: str = Depends(oath2_scheme)):
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def hash(password: str):
+def hashingPassword(password: str):
     return pwd_context.hash(password)
 
 def verifyPassword(plain_password, hashed_password):
