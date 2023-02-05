@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import datetime
 
 class MentorAuth(BaseModel):
@@ -101,3 +101,18 @@ class MentorDetailsResponse(BaseModel) :
     working_hours_thursday: list[int]
     working_hours_friday: list[int]
     reviews: list[ReviewsResponse]
+    
+    
+class UpdateMentorAccountInfoModel(BaseModel):
+    suffixe_name: Optional[str]     
+    first_name: Optional[str] 
+    last_name: Optional[str] 
+    speaking_language: Optional[list[str]]
+    mobile_number : Optional[str] 
+    email : Optional[EmailStr] 
+    gender : Optional[int] 
+    date_of_birth : Optional[str] 
+    profile_img : Optional[str]
+    id_img : Optional[str]
+    country_id : Optional[int] 
+
