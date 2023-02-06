@@ -26,6 +26,7 @@ from app.models.database.db_appointment import DB_Appointments, AppointmentsStat
 from app.models.database.db_event import DB_Events, EventState, DB_EventReports
 from app.models.database.db_suffix import DB_Suffix
 from app.models.database.db_messages import DB_Messages, DB_Chat, SendedFrom
+from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, TransactionType, DB_Mentor_PaymentsـReports
 
 from app.utils.database import engine
 
@@ -1693,6 +1694,73 @@ def upgrade() -> None:
             "sendit" : SendedFrom.client,
             "message" : "Hello 2",
         },
+    ]
+    )
+    
+    op.bulk_insert(DB_Mentor_Payments.__table__,
+    [
+        {
+            "id" : 1,
+            "mentor_id" : 1,
+            "status" : PaymentStatus.pending,   
+            "amount" : 12,   
+            "currency_arabic" : "د.ا",   
+            "currency_english" : "JD",    
+            "descriptions" : "Meeting with client saleh yousef",    
+            "durations" : 30, 
+            "type" : TransactionType.debit,                                                                                       
+        },
+        {
+            "id" : 2,
+            "mentor_id" : 1,
+            "status" : PaymentStatus.pending,   
+            "amount" : 40.2,   
+            "currency_arabic" : "د.ا",   
+            "currency_english" : "JD",    
+            "descriptions" : "Meeting with client zaid Barghouthi",    
+            "durations" : 45, 
+            "type" : TransactionType.debit,                                                                                       
+        },        
+        {
+            "id" : 3,
+            "mentor_id" : 2,
+            "status" : PaymentStatus.pending,   
+            "amount" : 19.2,   
+            "currency_arabic" : "د.ا",   
+            "currency_english" : "JD",    
+            "descriptions" : "Meeting with client zaid Barghouthi",    
+            "durations" : 45, 
+            "type" : TransactionType.debit,                                                                                       
+        }, 
+        {
+            "id" : 4,
+            "mentor_id" : 1,
+            "status" : PaymentStatus.approved,   
+            "amount" : 18.56,   
+            "currency_arabic" : "د.ا",   
+            "currency_english" : "JD",    
+            "descriptions" : "Meeting with client Moahmmed Flafil",    
+            "durations" : 60, 
+            "type" : TransactionType.credit,  
+            "notes" : "delay allowance"                                                                                 
+        },
+    ]
+    )
+    
+    op.bulk_insert(DB_Mentor_PaymentsـReports.__table__,
+    [
+        {
+            "id" : 1,
+            "mentor_id" : 1,
+            "payment_id" : 1,   
+            "message" : "There is Something wrong",                                                                                      
+        },
+        {
+            "id" : 2,
+            "mentor_id" : 1,
+            "payment_id" : 4,   
+            "message" : "There is Something wrong",                                                                                     
+        },     
     ]
     )
 

@@ -25,6 +25,7 @@ from app.models.database.db_appointment import Base
 from app.models.database.db_event import Base
 from app.models.database.db_suffix import Base
 from app.models.database.db_messages import Base
+from app.models.database.db_payments import Base
 
 from app.config import settings
 

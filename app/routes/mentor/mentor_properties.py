@@ -4,14 +4,8 @@ from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.schemas.working_hours import WorkingHoursRequest
-from app.models.database.db_event import DB_Events, EventState, DB_Events_Appointments
 from app.models.respond.general import generalResponse
-from app.models.schemas.home import MentorHomeResponse, Event
-from app.models.schemas.story import StoryPayload
 from app.utils.oauth2 import get_current_user
-from sqlalchemy import func
-from datetime import datetime
-from app.utils.time import current_milli_time
 
 
 router = APIRouter(

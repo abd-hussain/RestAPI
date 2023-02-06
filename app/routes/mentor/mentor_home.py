@@ -9,7 +9,6 @@ from app.models.respond.general import generalResponse
 from app.models.schemas.home import MentorHomeResponse, Event
 from app.models.schemas.story import StoryPayload
 from app.utils.oauth2 import get_current_user
-from sqlalchemy import func
 from datetime import datetime
 from app.utils.time import current_milli_time
 
