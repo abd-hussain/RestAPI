@@ -25,8 +25,8 @@ async def get_mentor_payments(request: Request, db: Session = Depends(get_db), g
 @router.post("/report", status_code=status.HTTP_201_CREATED)
 async def mentor_report_payment(payload: Payment, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Mentor_PaymentsـReports).filter(DB_Mentor_PaymentsـReports.id == payload.payment_id)
-    
+    query = db.query(DB_Mentor_PaymentsـReports).filter(DB_Mentor_PaymentsـReports.payment_id == payload.payment_id)
+
     if query.first() is not None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"payment already reported"})
     
