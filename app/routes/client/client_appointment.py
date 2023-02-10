@@ -11,18 +11,18 @@ from app.models.respond.general import generalResponse
 from app.models.database.db_category import DB_Categories
 
 router = APIRouter(
-    prefix="/appointment",
+    prefix="/client-appointment",
     tags=["Appointment"]
 )
 
-@router.get("/mentor")
+@router.get("/all-mentors")
 async def get_all_mentor_appointment(id :int , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
     query = db.query(DB_Appointments).filter(DB_Appointments.mentor_id == id).filter(DB_Appointments.date_from > datetime.now()
                                                                                      ).filter(DB_Appointments.state == AppointmentsState.active).all()
     return generalResponse(message="list of appointments return successfully", data=query)
     
-@router.get("/client")
+@router.get("/")
 async def get_clientAppointment(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
     
