@@ -1,7 +1,7 @@
 
 from fastapi import Request, Depends, APIRouter, status
 from sqlalchemy.orm import Session
-from app.models.database.db_versions import DB_Versions
+from app.models.database.db_versions import DB_Versions, Platform
 from app.models.schemas.leads import ListLeads
 from app.models.database.db_terms import DB_Terms
 from app.models.database.db_leads import DB_Leads
@@ -16,17 +16,24 @@ router = APIRouter(
 )
 
 @router.get("/versions")
-async def get_Versions(request: Request, db: Session = Depends(get_db)):
+async def get_Versions(platform: str, request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
+    
+    enumValue = Platform.client
+    
+    if platform == "mentor":
+        enumValue = Platform.mentor
+    
     data = db.query(DB_Versions.id, DB_Versions.version.label(
         "number"), DB_Versions.content_english.label(
-        "content"), DB_Versions.is_forced).all()
+        "content"), DB_Versions.is_forced, DB_Versions.platform).filter(
+                         DB_Versions.platform == enumValue).all()
     if (myHeader.language == "ar"):
           data = db.query(DB_Versions.id, DB_Versions.version.label(
         "number"), DB_Versions.content_arabic.label(
-        "content"), DB_Versions.is_forced).all()
+        "content"), DB_Versions.is_forced, DB_Versions.platform).filter(
+                         DB_Versions.platform == enumValue).all()
     return generalResponse(message="list of versions return successfully", data=data)
-
 
 @router.get("/terms")
 async def get_Terms(request: Request, db: Session = Depends(get_db)):

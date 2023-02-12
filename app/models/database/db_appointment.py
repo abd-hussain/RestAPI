@@ -29,5 +29,7 @@ class DB_Appointments(Base):
     discount_id = Column(Integer, ForeignKey(
         "discount.id", ondelete="CASCADE"))
     state = Column(Enum(AppointmentsState), nullable=False)
+    note_from_client = Column(String, nullable=True)
+    note_from_mentor = Column(String, nullable=True)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))

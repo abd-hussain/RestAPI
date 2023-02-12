@@ -9,6 +9,7 @@ from app.utils.validation import validateLanguageHeader
 from datetime import datetime
 from app.models.respond.general import generalResponse
 from app.models.database.db_category import DB_Categories
+from app.models.schemas.comment_appointment import AppointmentComment
 
 router = APIRouter(
     prefix="/client-appointment",
@@ -100,3 +101,15 @@ async def bookAppointment(payload: AppointmentRequest, request: Request, db: Ses
     db.add(obj)
     db.commit()
     return generalResponse(message="appoitment booked successfuly", data=None)
+
+@router.post("/comment")
+async def add_comment_to_Appointment(payload: AppointmentComment, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+    query = db.query(DB_Appointments).filter(DB_Appointments.id == payload.id).filter(DB_Appointments.client_id == get_current_user.user_id
+                                                                              ).filter(DB_Appointments.state == AppointmentsState.active)
+    if query.first() is None:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"appoitment id not valid"})
+    
+    query.update({"note_from_client" : payload.comment}, synchronize_session=False)
+    db.commit()
+    return generalResponse(message="appoitment compleated successfuly", data=None)

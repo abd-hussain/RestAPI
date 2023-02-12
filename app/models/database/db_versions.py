@@ -1,6 +1,12 @@
-from sqlalchemy import TIMESTAMP, Column, Integer, String, Numeric, Boolean, text
+from sqlalchemy import TIMESTAMP, Column, Integer, String, Numeric, Boolean, text, Enum
 from app.utils.database import Base
+import enum
 
+
+class Platform(enum.Enum):
+    client = 1
+    mentor = 2
+    
 class DB_Versions(Base):
     __tablename__ = "versions"
 
@@ -9,5 +15,6 @@ class DB_Versions(Base):
     content_arabic = Column(String, nullable=False)
     content_english = Column(String, nullable=False)
     is_forced = Column(Boolean, server_default='FALSE')
+    platform = Column(Enum(Platform), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))

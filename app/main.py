@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.routes import filter, report, settings, notifications, event, messages
 from app.models.database.client import db_client_user
-from app.routes.mentor import mentor_auth, mentor_home, mentor_properties, mentor_account, mentor_payments
+from app.routes.mentor import mentor_auth, mentor_home, mentor_properties, mentor_account, mentor_payments, mentor_appointment
 from app.routes.client import client_account, client_appointment, client_auth, client_home, discount, loyality, mentor_list, mentors_details, tips
 from app.utils.public_api import origins
 from app.utils.database import engine
@@ -32,6 +32,7 @@ app.include_router(mentor_home.router)
 app.include_router(mentor_account.router)
 app.include_router(mentor_properties.router)
 app.include_router(mentor_payments.router)
+app.include_router(mentor_appointment.router)
 
 #Clients
 app.include_router(client_auth.router)
