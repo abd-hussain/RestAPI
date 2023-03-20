@@ -22,14 +22,6 @@ class Banner(BaseModel) :
     
     class Config:
         orm_mode = True
-
-class Story(BaseModel) :
-    id: int
-    assets: str
-    owner: Optional[MentorOut]
-    
-    class Config:
-        orm_mode = True
         
         
 class Tips(BaseModel) :
@@ -61,7 +53,6 @@ class Event(BaseModel) :
 
 class ClientHomeResponse(BaseModel) :
     main_banner: List[Banner]
-    main_story: List[Story]
     main_tips: List[Tips]
     main_event: List[Event]
 
@@ -71,7 +62,6 @@ class ClientHomeResponse(BaseModel) :
         
 class MentorHomeResponse(BaseModel) :
     main_banner: List[Banner]
-    main_story: List[Story]
     main_event: List[Event]
 
     class Config:

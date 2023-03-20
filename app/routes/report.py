@@ -9,9 +9,8 @@ from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.utils.validation import validateLanguageHeader
 from app.utils.generate import generateRequestId
 from app.utils.time import current_milli_time
-from app.models.database.db_story import DB_Stories, DB_StoryReports
 from app.models.database.db_event import DB_Events, EventState, DB_EventReports, DB_Events_Appointments
-from app.models.schemas.home import Story, Event
+from app.models.schemas.home import Event
 from app.utils.oauth2 import get_current_user
 
 router = APIRouter(
@@ -160,41 +159,6 @@ def create_suggestion(request: Request,
     db.add(obj)
     db.commit()
     return generalResponse(message= "successfully created suggestion", data= None)
-
-
-@router.post("/story")
-async def reportStory(storyId: int, isMentor : bool, request: Request,  db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
-   
-    story = db.query(DB_Stories).filter(DB_Stories.id == storyId).first()
-    
-    if not story:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Story with id: {storyId} does not exist")
-    
-    if isMentor :
-        report_story_query = db.query(DB_StoryReports).filter(
-            DB_StoryReports.story_id == storyId).filter(DB_EventReports.mentor_id == get_current_user.user_id)
-        alreadyReport = report_story_query.first()
-        if alreadyReport:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                                detail=f"user {get_current_user.user_id} has alredy report this story")
-        obj = DB_StoryReports(**{"mentor_id" : get_current_user.user_id, "story_id" : storyId})
-        db.add(obj)
-        db.commit()
-    else:
-        report_story_query = db.query(DB_StoryReports).filter(
-            DB_StoryReports.story_id == storyId).filter(DB_EventReports.user_id == get_current_user.user_id)
-        alreadyReport = report_story_query.first()
-        if alreadyReport:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                                detail=f"user {get_current_user.user_id} has alredy report this story")
-        obj = DB_StoryReports(**{"user_id" : get_current_user.user_id, "story_id" : storyId})
-        db.add(obj)
-        db.commit()
-
-    return generalResponse(message= "successfully report this story", data= None)
-
 
 @router.post("/event")
 async def reportEvent(eventId: int, isMentor : bool, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):

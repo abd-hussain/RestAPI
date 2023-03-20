@@ -11,7 +11,6 @@ from alembic import op
 from app.models.database.db_versions import DB_Versions, Platform
 from app.models.database.db_country import DB_Countries
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users, DB_Mentor_Review
-from app.models.database.db_story import  DB_Stories, DB_StoryReports
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
 from app.models.database.db_loyality_rules import DB_Loyality
@@ -1283,66 +1282,6 @@ def upgrade() -> None:
             "image" : "banner4.jpeg",
             "action_type" : "null",
             "published" : False           
-        }
-    ]
-    )
-    
-    op.bulk_insert(DB_Stories.__table__,
-    [
-        {
-            "id" : 1,      
-            "language" : "en",
-            "assets" : "story1.jpeg",
-            "owner_id" : 1,
-            "published" : True      
-        },
-        {
-            "id" : 2,      
-            "language" : "en",
-            "assets" : "story2.jpeg",
-            "owner_id" : 2,
-            "published" : True         
-        },
-        {
-            "id" : 3,      
-            "language" : "en",
-            "assets" : "story3.jpeg",
-            "owner_id" : 3,
-            "published" : False          
-        },
-        {
-            "id" : 4,      
-            "language" : "ar",
-            "assets" : "story3.jpeg",
-            "owner_id" : 1,
-            "published" : True             
-        },
-        {
-            "id" : 5,      
-            "language" : "ar",
-            "assets" : "story4.jpeg",
-            "owner_id" : 3,
-            "published" : True                
-        },
-        {
-            "id" : 6,      
-            "language" : "ar",
-            "assets" : "story3.jpeg",
-            "owner_id" : 2,
-            "published" : True                
-        }
-    ]
-    )
-    
-    op.bulk_insert(DB_StoryReports.__table__,
-    [
-        {
-            "user_id" : 1,      
-            "story_id" : 1,
-        },
-        {
-            "user_id" : 1,      
-            "story_id" : 2,
         }
     ]
     )
