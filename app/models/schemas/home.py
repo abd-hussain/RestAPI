@@ -24,18 +24,6 @@ class Banner(BaseModel) :
         orm_mode = True
         
         
-class Tips(BaseModel) :
-    id: int
-    category_id: int
-    title: str
-    desc: str
-    note: str
-    referance: str
-    image: str
-    steps: int
-    class Config:
-        orm_mode = True
-        
 class Event(BaseModel) :
     id: int
     title: str
@@ -51,16 +39,7 @@ class Event(BaseModel) :
     class Config:
         orm_mode = True
 
-class ClientHomeResponse(BaseModel) :
-    main_banner: List[Banner]
-    main_tips: List[Tips]
-    main_event: List[Event]
-
-    class Config:
-        orm_mode = True
-        
-        
-class MentorHomeResponse(BaseModel) :
+class HomeResponse(BaseModel) :
     main_banner: List[Banner]
     main_event: List[Event]
 

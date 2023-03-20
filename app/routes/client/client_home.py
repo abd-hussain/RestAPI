@@ -4,9 +4,8 @@ from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
 from app.models.database.db_client_banners import DB_Client_Banners
 from app.models.database.db_event import DB_Events, EventState, DB_Events_Appointments
-from app.models.database.db_tips import DB_Tips, DB_TipsQuestions
 from app.models.respond.general import generalResponse
-from app.models.schemas.home import ClientHomeResponse, Event
+from app.models.schemas.home import HomeResponse, Event
 from sqlalchemy import func
 from datetime import datetime
 
@@ -30,18 +29,6 @@ async def get_home(request: Request, db: Session = Depends(get_db)):
                            DB_Events.state).filter(DB_Events.state == EventState.active).filter(DB_Events.date_from > datetime.now()).all()
     main_banner = db.query(DB_Client_Banners).filter(DB_Client_Banners.language == myHeader.language).filter(DB_Client_Banners.published == True).all()
     
-    main_tips = db.query(DB_Tips.id, DB_Tips.category_id, DB_Tips.title_english.label("title"), DB_Tips.desc_english.label("desc"), 
-                         DB_Tips.note_english.label("note"), DB_Tips.referance_english.label("referance"),  
-                         DB_Tips.image, func.count(DB_TipsQuestions.tips_id).label("steps")).join(
-        DB_TipsQuestions, DB_TipsQuestions.tips_id == DB_Tips.id, isouter=True).group_by(DB_Tips.id).all()
-   
-    if (myHeader.language == "ar"):
-        main_tips = db.query(DB_Tips.id, DB_Tips.category_id, DB_Tips.title_arabic.label("title"), DB_Tips.desc_arabic.label("desc"), 
-                         DB_Tips.note_arabic.label("note"), DB_Tips.referance_arabic.label("referance"),  
-                         DB_Tips.image, func.count(DB_TipsQuestions.tips_id).label("steps")).join(
-        DB_TipsQuestions, DB_TipsQuestions.tips_id == DB_Tips.id, isouter=True).group_by(DB_Tips.id).all()
-                         
-
     listOfEvent : list[Event] = []
     for event in main_events:
         count = 0
@@ -61,5 +48,5 @@ async def get_home(request: Request, db: Session = Depends(get_db)):
                                  ))
 
         
-    respose = ClientHomeResponse(main_banner = main_banner, main_tips = main_tips, main_event = listOfEvent) 
+    respose = HomeResponse(main_banner = main_banner, main_event = listOfEvent) 
     return generalResponse(message="home return successfully", data=respose)

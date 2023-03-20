@@ -5,8 +5,7 @@ from app.utils.database import get_db
 from app.models.database.db_mentor_banners import DB_Mentor_Banners
 from app.models.database.db_event import DB_Events, EventState, DB_Events_Appointments
 from app.models.respond.general import generalResponse
-from app.models.schemas.home import MentorHomeResponse, Event
-from app.models.schemas.story import StoryPayload
+from app.models.schemas.home import HomeResponse, Event
 from app.utils.oauth2 import get_current_user
 from datetime import datetime
 from app.utils.time import current_milli_time
@@ -50,5 +49,5 @@ async def get_home(request: Request, db: Session = Depends(get_db)):
                                  joining_clients = count,
                                  ))
 
-    respose = MentorHomeResponse(main_banner = main_banner, main_event = listOfEvent) 
+    respose = HomeResponse(main_banner = main_banner, main_event = listOfEvent) 
     return generalResponse(message="home return successfully", data=respose)
