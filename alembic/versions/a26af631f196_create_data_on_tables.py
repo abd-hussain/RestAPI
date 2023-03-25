@@ -1267,6 +1267,7 @@ def upgrade() -> None:
             "id" : 3,      
             "language" : "ar",
             "image" : "banner3.jpg",
+            "action_type" : "https://www.youtube.com/watch?v=FrCO41i2tWM&ab_channel=%D8%AD%D8%B3%D9%86%D8%A7%D9%84%D9%81%D8%A7%D8%B6%D9%84%D9%8A-ElfadiliTV",
             "published" : True            
         },
         {
