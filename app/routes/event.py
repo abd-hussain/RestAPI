@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 @router.get("/")
-async def get_event_details(id :int ,request: Request, db: Session = Depends(get_db)):
+async def get_event_details(id :int, request: Request, user_id :int = 0, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
 
     if myHeader.language == "en" :
@@ -24,7 +24,7 @@ async def get_event_details(id :int ,request: Request, db: Session = Depends(get
                      DB_Events.title, DB_Events.date_from, 
                      DB_Events.price, DB_Mentor_Users.profile_img,DB_Mentor_Users.category_id,
                      DB_Categories.name_english.label("category_name")
-                     ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True).filter(DB_Events.id == id).first()
+                     ).filter(DB_Events.id == id).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True).first()
     else:
         query = db.query(DB_Events.image, DB_Events.owner_id, DB_Events.description, DB_Mentor_Users.id, 
                      DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, 
@@ -32,15 +32,21 @@ async def get_event_details(id :int ,request: Request, db: Session = Depends(get
                      DB_Events.title, DB_Events.date_from, 
                      DB_Events.price, DB_Mentor_Users.profile_img,DB_Mentor_Users.category_id,
                      DB_Categories.name_arabic.label("category_name")
-                     ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True).filter(DB_Events.id == id).first()
-    if query is  None:
+                     ).filter(DB_Events.id == id).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True).first()
+    if query is None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"event id not valid"})
     
     idCount = 0
-    for _ in db.query(DB_Events_Appointments).filter(DB_Events_Appointments.event_id == query["id"]).all():
+    already_register = False
+    all_appointments = db.query(DB_Events_Appointments).filter(DB_Events_Appointments.event_id == query["id"]).all()
+    for appointment in all_appointments:
+        client_id : int = appointment.client_id
+        if client_id == user_id:
+            already_register = True
         idCount = idCount + 1
     json = dict(query)
     json["joining_clients"] = idCount
+    json["already_register"] = already_register
 
     return generalResponse(message="Event return successfully", data=json)
 
