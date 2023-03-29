@@ -28,7 +28,7 @@ class MentorFilter1(BaseModel) :
     last_name: str
     gender: int
     profile_img: str 
-    hour_rate_by_JD: float
+    hour_rate: float
     bio: str
     date_of_birth: str
     working_hours: list[int]
@@ -44,7 +44,7 @@ class InstantMentor(BaseModel) :
     rate: float
     gender: int
     profile_img: str 
-    hour_rate_by_JD: float              
+    hour_rate: float              
     class Config:
         orm_mode = True
     
@@ -63,8 +63,12 @@ class MentorObjForListResponse(BaseModel) :
     first_name: str
     last_name: str
     rate: float
-    hour_rate_by_JD: float
+    hour_rate: float
     profile_img: str
+    languages: list[str]
+    country_name: str
+    country_flag: str
+    number_of_reviewr: int
 
     class Config:
         orm_mode = True
@@ -88,7 +92,7 @@ class MentorDetailsResponse(BaseModel) :
     last_name: str
     bio: str
     speaking_language: list[str]
-    hour_rate_by_JD: float
+    hour_rate: float
     total_rate: float
     gender: int
     profile_img: str

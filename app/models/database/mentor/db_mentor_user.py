@@ -13,7 +13,7 @@ class DB_Mentor_Users(Base):
     bio = Column(String, nullable=False)
     speaking_language = Column(ARRAY(String), nullable=False)
     majors = Column(ARRAY(Integer), nullable=False)
-    hour_rate_by_JD = Column(DECIMAL, nullable=False, server_default=text('10.0'))
+    hour_rate = Column(DECIMAL, nullable=False)
     mobile_number = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
     email = Column(String, unique=True)
