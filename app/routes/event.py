@@ -40,9 +40,6 @@ async def get_event_details(id :int, request: Request, user_id :int = 0, db: Ses
     already_register = False
     all_appointments = db.query(DB_Events_Appointments).filter(DB_Events_Appointments.event_id == id).all()
     for appointment in all_appointments:
-        print(appointment.client_id)
-        print(id)
-
         if appointment.client_id == user_id:
             already_register = True
         idCount = idCount + 1
