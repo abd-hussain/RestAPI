@@ -17,12 +17,10 @@ async def get_categories(request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
     
     categories = db.query(DB_Categories.id, DB_Categories.name_english.label(
-        "name"), DB_Categories.icon, DB_Categories.description_english.label(
-        "description")).all()
+        "name"), DB_Categories.icon).all()
     if (myHeader.language == "ar"):
         categories = db.query(DB_Categories.id, DB_Categories.name_arabic.label(
-            "name"), DB_Categories.icon, DB_Categories.description_arabic.label(
-        "description")).all()
+            "name"), DB_Categories.icon).all()
 
     return generalResponse(message="list of categories return successfully", data=categories)
 

@@ -9,8 +9,6 @@ class DB_Categories(Base):
     id = Column(Integer, primary_key=True, nullable=False, index=True)
     name_arabic = Column(String, nullable=False)
     name_english = Column(String, nullable=False)
-    description_arabic = Column(String)
-    description_english = Column(String)
     published = Column(Boolean, server_default='TRUE')
     icon = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),

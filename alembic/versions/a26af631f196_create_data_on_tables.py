@@ -212,57 +212,43 @@ def upgrade() -> None:
          {
             "id" : 1,
             "name_english" : "Psychology",         
-            "name_arabic" : "طب نفسي",         
-            "description_arabic" : "",
-            "description_english" : "",        
+            "name_arabic" : "طب نفسي",              
             "icon" : "psychology.png"
         },
          {
             "id" : 2,
             "name_english" : "Pediatrics",         
-            "name_arabic" : "طب اطفال",         
-            "description_arabic" : "",
-            "description_english" : "",        
+            "name_arabic" : "طب اطفال",              
             "icon" : "pediatrics.png"
         },
          {
             "id" : 3,
             "name_english" : "Diet & Nutrition",         
-            "name_arabic" : "دايت و تغذيه",         
-            "description_arabic" : "",
-            "description_english" : "",        
+            "name_arabic" : "دايت و تغذيه",              
             "icon" : "diet.png"
         },
          {
             "id" : 4,
             "name_english" : "Sexology",         
-            "name_arabic" : "مشاكل جنسيه",         
-            "description_arabic" : "",
-            "description_english" : "",        
+            "name_arabic" : "مشاكل جنسيه",               
             "icon" : "sexology.png"
         },
          {
             "id" : 5,
             "name_english" : "Dermatology",         
-            "name_arabic" : "مشاكل جلديه",         
-            "description_arabic" : "",
-            "description_english" : "",        
+            "name_arabic" : "مشاكل جلديه",               
             "icon" : "dermatology.png"
         },
          {
             "id" : 6,
             "name_english" : "Gynecology",         
-            "name_arabic" : "امراض نسائيه",         
-            "description_arabic" : "",
-            "description_english" : "",        
+            "name_arabic" : "امراض نسائيه",           
             "icon" : "gynecology.png"
         },
          {
             "id" : 7,
             "name_english" : "Homeopathy",         
-            "name_arabic" : "علاج بالمواد الطبيعيه",         
-            "description_arabic" : "",
-            "description_english" : "",        
+            "name_arabic" : "علاج بالمواد الطبيعيه",              
             "icon" : "homeopathy.png"
         }
     ]
