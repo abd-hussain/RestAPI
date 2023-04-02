@@ -97,6 +97,7 @@ class MentorDetailsResponse(BaseModel) :
     gender: int
     profile_img: str
     date_of_birth: str
+    experience_since: str
     category_name: str
     country: str
     country_flag: str
