@@ -22,7 +22,7 @@ async def get_accounts(categories_id :int ,request: Request, db: Session = Depen
     query = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                      DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, 
                      DB_Mentor_Users.hour_rate, DB_Mentor_Users.speaking_language,
-                     DB_Mentor_Users.blocked, DB_Mentor_Users.profile_img,
+                     DB_Mentor_Users.blocked, DB_Mentor_Users.profile_img, DB_Mentor_Users.experience_since,
                      DB_Countries.name_english.label("country_name_en"), DB_Countries.name_arabic.label("country_name_ar"), DB_Countries.flag_image,
                      DB_Categories.name_english, DB_Categories.name_arabic).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True)\
                     .join(DB_Countries, DB_Countries.id == DB_Mentor_Users.country_id, isouter=True)\

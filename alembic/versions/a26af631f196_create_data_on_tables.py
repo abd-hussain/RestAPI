@@ -484,7 +484,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "1.png",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",   
+            "experience_since" : "1992",
             "last_otp" : "0000",         
             "api_key" : "00001",         
             "country_id" : 1
@@ -513,7 +514,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",   
+            "experience_since" : "1999",      
             "last_otp" : "0000",         
             "api_key" : "00002",         
             "country_id" : 2
@@ -542,7 +544,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2000",               
             "last_otp" : "0000",         
             "api_key" : "00003",         
             "country_id" : 1
@@ -571,7 +574,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2014",                        
             "last_otp" : "0000",         
             "api_key" : "00004",         
             "country_id" : 1
@@ -600,7 +604,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2014",                                 
             "last_otp" : "0000",         
             "api_key" : "00005",         
             "country_id" : 1
@@ -629,7 +634,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2014",                                 
             "last_otp" : "0000",         
             "api_key" : "00006",         
             "country_id" : 1
@@ -658,7 +664,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2014",                              
             "last_otp" : "0000",         
             "api_key" : "00007",         
             "country_id" : 1
@@ -687,7 +694,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2019",                                       
             "last_otp" : "0000",         
             "api_key" : "00008",         
             "country_id" : 1
@@ -716,7 +724,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2020",                                                
             "last_otp" : "0000",         
             "api_key" : "00009",         
             "country_id" : 1
@@ -745,7 +754,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2000",                                                         
             "last_otp" : "0000",         
             "api_key" : "000010",         
             "country_id" : 1
@@ -774,7 +784,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2000",                                                                  
             "last_otp" : "0000",         
             "api_key" : "000011",         
             "country_id" : 3
@@ -803,7 +814,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2001",                                                                  
             "last_otp" : "0000",         
             "api_key" : "000012",         
             "country_id" : 2
@@ -832,7 +844,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2011",                                                                           
             "last_otp" : "0000",         
             "api_key" : "000013",         
             "country_id" : 1
@@ -861,7 +874,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2020",                                                                                    
             "last_otp" : "0000",         
             "api_key" : "000014",         
             "country_id" : 1
@@ -890,7 +904,8 @@ def upgrade() -> None:
             "referal_code" : "",
             "profile_img" : "",
             "app_version" : "1.0",         
-            "date_of_birth" : "22/05/1992",         
+            "date_of_birth" : "22/05/1992",
+            "experience_since" : "2021",                                                                                             
             "last_otp" : "0000",         
             "api_key" : "000015",         
             "country_id" : 2

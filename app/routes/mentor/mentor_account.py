@@ -24,7 +24,7 @@ async def get_account(request: Request, db: Session = Depends(get_db), get_curre
     query = db.query(DB_Mentor_Users.profile_img, DB_Mentor_Users.mobile_number, 
                      DB_Mentor_Users.suffixe_name, DB_Mentor_Users.date_of_birth, 
                      DB_Mentor_Users.first_name, DB_Mentor_Users.email, 
-                     DB_Mentor_Users.last_name,DB_Mentor_Users.gender,
+                     DB_Mentor_Users.last_name,DB_Mentor_Users.gender, DB_Mentor_Users.experience_since,
                      DB_Mentor_Users.speaking_language, DB_Mentor_Users.country_id, 
                      DB_Countries,
                      DB_Mentor_Users.referal_code,DB_Mentor_Users.id_img).join(DB_Countries, DB_Mentor_Users.country_id == DB_Countries.id, isouter=True)\
@@ -129,7 +129,7 @@ async def update_account(request: Request,suffixe_name: str = Form(None), first_
     newQuery = db.query(DB_Mentor_Users.profile_img, DB_Mentor_Users.mobile_number, 
                      DB_Mentor_Users.suffixe_name, DB_Mentor_Users.date_of_birth, 
                      DB_Mentor_Users.first_name, DB_Mentor_Users.email, 
-                     DB_Mentor_Users.last_name,DB_Mentor_Users.gender,
+                     DB_Mentor_Users.last_name,DB_Mentor_Users.gender,DB_Mentor_Users.experience_since,
                      DB_Mentor_Users.speaking_language, DB_Mentor_Users.country_id, 
                      DB_Countries,
                      DB_Mentor_Users.referal_code,DB_Mentor_Users.id_img).join(DB_Countries, DB_Mentor_Users.country_id == DB_Countries.id, isouter=True)\

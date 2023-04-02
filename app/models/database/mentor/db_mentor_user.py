@@ -25,6 +25,7 @@ class DB_Mentor_Users(Base):
     id_img = Column(String)
     app_version = Column(String, nullable=False)
     date_of_birth = Column(String)
+    experience_since = Column(String)
     last_usage = Column(String)
     last_otp = Column(String)
     working_hours_saturday = Column(ARRAY(Integer))
