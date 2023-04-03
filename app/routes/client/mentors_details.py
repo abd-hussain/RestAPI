@@ -22,7 +22,7 @@ router = APIRouter(
 )
 
 @router.get("/")
-async def get_account(id :int , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def get_account(id :int , request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
     query = db.query(DB_Mentor_Users.id, DB_Mentor_Users.suffixe_name, 
                      DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, DB_Mentor_Users.bio,
