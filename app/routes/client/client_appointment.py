@@ -16,8 +16,8 @@ router = APIRouter(
     tags=["Appointment"]
 )
 
-@router.get("/all-mentors")
-async def get_all_mentor_appointment(id :int , request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+@router.get("/mentor-appointment")
+async def get_mentor_appointment(id :int , request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)
     query = db.query(DB_Appointments).filter(DB_Appointments.mentor_id == id).filter(DB_Appointments.date_from > datetime.now()
                                                                                      ).filter(DB_Appointments.state == AppointmentsState.active).all()
