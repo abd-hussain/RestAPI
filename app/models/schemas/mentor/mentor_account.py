@@ -21,7 +21,7 @@ class MentorForgotPassword(BaseModel):
 #     api_key: Optional[str]
     
     
-class MentorFilter1(BaseModel) :
+class MentorFilter(BaseModel) :
     id: int
     suffixe_name: str
     first_name: str
@@ -30,9 +30,10 @@ class MentorFilter1(BaseModel) :
     profile_img: str 
     hour_rate: float
     bio: str
-    date_of_birth: str
     working_hours: list[int]
     rate: Optional[float]
+    day: str
+    hour: int
     class Config:
         orm_mode = True
     
