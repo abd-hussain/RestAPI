@@ -19,3 +19,4 @@ class AppointmentRequest(BaseModel):
     priceAfterDiscount: float
     dateFrom : AppointmentFromTo
     dateTo: AppointmentFromTo
+    note: Optional[str]

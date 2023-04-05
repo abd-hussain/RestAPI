@@ -98,6 +98,7 @@ async def bookAppointment(payload: AppointmentRequest, request: Request, db: Ses
                                      "price_before_discount" : payload.priceBeforeDiscount, 
                                      "price_after_discount" : payload.priceAfterDiscount, 
                                      "state" : AppointmentsState.active,
+                                     "note_from_client" : payload.note,
                                      "appointment_type" : AppointmentsType.schudule if payload.type == "schudule" else AppointmentsType.instant})
     db.add(obj)
     db.commit()
