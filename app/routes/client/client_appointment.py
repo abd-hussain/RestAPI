@@ -30,7 +30,7 @@ async def get_clientAppointment(request: Request, db: Session = Depends(get_db),
     if myHeader.language == "en" :
         query = db.query(DB_Appointments.id, DB_Appointments.date_from, DB_Appointments.date_to, 
                      DB_Appointments.client_id, DB_Appointments.mentor_id, DB_Appointments.appointment_type, 
-                     DB_Appointments.price_before_discount, DB_Appointments.discount_id, DB_Appointments.state,
+                     DB_Appointments.price_before_discount, DB_Appointments.price_after_discount, DB_Appointments.state,
                      DB_Mentor_Users.profile_img, DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, 
                      DB_Mentor_Users.category_id, DB_Categories.name_english.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
@@ -40,7 +40,7 @@ async def get_clientAppointment(request: Request, db: Session = Depends(get_db),
     else:
         query = db.query(DB_Appointments.id, DB_Appointments.date_from, DB_Appointments.date_to, 
                      DB_Appointments.client_id, DB_Appointments.mentor_id, DB_Appointments.appointment_type, 
-                     DB_Appointments.price_before_discount, DB_Appointments.discount_id, DB_Appointments.state,
+                     DB_Appointments.price_before_discount, DB_Appointments.price_after_discount, DB_Appointments.state,
                      DB_Mentor_Users.profile_img, DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, 
                      DB_Mentor_Users.category_id, DB_Categories.name_arabic.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
@@ -87,6 +87,7 @@ async def bookAppointment(payload: AppointmentRequest, request: Request, db: Ses
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"mentor already have appointment in that date"})
 
     all_appointments_query = appointments_query.all()
+    
     id = 1
     for _ in all_appointments_query:
         id = id + 1
@@ -94,8 +95,8 @@ async def bookAppointment(payload: AppointmentRequest, request: Request, db: Ses
     obj = DB_Appointments(**{"id" : id, "mentor_id" : payload.mentorId, 
                                      "client_id" : get_current_user.user_id, 
                                      "date_from" : dateFrom, "date_to" : dateTo, 
-                                     "price_before_discount" : payload.priceWithoutDescount, 
-                                     "discount_id" : payload.descountId,
+                                     "price_before_discount" : payload.priceBeforeDiscount, 
+                                     "price_after_discount" : payload.priceAfterDiscount, 
                                      "state" : AppointmentsState.active,
                                      "appointment_type" : AppointmentsType.schudule if payload.type == "schudule" else AppointmentsType.instant})
     db.add(obj)

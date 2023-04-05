@@ -20,7 +20,7 @@ async def get_mentorAppointment(request: Request, db: Session = Depends(get_db),
     query = db.query(DB_Appointments.id, DB_Appointments.date_from, DB_Appointments.date_to,
                       DB_Appointments.client_id, DB_Appointments.mentor_id, 
                       DB_Appointments.appointment_type, 
-                      DB_Appointments.price_before_discount, DB_Appointments.discount_id, DB_Appointments.state,
+                      DB_Appointments.price_before_discount, DB_Appointments.price_after_discount, DB_Appointments.state,
                       DB_Client_Users.profile_img, DB_Client_Users.first_name, DB_Client_Users.last_name,
                       DB_Client_Users.gender, DB_Client_Users.date_of_birth, DB_Client_Users.country_id,
                      ).join(DB_Client_Users, DB_Client_Users.id == DB_Appointments.client_id, isouter=True).filter(

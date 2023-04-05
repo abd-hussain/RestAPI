@@ -25,9 +25,8 @@ class DB_Appointments(Base):
     appointment_type = Column(Enum(AppointmentsType), nullable=False)
     date_from = Column(DateTime, nullable=False)
     date_to = Column(DateTime, nullable=False)
-    price_before_discount = Column(DECIMAL, nullable=False, server_default=text('10.0'))
-    discount_id = Column(Integer, ForeignKey(
-        "discount.id", ondelete="CASCADE"))
+    price_before_discount = Column(DECIMAL, nullable=False)
+    price_after_discount = Column(DECIMAL, nullable=False)
     state = Column(Enum(AppointmentsState), nullable=False)
     note_from_client = Column(String, nullable=True)
     note_from_mentor = Column(String, nullable=True)
