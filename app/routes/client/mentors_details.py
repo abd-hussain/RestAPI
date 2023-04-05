@@ -126,7 +126,7 @@ def get_mentorAvaliable(catId :int, request: Request, db: Session = Depends(get_
                 obj = MentorFilter(id = mentor["id"], gender =  mentor["gender"], suffixe_name = mentor["suffixe_name"], 
                                first_name = mentor["first_name"], last_name = mentor["last_name"], 
                                profile_img = mentor["profile_img"], hour_rate = mentor["hour_rate"],
-                               bio = mentor["bio"], working_hours = [], day = currentTimeDayName, hour = 0)
+                               bio = mentor["bio"], working_hours = [], date = booking_time.strftime('%Y-%m-%d'), day = currentTimeDayName, hour = 0)
         
                 if (currentTimeDayName == "Saturday"):
                     obj.working_hours = mentor["working_hours_saturday"]

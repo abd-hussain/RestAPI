@@ -32,6 +32,7 @@ class MentorFilter(BaseModel) :
     bio: str
     working_hours: list[int]
     rate: Optional[float]
+    date: str
     day: str
     hour: int
     class Config:
