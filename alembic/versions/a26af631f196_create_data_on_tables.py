@@ -23,7 +23,6 @@ from app.models.database.db_discount import DB_Discount
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType
 from app.models.database.db_event import DB_Events, EventState, DB_EventReports
 from app.models.database.db_suffix import DB_Suffix
-from app.models.database.db_messages import DB_Messages, DB_Chat, SendedFrom
 from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, TransactionType, DB_Mentor_PaymentsـReports
 
 from app.utils.database import engine
@@ -1424,54 +1423,6 @@ def upgrade() -> None:
     ]
     )
 
-    op.bulk_insert(DB_Messages.__table__,
-    [
-        {
-            "id" : 1,                  
-            "client_id" : 1,      
-            "mentor_id" : 1, 
-            "sendit" : SendedFrom.client,
-            "message" : "Hello",
-        },
-        {
-            "id" : 2,                  
-            "client_id" : 2,      
-            "mentor_id" : 1, 
-            "sendit" : SendedFrom.mentor,
-            "message" : "Hello 2",
-        },
-    ]
-    )
-        
-    op.bulk_insert(DB_Chat.__table__,
-    [
-        {
-            "id" : 1,                  
-            "message_id" : 1,      
-            "sendit" : SendedFrom.client,
-            "message" : "Hello",
-        },
-        {
-            "id" : 2,                  
-            "message_id" : 1,      
-            "sendit" : SendedFrom.mentor,
-            "message" : "Hello 2",
-        },
-        {
-            "id" : 3,                  
-            "message_id" : 2,      
-            "sendit" : SendedFrom.mentor,
-            "message" : "Hello",
-        },
-        {
-            "id" : 4,                  
-            "message_id" : 2,      
-            "sendit" : SendedFrom.client,
-            "message" : "Hello 2",
-        },
-    ]
-    )
-    
     op.bulk_insert(DB_Mentor_Payments.__table__,
     [
         {
