@@ -190,9 +190,20 @@ def upgrade() -> None:
             "dialCode" : "00961",
             "minLength" : 8,
             "maxLength": 8
-        }, 
+        },
         {
             "id" : 10,
+            "flag_image" : "palestine.png",
+            "name_english" : "Palestinian Territory, Occupied",         
+            "name_arabic" : "فلسطين المحتلة",         
+            "currency_arabic" : "شيكل",
+            "currency_english" : "₪",       
+            "dialCode" : "00970",
+            "minLength" : 9,
+            "maxLength": 9
+        }, 
+        {
+            "id" : 11,
             "flag_image" : "othercountry.png",
             "name_english" : "Other",         
             "name_arabic" : "اخرى",         
