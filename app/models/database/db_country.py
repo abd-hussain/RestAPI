@@ -11,7 +11,9 @@ class DB_Countries(Base):
     name_english = Column(String, nullable=False)
     currency_arabic = Column(String, nullable=False)
     currency_english = Column(String, nullable=False)
-    prefix_number = Column(String, nullable=False)
+    dialCode = Column(String, nullable=False)
+    minLength = Column(Integer, nullable=False)
+    maxLength = Column(Integer, nullable=False)
     published = Column(Boolean, server_default='TRUE')
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))

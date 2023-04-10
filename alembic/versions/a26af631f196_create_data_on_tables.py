@@ -99,7 +99,9 @@ def upgrade() -> None:
             "name_arabic" : "البحرين",   
             "currency_arabic" : "د.ب",
             "currency_english" : "BD",        
-            "prefix_number" : "00973"
+            "dialCode" : "00973",
+            "minLength" : 8,
+            "maxLength": 8
         },
         {          
             "id" : 2,
@@ -108,7 +110,9 @@ def upgrade() -> None:
             "name_arabic" : "مصر",     
             "currency_arabic" : "ج.م",
             "currency_english" : "EGP",        
-            "prefix_number" : "0020"
+            "dialCode" : "0020",
+            "minLength" : 10,
+            "maxLength": 10
         }, 
         {
             "id" : 3,
@@ -117,7 +121,9 @@ def upgrade() -> None:
             "name_arabic" : "العراق",  
             "currency_arabic" : "د.ع",
             "currency_english" : "IQD",        
-            "prefix_number" : "00964"
+            "dialCode" : "00964",
+            "minLength" : 10,
+            "maxLength": 10
         }, 
         {
             "id" : 4,
@@ -126,7 +132,9 @@ def upgrade() -> None:
             "name_arabic" : "الاردن",         
             "currency_arabic" : "د.ا",   
             "currency_english" : "JD",        
-            "prefix_number" : "00962"
+            "dialCode" : "00962",
+            "minLength" : 9,
+            "maxLength": 9
         },
         {
             "id" : 5,
@@ -135,7 +143,9 @@ def upgrade() -> None:
             "name_arabic" : "الكويت",         
             "currency_arabic" : "د.ك",
             "currency_english" : "KWD",        
-            "prefix_number" : "00965"
+            "dialCode" : "00965",
+            "minLength" : 8,
+            "maxLength": 8
         },
         {
             "id" : 6,
@@ -144,7 +154,9 @@ def upgrade() -> None:
             "name_arabic" : "قطر",         
             "currency_arabic" : "ر.ق",
             "currency_english" : "QR",        
-            "prefix_number" : "00974"
+            "dialCode" : "00974",
+            "minLength" : 8,
+            "maxLength": 8
         }, 
         {
             "id" : 7,
@@ -153,7 +165,9 @@ def upgrade() -> None:
             "name_arabic" : "المملكة العربية السعودية",         
             "currency_arabic" : "ر.س",
             "currency_english" : "Riyal",        
-            "prefix_number" : "00966"
+            "dialCode" : "00966",
+            "minLength" : 9,
+            "maxLength": 9
         }, 
         {
             "id" : 8,
@@ -162,16 +176,31 @@ def upgrade() -> None:
             "name_arabic" : "الإمارات العربيّة المتّحدة",         
             "currency_arabic" : "د.إ",
             "currency_english" : "Dh",       
-            "prefix_number" : "00971"
-        }, 
+            "dialCode" : "00971",
+            "minLength" : 9,
+            "maxLength": 9
+        },
         {
             "id" : 9,
+            "flag_image" : "lebanon.png",
+            "name_english" : "Lebanon",         
+            "name_arabic" : "لبنان",         
+            "currency_arabic" : "دولار",
+            "currency_english" : "USD",       
+            "dialCode" : "00961",
+            "minLength" : 8,
+            "maxLength": 8
+        }, 
+        {
+            "id" : 10,
             "flag_image" : "othercountry.png",
             "name_english" : "Other",         
             "name_arabic" : "اخرى",         
             "currency_arabic" : "دولار",     
             "currency_english" : "USD",        
-            "prefix_number" : "00000"
+            "dialCode" : "0000",
+            "minLength" : 9,
+            "maxLength": 9
         }
     ]
     )
