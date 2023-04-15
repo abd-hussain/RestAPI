@@ -17,7 +17,7 @@ class AppointmentsType(enum.Enum):
 class DB_Appointments(Base):
     __tablename__ = "appointments"
 
-    id = Column(Integer, primary_key=True, nullable=False, index=True)
+    id = Column(Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
     mentor_id = Column(Integer, ForeignKey(
         "mentor-users.id", ondelete="CASCADE"), primary_key=True)
     client_id = Column(Integer, ForeignKey(

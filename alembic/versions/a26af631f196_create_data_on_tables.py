@@ -13,7 +13,6 @@ from app.models.database.db_country import DB_Countries
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users, DB_Mentor_Review
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
-from app.models.database.db_loyality_rules import DB_Loyality
 from app.models.database.db_client_banners import DB_Client_Banners
 from app.models.database.db_mentor_banners import DB_Mentor_Banners
 from app.models.database.client import db_client_user
@@ -24,6 +23,7 @@ from app.models.database.db_appointment import DB_Appointments, AppointmentsStat
 from app.models.database.db_event import DB_Events, EventState, DB_EventReports
 from app.models.database.db_suffix import DB_Suffix
 from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, TransactionType, DB_Mentor_PaymentsـReports
+from app.models.database.db_add_loyality_request import DB_AddLoyalityRequest
 
 from app.utils.database import engine
 
@@ -1212,65 +1212,8 @@ def upgrade() -> None:
     ]
     )
     
-    op.bulk_insert(DB_Loyality.__table__,
-    [
-        {
-            "id" : 1,      
-            "content_english" : "Fill your profile details",
-            "content_arabic" : "املا معلومات الحساب الخاص بك",
-            "points" : 3,
-            "action" : "EDITPROFILE"      
-        },
-        {
-            "id" : 2,      
-            "content_english" : "For each Friend Invite",
-            "content_arabic" : "لكل دعوة صديق",
-            "points" : 2,
-            "action" : "INVITEFRIEND"         
-        },
-        {
-            "id" : 3,      
-            "content_english" : "Add Suggestion",
-            "content_arabic" : "اضافة اقتراح",
-            "points" : 1,
-            "action" : "REPORTSUGESTION"         
-        },
-        {
-            "id" : 4,      
-            "content_english" : "Add Issue",
-            "content_arabic" : "اضافة مشكلة",
-            "points" : 1,
-            "action" : "REPORTISSUE"         
-        },
-        {
-            "id" : 5,      
-            "content_english" : "Add Good Review",
-            "content_arabic" : "اضافة تقيم جيد للبرنامج",
-            "points" : 5,
-            "action" : "REVIEW"         
-        },
-        {
-            "id" : 6,      
-            "content_english" : "Like Our Facebook Page",
-            "content_arabic" : "متابعة صفحتنا على فيسبوك",
-            "points" : 1,
-            "action" : "LIKEFACEBOOK"         
-        },
-        {
-            "id" : 7,      
-            "content_english" : "Like Our LinkedIn Page",
-            "content_arabic" : "متابعة صفحتنا على لينكيدان",
-            "points" : 1,
-            "action" : "LIKELINKEDIN"         
-        },
-        {
-            "id" : 8,      
-            "content_english" : "Add Good Review To Mentor",
-            "content_arabic" : "اضافة تقيم جيد للمدرب",
-            "points" : 1,
-            "action" : "REVIEWMENTOR"         
-        }
-    ]
+    op.bulk_insert(DB_AddLoyalityRequest.__table__,
+    []
     )
     
     op.bulk_insert(DB_Mentor_Banners.__table__,

@@ -87,14 +87,8 @@ async def bookAppointment(payload: AppointmentRequest, request: Request, db: Ses
     
     if filterd_appointments_query != []:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"mentor already have appointment in that date"})
-
-    all_appointments_query = appointments_query.all()
     
-    id = 1
-    for _ in all_appointments_query:
-        id = id + 1
-    
-    obj = DB_Appointments(**{"id" : id, "mentor_id" : payload.mentorId, 
+    obj = DB_Appointments(**{"mentor_id" : payload.mentorId, 
                                      "client_id" : get_current_user.user_id, 
                                      "date_from" : dateFrom, "date_to" : dateTo, 
                                      "price_before_discount" : payload.priceBeforeDiscount, 
