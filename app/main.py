@@ -55,8 +55,6 @@ app.include_router(event.router)
 # TODO: Handle Send SMS For Verifications
 # TODO: Handle Send Push Notifications
 # TODO: Handle Send Email On Reset Password
-# TODO: Handle WebPage of terms 
-# TODO: Handle WebPage of privecy 
 # TODO: Handle WebPage of aboutus 
 # TODO: Handle WebPage of joinasmentor 
 
