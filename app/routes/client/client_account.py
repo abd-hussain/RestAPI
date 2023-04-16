@@ -91,8 +91,8 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
         if file_size > 2 * 1024 * 1024:
         # more than 2 MB
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"File too large", "request_id": generateRequestId()})
-        # if content_type not in ["image/jpeg", "image/png", "image/jpg", "image/gif"]:
-        #     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Profile Image Format is not valid", "request_id": generateRequestId()})
+        if content_type not in ["image/jpeg", "image/png", "image/jpg", "image/gif"]:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Profile Image Format is not valid", "request_id": generateRequestId()})
 
         upload_dir = os.path.join(os.getcwd(), "static/clientsImg")
         try:
