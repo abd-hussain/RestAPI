@@ -78,7 +78,13 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
         query.update({"country_id" : payload.country_id}, synchronize_session=False)
         
     if profile_picture is not None:
-        if profile_picture.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
+        content_type = profile_picture.content_type
+        profile_picture.file.seek(0, 2)
+        file_size = profile_picture.file.tell()
+        if file_size > 2 * 1024 * 1024:
+        # more than 2 MB
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"File too large", "request_id": generateRequestId()})
+        if content_type not in ["image/jpeg", "image/png", "image/gif"]:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Profile Image Format is not valid", "request_id": generateRequestId()})
 
         file_location = f"static/profileImg/{get_current_user.user_id}.png"
