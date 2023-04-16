@@ -1,4 +1,4 @@
-from app.models.database.db_appointment import AppointmentsState
+from app.models.database.db_appointment import AppointmentsType
 from app.utils.database import Base
 from sqlalchemy import DECIMAL, TIMESTAMP, ForeignKey, Column, Integer, String, DateTime, text, Enum
 
@@ -10,7 +10,7 @@ class DB_Archive(Base):
         "mentor-users.id", ondelete="CASCADE"), primary_key=True)
     client_id = Column(Integer, ForeignKey(
         "client-users.id", ondelete="CASCADE"), primary_key=True)
-    appointment_type = Column(Enum(AppointmentsState), nullable=False)
+    appointment_type = Column(Enum(AppointmentsType), nullable=False)
     date_from = Column(DateTime, nullable=False)
     date_to = Column(DateTime, nullable=False)
     price_before_discount = Column(DECIMAL, nullable=False)
