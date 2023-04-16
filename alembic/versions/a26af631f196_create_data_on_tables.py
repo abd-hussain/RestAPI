@@ -24,6 +24,7 @@ from app.models.database.db_event import DB_Events, EventState, DB_EventReports
 from app.models.database.db_suffix import DB_Suffix
 from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, TransactionType, DB_Mentor_PaymentsـReports
 from app.models.database.db_add_loyality_request import DB_AddLoyalityRequest
+from app.models.database.db_archive import DB_Archive
 
 from app.utils.database import engine
 
@@ -1167,6 +1168,51 @@ def upgrade() -> None:
             "client_id" : 2,         
             "stars" : 3.2,        
             "comment" : "nice 2"
+        },
+    ]
+    )
+    
+    op.bulk_insert(DB_Archive.__table__,
+    [
+       
+        {
+            "id" : 1,
+            "mentor_id" : 1,
+            "client_id" : 1,
+            "appointment_type" : AppointmentsType.schudule,
+            "date_from" : datetime.datetime(2023, 2, 12, 8),
+            "date_to" : datetime.datetime(2023, 2, 12, 9),
+            "price_before_discount" : 30,
+            "price_after_discount" : 15,
+            "note_from_client" : "this is Client note",
+            "note_from_mentor" : "this is mentor note",
+            "attachment" : "32rcv2324f.mp4"
+        },
+        {
+            "id" : 2,
+            "mentor_id" : 1,            
+            "client_id" : 2,
+            "appointment_type" : AppointmentsType.schudule,
+            "date_from" : datetime.datetime(2023, 2, 12, 8),
+            "date_to" : datetime.datetime(2023, 2, 12, 9),
+            "price_before_discount" : 20,
+            "price_after_discount" : 20,
+            "note_from_client" : "this is Client note",
+            "note_from_mentor" : "this is mentor note",
+            "attachment" : "234t32rf23fv.mp4"
+        },
+        {
+            "id" : 3,
+            "mentor_id" : 2,
+            "client_id" : 1,
+            "appointment_type" : AppointmentsType.instant,
+            "date_from" : datetime.datetime(2023, 2, 12, 8),
+            "date_to" : datetime.datetime(2023, 2, 12, 9),
+            "price_before_discount" : 20,
+            "price_after_discount" : 10,
+            "note_from_client" : "this is Client note",
+            "note_from_mentor" : "this is mentor note",
+            "attachment" : "326982364.mp4"
         },
     ]
     )
