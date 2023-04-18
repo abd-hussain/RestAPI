@@ -7,6 +7,8 @@ from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
 from app.models.database.db_notifications import DB_Notifications
 from app.models.respond.general import generalResponse
+from app.models.database.client.db_client_user import DB_Client_Users
+from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 
 router = APIRouter(
     prefix="/notifications",
@@ -97,3 +99,21 @@ async def mark_As_reded_Notification(request: Request, db: Session = Depends(get
     db.commit()
 
     return generalResponse(message="Mark All Notification Readed successfully", data=None)
+
+
+@router.put("/client-register-token")
+async def update_push_notification_token(token: str, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+    query = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id)
+    query.update({"push_token" : token}, synchronize_session=False)
+    db.commit()
+    return generalResponse(message="Profile updated successfully", data=query.first())
+
+
+@router.put("/mentor-register-token")
+async def update_push_notification_token(token: str, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
+    query.update({"push_token" : token}, synchronize_session=False)
+    db.commit()
+    return generalResponse(message="Profile updated successfully", data=query.first())

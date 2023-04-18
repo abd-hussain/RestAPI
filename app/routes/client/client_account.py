@@ -113,7 +113,8 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
             
             shutil.copyfileobj(profile_picture.file, buffer)
             query.update({"profile_img" : f"{get_current_user.user_id}.{content_type[6:]}"}, synchronize_session=False)
-            db.commit()
+    
+    db.commit()
     
     return generalResponse(message="Profile updated successfully", data=query.first())
 

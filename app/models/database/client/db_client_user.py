@@ -24,6 +24,7 @@ class DB_Client_Users(Base):
     last_otp = Column(String)
     points = Column(Integer, nullable=False, server_default="0")
     api_key = Column(String, nullable=False, unique=True)
+    push_token = Column(String)
     country_id = Column(Integer, ForeignKey(
         "countries.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),

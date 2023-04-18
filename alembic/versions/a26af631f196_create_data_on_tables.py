@@ -470,7 +470,8 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "1992/05/22",         
             "last_otp" : "0000",         
-            "api_key" : "00101",         
+            "api_key" : "00101",
+            "push_token" : "",         
             "country_id" : 4
         },
         {
@@ -492,7 +493,8 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "1992/05/22",         
             "last_otp" : "0000",         
-            "api_key" : "00102",         
+            "api_key" : "00102",
+            "push_token" : "",         
             "country_id" : 4
         }
     ]
@@ -527,7 +529,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",   
             "experience_since" : "1992",
             "last_otp" : "0000",         
-            "api_key" : "00001",         
+            "api_key" : "00001",
+            "push_token" : "",    
             "country_id" : 1
         },
         {
@@ -557,7 +560,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",   
             "experience_since" : "1999",      
             "last_otp" : "0000",         
-            "api_key" : "00002",         
+            "api_key" : "00002",
+            "push_token" : "",         
             "country_id" : 2
         },        
         {
@@ -587,7 +591,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2000",               
             "last_otp" : "0000",         
-            "api_key" : "00003",         
+            "api_key" : "00003", 
+            "push_token" : "",        
             "country_id" : 1
         },
         {
@@ -617,7 +622,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2014",                        
             "last_otp" : "0000",         
-            "api_key" : "00004",         
+            "api_key" : "00004",
+            "push_token" : "",         
             "country_id" : 1
         },
         {
@@ -647,7 +653,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2014",                                 
             "last_otp" : "0000",         
-            "api_key" : "00005",         
+            "api_key" : "00005",
+            "push_token" : "",         
             "country_id" : 1
         },
         {
@@ -677,7 +684,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2014",                                 
             "last_otp" : "0000",         
-            "api_key" : "00006",         
+            "api_key" : "00006",
+            "push_token" : "",         
             "country_id" : 1
         },
         {
@@ -707,7 +715,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2014",                              
             "last_otp" : "0000",         
-            "api_key" : "00007",         
+            "api_key" : "00007",
+            "push_token" : "",         
             "country_id" : 1
         },
         {
@@ -737,7 +746,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2019",                                       
             "last_otp" : "0000",         
-            "api_key" : "00008",         
+            "api_key" : "00008",
+            "push_token" : "",        
             "country_id" : 1
         },
         {
@@ -767,7 +777,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2020",                                                
             "last_otp" : "0000",         
-            "api_key" : "00009",         
+            "api_key" : "00009",
+            "push_token" : "",        
             "country_id" : 1
         },
         {
@@ -797,7 +808,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2000",                                                         
             "last_otp" : "0000",         
-            "api_key" : "000010",         
+            "api_key" : "000010",
+            "push_token" : "",         
             "country_id" : 1
         },
         {
@@ -827,7 +839,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2000",                                                                  
             "last_otp" : "0000",         
-            "api_key" : "000011",         
+            "api_key" : "000011",
+            "push_token" : "",         
             "country_id" : 3
         },
         {
@@ -857,7 +870,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2001",                                                                  
             "last_otp" : "0000",         
-            "api_key" : "000012",         
+            "api_key" : "000012",
+            "push_token" : "",         
             "country_id" : 2
         },
         {
@@ -887,7 +901,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2011",                                                                           
             "last_otp" : "0000",         
-            "api_key" : "000013",         
+            "api_key" : "000013",
+            "push_token" : "",         
             "country_id" : 1
         },
         {
@@ -917,7 +932,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2020",                                                                                    
             "last_otp" : "0000",         
-            "api_key" : "000014",         
+            "api_key" : "000014",
+            "push_token" : "",         
             "country_id" : 1
         },
         {
@@ -947,7 +963,8 @@ def upgrade() -> None:
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2021",                                                                                             
             "last_otp" : "0000",         
-            "api_key" : "000015",         
+            "api_key" : "000015",
+            "push_token" : "",         
             "country_id" : 2
         }
     ]

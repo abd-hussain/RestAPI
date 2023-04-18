@@ -36,6 +36,7 @@ class DB_Mentor_Users(Base):
     working_hours_thursday = Column(ARRAY(Integer))
     working_hours_friday = Column(ARRAY(Integer))
     api_key = Column(String, nullable=False, unique=True)
+    push_token = Column(String)
     country_id = Column(Integer, ForeignKey(
         "countries.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
