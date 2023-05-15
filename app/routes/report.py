@@ -9,7 +9,7 @@ from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.utils.validation import validateLanguageHeader
 from app.utils.generate import generateRequestId
 from app.utils.time import current_milli_time
-from app.models.database.db_event import DB_Events, EventState, DB_EventReports, DB_Events_Appointments
+from app.models.database.db_event import DB_Events, DB_EventReports
 from app.models.schemas.home import Event
 from app.utils.oauth2 import get_current_user
 

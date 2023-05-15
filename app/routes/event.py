@@ -38,14 +38,17 @@ async def get_event_details(id :int, request: Request, user_id :int = 0, db: Ses
     
     idCount = 0
     already_register = False
+    appointments_id = 0
     all_appointments = db.query(DB_Events_Appointments).filter(DB_Events_Appointments.event_id == id).all()
     for appointment in all_appointments:
         if appointment.client_id == user_id:
             already_register = True
+            appointments_id = appointment.id
         idCount = idCount + 1
     json = dict(query)
     json["joining_clients"] = idCount
     json["already_register"] = already_register
+    json["appointments_id"] = appointments_id
 
     return generalResponse(message="Event return successfully", data=json)
 
