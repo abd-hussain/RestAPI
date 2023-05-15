@@ -531,7 +531,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "00001",
             "push_token" : "",    
-            "country_id" : 1
+            "country_id" : 6
         },
         {
             "id" : 2,
@@ -593,7 +593,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "00003", 
             "push_token" : "",        
-            "country_id" : 1
+            "country_id" : 7
         },
         {
             "id" : 4,
@@ -624,7 +624,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "00004",
             "push_token" : "",         
-            "country_id" : 1
+            "country_id" : 6
         },
         {
             "id" : 5,
@@ -686,7 +686,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "00006",
             "push_token" : "",         
-            "country_id" : 1
+            "country_id" : 5
         },
         {
             "id" : 7,
@@ -717,7 +717,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "00007",
             "push_token" : "",         
-            "country_id" : 1
+            "country_id" : 6
         },
         {
             "id" : 8,
@@ -748,7 +748,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "00008",
             "push_token" : "",        
-            "country_id" : 1
+            "country_id" : 5
         },
         {
             "id" : 9,
@@ -779,7 +779,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "00009",
             "push_token" : "",        
-            "country_id" : 1
+            "country_id" : 5
         },
         {
             "id" : 10,
@@ -810,7 +810,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "000010",
             "push_token" : "",         
-            "country_id" : 1
+            "country_id" : 4
         },
         {
             "id" : 11,
@@ -903,7 +903,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "000013",
             "push_token" : "",         
-            "country_id" : 1
+            "country_id" : 3
         },
         {
             "id" : 14,
@@ -934,7 +934,7 @@ def upgrade() -> None:
             "last_otp" : "0000",         
             "api_key" : "000014",
             "push_token" : "",         
-            "country_id" : 1
+            "country_id" : 2
         },
         {
             "id" : 15,
@@ -966,6 +966,37 @@ def upgrade() -> None:
             "api_key" : "000015",
             "push_token" : "",         
             "country_id" : 2
+        },
+        {
+            "id" : 16,
+            "suffixe_name" : "Mrs.",
+            "first_name" : "sanaa",
+            "last_name" : "salameh",
+            "bio" : "I am Hr officer and administrative professional with over five years experience in the education sector . My specialty lies in planning, management, presentation and more . looking for job.",
+            "speaking_language" : ["English", "العربية"],
+            "majors" : [30, 1, 20, 28, 23, 6, 7, 29, 2, 27, 17, 3, 14],
+            "working_hours_saturday" : [1, 2, 3, 4, 6, 7],
+            "working_hours_sunday" : [3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+            "working_hours_monday" : [4, 10, 11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23],
+            "working_hours_tuesday" : [5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 22, 23],
+            "working_hours_wednesday" : [6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23],
+            "working_hours_thursday" : [7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 0],
+            "working_hours_friday" : [8, 10, 11, 12, 13, 14, 15, 16, 17, 19, 0],
+            "mobile_number" : "009627900000016",
+            "password" : "$2b$12$BVdr8Xp/t4AiwvmaCRfaKuicRzK5ss08le5t52lOXdRs2ndAHxhke",                
+            "email" : "aboud.masoud.16@gmail.com",
+            "category_id" : 6,  
+            "gender" : 1, 
+            "hour_rate" : 120.0,                            
+            "referal_code" : "",
+            "profile_img" : "",
+            "app_version" : "1.0",         
+            "date_of_birth" : "12/01/1990",
+            "experience_since" : "2000",                                                                                             
+            "last_otp" : "0000",         
+            "api_key" : "000015",
+            "push_token" : "",         
+            "country_id" : 8
         }
     ]
     )
