@@ -994,7 +994,7 @@ def upgrade() -> None:
             "date_of_birth" : "12/01/1990",
             "experience_since" : "2000",                                                                                             
             "last_otp" : "0000",         
-            "api_key" : "000015",
+            "api_key" : "000016",
             "push_token" : "",         
             "country_id" : 8
         }
