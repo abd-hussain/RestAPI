@@ -35,7 +35,6 @@ async def get_countries(request: Request, db: Session = Depends(get_db), limit: 
    
     return generalResponse(message="list of countries return successfully", data=countries)
 
-
 @router.get("/suffix")
 async def get_suffix(request: Request, db: Session = Depends(get_db)):
     myHeader = validateLanguageHeader(request)

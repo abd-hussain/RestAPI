@@ -68,8 +68,7 @@ async def cancelAppointment(id: int, request: Request, db: Session = Depends(get
 
 
 @router.post("/book")
-async def bookAppointment(payload: AppointmentRequest, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
+async def bookAppointment(payload: AppointmentRequest, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     
     dateFrom = datetime(payload.dateFrom.year, payload.dateFrom.month, payload.dateFrom.day, payload.dateFrom.hour, payload.dateFrom.min)
     dateTo = datetime(payload.dateTo.year, payload.dateTo.month, payload.dateTo.day, payload.dateTo.hour, payload.dateTo.min)
@@ -83,10 +82,20 @@ async def bookAppointment(payload: AppointmentRequest, request: Request, db: Ses
     appointments_query = db.query(DB_Appointments)
     
     filterd_appointments_query = appointments_query.filter(DB_Appointments.mentor_id == payload.mentorId
-                                                           ).filter(DB_Appointments.date_from == dateFrom).filter(DB_Appointments.state == AppointmentsState.active).all()
+                                    ).filter(DB_Appointments.state == AppointmentsState.active).all()
     
+    filterd_appointments_query2 = appointments_query.filter(DB_Appointments.client_id == get_current_user.user_id
+                                    ).filter(DB_Appointments.state == AppointmentsState.active).all()
+        
     if filterd_appointments_query != []:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"mentor already have appointment in that date"})
+        for apps in filterd_appointments_query2:
+            if (dateFrom >= apps.date_from and dateFrom <= apps.date_to) or (dateTo <= apps.date_to and dateTo >= apps.date_from):
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"mentor already have appointment in that date"})
+    
+    if filterd_appointments_query2 != []:
+        for app in filterd_appointments_query2:
+            if (dateFrom >= app.date_from and dateFrom <= app.date_to) or (dateTo <= app.date_to and dateTo >= app.date_from):
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"client already have appointment in that date"})
     
     obj = DB_Appointments(**{"mentor_id" : payload.mentorId, 
                                      "client_id" : get_current_user.user_id, 
