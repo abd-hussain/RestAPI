@@ -4,7 +4,7 @@ from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.database.db_country import DB_Countries
-from app.models.schemas.mentor.mentor_account import UpdateMentorAccountInfoModel
+from app.models.schemas.mentor.mentor_account import  UpdateMentorAccountInfoModel
 from app.utils.generate import generateRequestId
 from app.models.schemas.mentor.mentor_account import MentorChangePassword
 
@@ -35,43 +35,18 @@ async def get_account(request: Request, db: Session = Depends(get_db), get_curre
     
     return generalResponse(message="Profile return successfully", data=query.first())
 
-@router.delete("/delete")
-async def delete_account(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
-
-    if query.first() == None:
-       return generalResponse(message="profile was not found", data=None)
-   
-    query.delete()
-    db.commit()
-    return generalResponse(message="Profile deleted successfully", data=None)
-
-
-@router.put("/change-password")
-async def update_password(request: Request,payload: MentorChangePassword,
-                         db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
-
-    if not verifyPassword(payload.oldpassword, query.first().password):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid Credentials")
-    if payload.newpassword != None:
-        query.update({"password" : hashingPassword(payload.newpassword)}, synchronize_session=False)
-        db.commit()
-        
-    return generalResponse(message= "Change Password successfully", data=None)
-
 @router.put("/info")
 async def update_account(request: Request,suffixe_name: str = Form(None), first_name: str = Form(None),last_name: str = Form(None),
                          email: str = Form(None), mobile_number: str = Form(None),
                          gender: int = Form(None),date_of_birth: str = Form(None),
-                         country_id: int = Form(None), speaking_language: list[str] = Form(None),
+                         country_id: int = Form(None), speaking_language:list[str] = ["en", "hi"],
                          profile_picture: UploadFile = File(default=None), id_image: UploadFile = File(default=None),
                          db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
     query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
+    
+    if (len(speaking_language) == 1):
+        speaking_language= [item.strip() for item in speaking_language[0].split(',')]
     
     payload = UpdateMentorAccountInfoModel(suffixe_name = suffixe_name, first_name = first_name, last_name = last_name, 
                                     email = email, mobile_number = mobile_number, date_of_birth = date_of_birth, 
@@ -135,3 +110,31 @@ async def update_account(request: Request,suffixe_name: str = Form(None), first_
                      DB_Mentor_Users.referal_code,DB_Mentor_Users.id_img).join(DB_Countries, DB_Mentor_Users.country_id == DB_Countries.id, isouter=True)\
                          .filter(DB_Mentor_Users.id == get_current_user.user_id)
     return generalResponse(message="Profile updated successfully", data=newQuery.first())
+
+@router.delete("/delete")
+async def delete_account(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
+
+    if query.first() == None:
+       return generalResponse(message="profile was not found", data=None)
+   
+    query.delete()
+    db.commit()
+    return generalResponse(message="Profile deleted successfully", data=None)
+
+
+@router.put("/change-password")
+async def update_password(request: Request,payload: MentorChangePassword,
+                         db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
+
+    if not verifyPassword(payload.oldpassword, query.first().password):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid Credentials")
+    if payload.newpassword != None:
+        query.update({"password" : hashingPassword(payload.newpassword)}, synchronize_session=False)
+        db.commit()
+        
+    return generalResponse(message= "Change Password successfully", data=None)

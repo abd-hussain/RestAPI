@@ -127,3 +127,5 @@ class UpdateMentorAccountInfoModel(BaseModel):
     id_img : Optional[str]
     country_id : Optional[int] 
 
+class SpeakingLanguage(BaseModel):
+    list: list[str]
