@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter
 from app.utils.database import get_db
 from app.models.database.db_discount import DB_Discount
-from app.utils.validation import validateLanguageHeader
 from app.utils.oauth2 import get_current_user
 
 router = APIRouter(

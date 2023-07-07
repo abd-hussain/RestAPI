@@ -9,9 +9,6 @@ from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.utils.validation import validateLanguageHeader
 from app.utils.generate import generateRequestId
 from app.utils.time import current_milli_time
-from app.models.database.db_event import DB_Events, DB_EventReports
-from app.models.schemas.home import Event
-from app.utils.oauth2 import get_current_user
 
 router = APIRouter(
     prefix="/report",
@@ -160,35 +157,3 @@ def create_suggestion(request: Request,
     db.commit()
     return generalResponse(message= "successfully created suggestion", data= None)
 
-@router.post("/event")
-async def reportEvent(eventId: int, isMentor : bool, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
-   
-    event = db.query(DB_Events).filter(DB_Events.id == eventId).first()
-    
-    if not event:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Event with id: {eventId} does not exist")
-        
-    if isMentor :
-        report_event_query = db.query(DB_EventReports).filter(
-            DB_EventReports.event_id == eventId).filter(DB_EventReports.mentor_id == get_current_user.user_id)
-        alreadyReport = report_event_query.first()
-        if alreadyReport:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                                detail=f"user {get_current_user.user_id} has alredy report this event")
-        obj = DB_EventReports(**{"mentor_id" : get_current_user.user_id, "event_id" : eventId})
-        db.add(obj)
-        db.commit()
-    else:
-        report_event_query = db.query(DB_EventReports).filter(
-            DB_EventReports.event_id == eventId).filter(DB_EventReports.user_id == get_current_user.user_id)
-        alreadyReport = report_event_query.first()
-        if alreadyReport:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                                detail=f"user {get_current_user.user_id} has alredy report this event")
-        obj = DB_EventReports(**{"user_id" : get_current_user.user_id, "event_id" : eventId})
-        db.add(obj)
-        db.commit()
-    
-    return generalResponse(message= "successfully report this event", data= None)

@@ -13,14 +13,7 @@ class MentorChangePassword(BaseModel):
 class MentorForgotPassword(BaseModel):
     email : str
 
-# class MentorAccountModel(BaseModel):
-#     mobile_number : str
-#     country_id: int
-#     app_version: str
-#     last_otp: Optional[str]
-#     api_key: Optional[str]
-    
-    
+
 class MentorFilter(BaseModel) :
     id: int
     suffixe_name: str
@@ -50,13 +43,7 @@ class InstantMentor(BaseModel) :
     class Config:
         orm_mode = True
     
-# class MentorAccountVerifyModel(BaseModel):
-#     mobile_number : str
-#     user_id: int
-#     country_id: int
-#     app_version: str
-#     otp: str
-#     api_key: str
+
     
 class MentorObjForListResponse(BaseModel) :
     id: int
