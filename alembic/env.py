@@ -20,7 +20,6 @@ from app.models.database.db_mentor_banners import Base
 from app.models.database.db_majors import Base
 from app.models.database.db_discount import Base
 from app.models.database.db_appointment import Base
-from app.models.database.db_event import Base
 from app.models.database.db_suffix import Base
 from app.models.database.db_payments import Base
 from app.models.database.db_add_loyality_request import Base

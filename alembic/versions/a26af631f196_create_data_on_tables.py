@@ -20,7 +20,6 @@ from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_majors import DB_Majors
 from app.models.database.db_discount import DB_Discount
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType
-from app.models.database.db_event import DB_Events, EventState, DB_EventReports
 from app.models.database.db_suffix import DB_Suffix
 from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, TransactionType, DB_Mentor_PaymentsـReports
 from app.models.database.db_add_loyality_request import DB_AddLoyalityRequest
@@ -1375,128 +1374,6 @@ def upgrade() -> None:
             "action_type" : "null",
             "published" : False           
         }
-    ]
-    )
-    
-    op.bulk_insert(DB_Events.__table__,
-    [
-          {
-            "id" : 1,
-            "owner_id" : 1,
-            "image" : "event1.jpeg",         
-            "title" : "نقاش كتاب “أصل التفاوت بين الناس” – جان جاك روسو",        
-            "description" : "يعدُّ كتاب  أصل التفاوت بين الناس لجان جاك روسو من الكلاسيكيات الفلسفية والاجتماعية العالمية، لما له من أهمية مفصلية في ترسيم حدود فاصلة يُبنَى عليها التفكير في نشأة التفاوت الاجتماعي والصراعات المترتبة عليه ويهتم هذا الكتاب بإجلاء مبادئ الديمقراطية السياسية القائمة على إرساء قواعد الاشتراكية التي دعا إليها روسو. ويحمل هذا الكتاب تأملات الإنسان التي تُستلهَم من طبيعته المتجردة التي تحمل في طَوِيَّتها جوهر الأصالة في التكوين الإنساني، وذلك من خلال دراسته للإنسان، وحاجاته الحقيقية ويشتمل الكتاب على وصف خيالي لحال الإنسان الذي تكبله الأغلال في كل مكان، كما يعلِّل الفساد القائم بين البشر بالتفاوت بين أفراد المجتمع في المعاملات ومَنْ يقرأ هذا الكتاب يدرك أنه أمام نصٍّ فلسفيٍّ فريد استطاع أن يفرض نفسه لثلاثة قرون على الفكر البشري",
-            "max_number_of_attendance" : 11,
-            "date_from" : datetime.datetime(2023, 5, 31, 8),
-            "date_to" : datetime.datetime(2023, 5, 31, 9),
-            "price" : 0,
-            "state" : EventState.active,
-        },
-            {
-            "id" : 2,
-            "owner_id" : 2,
-            "image" : "event2.png",         
-            "title" : "دورة صناعة الصابون على الطريقة الباردة",        
-            "description" : "الأهداف: 1. تعريف بأنواع الزيوت المناسبة لكل نوع بشرة والتي تدخل في صناعة الصابون 2. تعلم من الصفر طريقة صنع انواع متعددة من الصابون على الطريقة الباردة مثل • صابونة زيت الزيتون البلدي • صابونة الكركم والليمون لعلاج التصبغات الجلدية وتفتيح لون البشرة • صابونة الشوفان والعسل لعلاج جفاف البشرة ومحاربة التجاعيد • صابونة اللافندر والورد المطهرة للبشرة والمضادة للإلتهابات • صابونة المسك والعنبر المعطرة ٣- تعلم كيفية استعمال حاسبة الصابون ٤- تعلم طرق لتسويق منتجاتكم الفئة المستهدفة: المهتمون بصناعة الصابون، رواد الاعمال والعاملون في التجميل، أصحاب الصالونات ومراكز التجميل. الدورة تساعدك على:  فتح مشروع تجاري خاص  صناعة الصابون من الصفر • ستعود الي بيتك مع الصابون الذي صنعته بيديك الزمان والمكان: السبت في 28 كانون الثاني، من الساعة 10:30 صباحاً حتى 5:30 عصراً، في مركز IABC بيروت، مستديرة الطيونة، بناية سنتر الطيونة، الطابق التاسع المدربة: جنان دوغان وهي أخصائية تجميل، حاصلة على شهادة من جامة ،ESMOD Dubai كما شاركت في عدة دورات مختصة بصناعة منتجات العناية بالبشرة الطبيعية. استثمار الدورة: مليونان و500 ألف ليرة لبنانية، تشمل:  المواد الاولية والزيوت للتدريب التطبيقي  المادة التدريبية العلمية • شهادة معتمدة في تصنيع الصابون • غداء وكافي بريك ",
-            "max_number_of_attendance" : 8,
-            "date_from" : datetime.datetime(2023, 4, 5, 8),
-            "date_to" : datetime.datetime(2023, 4, 5, 8, 30),
-            "price" : 10,
-            "state" : EventState.active,
-        },
-        {
-            "id" : 3,
-            "owner_id" : 4,
-            "image" : "event3.jpeg",         
-            "title" : "Promotional Campaign [JUST LC]",        
-            "description" : "Defining an addiction is a tricky business, and knowing how to handle it is even harder That’s why YULC will be hosting it’s 2nd Local General Assembly “LGA” where we are going to talk about addiction as an important and common problem we’re facing each day in it’s different types. As IFMSA-Jo YULC Family, we're welcoming you to join us to be together hand in hand and fight it . The event will be held on 7th of January in the faculty of medicine starting at 8 AM. It will involve different standing committee sessions and trainings :Traning new trainers ,Teaching medical skills, Sexual and reproductive health and rights sessions ,as well as our beloved speakers who will be talking about addiction. And of course not to forget the best part of an LGA the social event where you get to know each other ,make new friends and have a lot of fun.",
-            "max_number_of_attendance" : 17,
-            "date_from" : datetime.datetime(2023, 7, 5, 8),
-            "date_to" : datetime.datetime(2023, 7, 5, 8, 30),
-            "price" : 25,
-            "state" : EventState.active,
-        },
-        {
-            "id" : 4,
-            "owner_id" : 4,
-            "image" : "event4.jpeg",         
-            "title" : "مساابقة القدس لحفظ القرآن الكريم وتجويده(الموسم السادس)]",        
-            "description" : "مساابقة القدس لحفظ القرآن الكريم وتجويده(الموسم السادس)",
-            "max_number_of_attendance" : 30,
-            "date_from" : datetime.datetime(2023, 4, 4, 12),
-            "date_to" : datetime.datetime(2023, 4, 4, 12, 30),
-            "price" : 0,
-            "state" : EventState.active,
-        },
-        {
-            "id" : 5,
-            "owner_id" : 1,
-            "image" : "event5.jpeg",         
-            "title" : "يوم الأرض زراعة النباتات في حدائق المتحف الفلسطيني | Planting in the Palestinian Museum gardens",        
-            "description" : "Land Day Planting in the Palestinian Museum gardens Thursday, March 30th | 10:00-14:00 Location: Palestinian Museum gardens Language: Arabic Join us for a fun event in the gardens of the Palestinian Museum to commemorate Land Day. Together we will plant seedlings of various vegetables, such as tomatoes, cucumbers, zucchini, okra, and perhaps some flowers and decorative plants. Enjoy learning useful and fun facts on how to successfully plant!",
-            "max_number_of_attendance" : 100,
-            "date_from" : datetime.datetime(2023, 5, 15, 22),
-            "date_to" : datetime.datetime(2023, 5, 15, 23),
-            "price" : 0,
-            "state" : EventState.active,
-        },
-        {
-            "id" : 6,
-            "owner_id" : 2,
-            "image" : "event6.jpeg",         
-            "title" : "Summer Jam 6",        
-            "description" : "Summer Jam (6) The Jungle Land They say if you want to be a party animal you have to live in the jungle! Well now the jungle is brought to you by Summer Jam (6).. Get ready to unleash the party animal inside you! * 12 Hours of NON-STOP music performed by: - Top artists in Mena region - Best Djs in town - This event is family oriented - Kids area - Pet friendly - Food courts and play areas * P.S. This event is alcohol free Buy your early bird tickets starting today for 30 JDs Or get the Regular ticket in April for 40 JDS And if you’re lazy, you can just buy the ticket at the door for 50 JDs Stay tuned for more information, and until then, spread the news! For more information: +962 7 7565 6765",
-            "max_number_of_attendance" : 100,
-            "date_from" : datetime.datetime(2023, 5, 5, 22),
-            "date_to" : datetime.datetime(2023, 5, 5, 23, 59),
-            "price" : 30,
-            "state" : EventState.active,
-        },
-        {
-            "id" : 7,
-            "owner_id" : 4,
-            "image" : "event3.jpeg",         
-            "title" : "Promotional Campaign [JUST LC]",        
-            "description" : "Defining an addiction is a tricky business, and knowing how to handle it is even harder That’s why YULC will be hosting it’s 2nd Local General Assembly “LGA” where we are going to talk about addiction as an important and common problem we’re facing each day in it’s different types. As IFMSA-Jo YULC Family, we're welcoming you to join us to be together hand in hand and fight it . The event will be held on 7th of January in the faculty of medicine starting at 8 AM. It will involve different standing committee sessions and trainings :Traning new trainers ,Teaching medical skills, Sexual and reproductive health and rights sessions ,as well as our beloved speakers who will be talking about addiction. And of course not to forget the best part of an LGA the social event where you get to know each other ,make new friends and have a lot of fun.",
-            "max_number_of_attendance" : 15,
-            "date_from" : datetime.datetime(2023, 1, 1, 8),
-            "date_to" : datetime.datetime(2023, 1, 1, 8, 30),
-            "price" : 25,
-            "state" : EventState.completed,
-        },
-        {
-            "id" : 8,
-            "owner_id" : 4,
-            "image" : "event3.jpeg",         
-            "title" : "Promotional Campaign [JUST LC]",        
-            "description" : "Defining an addiction is a tricky business, and knowing how to handle it is even harder That’s why YULC will be hosting it’s 2nd Local General Assembly “LGA” where we are going to talk about addiction as an important and common problem we’re facing each day in it’s different types. As IFMSA-Jo YULC Family, we're welcoming you to join us to be together hand in hand and fight it . The event will be held on 7th of January in the faculty of medicine starting at 8 AM. It will involve different standing committee sessions and trainings :Traning new trainers ,Teaching medical skills, Sexual and reproductive health and rights sessions ,as well as our beloved speakers who will be talking about addiction. And of course not to forget the best part of an LGA the social event where you get to know each other ,make new friends and have a lot of fun.",
-            "max_number_of_attendance" : 20,
-            "date_from" : datetime.datetime(2023, 1, 1, 8),
-            "date_to" : datetime.datetime(2023, 1, 1, 8, 30),
-            "price" : 25,
-            "state" : EventState.mentor_miss,
-        },
-        {
-            "id" : 9,
-            "owner_id" : 4,
-            "image" : "event3.jpeg",         
-            "title" : "Promotional Campaign [JUST LC]",        
-            "description" : "Defining an addiction is a tricky business, and knowing how to handle it is even harder That’s why YULC will be hosting it’s 2nd Local General Assembly “LGA” where we are going to talk about addiction as an important and common problem we’re facing each day in it’s different types. As IFMSA-Jo YULC Family, we're welcoming you to join us to be together hand in hand and fight it . The event will be held on 7th of January in the faculty of medicine starting at 8 AM. It will involve different standing committee sessions and trainings :Traning new trainers ,Teaching medical skills, Sexual and reproductive health and rights sessions ,as well as our beloved speakers who will be talking about addiction. And of course not to forget the best part of an LGA the social event where you get to know each other ,make new friends and have a lot of fun.",
-            "max_number_of_attendance" : 4,
-            "date_from" : datetime.datetime(2023, 1, 1, 8),
-            "date_to" : datetime.datetime(2023, 1, 1, 8, 30),
-            "price" : 25,
-            "state" : EventState.mentor_cancel,
-        },
-    ]
-    )
-    
-    op.bulk_insert(DB_EventReports.__table__,
-    [
-        {
-            "user_id" : 1,      
-            "event_id" : 1,
-        },
     ]
     )
 
