@@ -1,6 +1,9 @@
+from app.models.database.client.db_client_user import DB_Client_Users
+from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter
+from app.models.schemas.referal_code import ReferalCode
 from app.utils.database import get_db
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_suffix import DB_Suffix
@@ -44,3 +47,22 @@ async def get_suffix(request: Request, db: Session = Depends(get_db)):
         suffix = db.query(DB_Suffix.id, DB_Suffix.name_arabic.label("name")).all()
 
     return generalResponse(message="list of suffix return successfully", data=suffix)
+
+@router.post("/referalcode")
+async def post_validate_referal_code(payload: ReferalCode, request: Request, db: Session = Depends(get_db)): 
+    myHeader = validateLanguageHeader(request)
+    mentor_query = db.query(DB_Mentor_Users.invitation_code).all()
+    client_query = db.query(DB_Client_Users.invitation_code).all()
+    
+    clientList = [''.join(i) for i in client_query]
+    mentorList = [''.join(x) for x in mentor_query]
+
+    codeIsExsist = False
+    
+    if (payload.code) in mentorList:
+        codeIsExsist = True
+    
+    if (payload.code) in clientList:
+        codeIsExsist = True
+
+    return generalResponse(message="checking Referal Code exsisting", data=codeIsExsist)
