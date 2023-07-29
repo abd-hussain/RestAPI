@@ -116,3 +116,18 @@ class UpdateMentorAccountInfoModel(BaseModel):
 
 class SpeakingLanguage(BaseModel):
     list: list[str]
+    
+    
+    
+class RegisterMentorAccountModel(BaseModel):
+    suffixe_name: Optional[str]
+    first_name: Optional[str] 
+    last_name: Optional[str] 
+    # speaking_language: Optional[list[str]]
+    # mobile_number : Optional[str] 
+    # email : Optional[EmailStr] 
+    # gender : Optional[int] 
+    # date_of_birth : Optional[str] 
+    # profile_img : Optional[str]
+    # id_img : Optional[str]
+    # country_id : Optional[int] 

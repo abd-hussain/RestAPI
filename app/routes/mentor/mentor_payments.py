@@ -28,7 +28,7 @@ async def mentor_report_payment(payload: Payment, request: Request, db: Session 
     query = db.query(DB_Mentor_PaymentsـReports).filter(DB_Mentor_PaymentsـReports.payment_id == payload.payment_id)
 
     if query.first() is not None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"payment already reported"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="payment already reported")
     
     payload.mentor_id =  get_current_user.user_id
     

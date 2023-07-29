@@ -34,7 +34,7 @@ async def cancelAppointment(id: int, request: Request, db: Session = Depends(get
     query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.mentor_id == get_current_user.user_id
                                                                               ).filter(DB_Appointments.state == AppointmentsState.active)
     if query.first() is None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"appoitment id not valid"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
     
     
     query.update({"state" : AppointmentsState.mentor_cancel}, synchronize_session=False)
@@ -47,7 +47,7 @@ async def compleateAppointment(id: int, request: Request, db: Session = Depends(
     query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.mentor_id == get_current_user.user_id
                                                                               ).filter(DB_Appointments.state == AppointmentsState.active)
     if query.first() is None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"appoitment id not valid"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
     
     query.update({"state" : AppointmentsState.completed}, synchronize_session=False)
     db.commit()
@@ -60,7 +60,7 @@ async def add_comment_to_Appointment(payload: AppointmentComment, request: Reque
     query = db.query(DB_Appointments).filter(DB_Appointments.id == payload.id).filter(DB_Appointments.mentor_id == get_current_user.user_id
                                                                               ).filter(DB_Appointments.state == AppointmentsState.active)
     if query.first() is None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"appoitment id not valid"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
     
     query.update({"note_from_mentor" : payload.comment}, synchronize_session=False)
     db.commit()

@@ -5,7 +5,7 @@ from app.utils.database import get_db
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
-from app.utils.generate import generateActvationCode, generateRequestId
+from app.utils.generate import generateActvationCode
 from app.models.schemas.client.client_account import UpdateClientAccountModel
 import shutil
 import os
@@ -95,9 +95,9 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
         file_size = profile_picture.file.tell()
         if file_size > 2 * 1024 * 1024:
         # more than 2 MB
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"File too large", "request_id": generateRequestId()})
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="File too large")
         if content_type not in ["image/jpeg", "image/png", "image/jpg", "image/gif", "application/octet-stream"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Profile Image Format is not valid", "request_id": generateRequestId()})
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Profile Image Format is not valid")
 
         upload_dir = os.path.join(os.getcwd(), "static/clientsImg")
         try:

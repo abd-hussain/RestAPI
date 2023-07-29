@@ -7,7 +7,6 @@ from app.models.database import db_suggestion_reported, db_issue_reported
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.utils.validation import validateLanguageHeader
-from app.utils.generate import generateRequestId
 from app.utils.time import current_milli_time
 
 router = APIRouter(
@@ -38,7 +37,7 @@ async def create_issue(request: Request,
             
         if attach1 is not None:
             if attach1.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Attach1 Image Format is not valid", "request_id": generateRequestId()})
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach1 Image Format is not valid")
             file1_location = f"static/reports/{current_milli_time()}.png"
             
             try:
@@ -53,7 +52,7 @@ async def create_issue(request: Request,
             
         if attach2 is not None:
             if attach2.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Attach2 Image Format is not valid", "request_id": generateRequestId()})
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach2 Image Format is not valid")
             file2_location = f"static/reports/{current_milli_time()}.png"
             
             try:
@@ -68,7 +67,7 @@ async def create_issue(request: Request,
                 
         if attach3 is not None:
             if attach3.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Attach3 Image Format is not valid", "request_id": generateRequestId()})
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach3 Image Format is not valid")
             file3_location = f"static/reports/{current_milli_time()}.png"
             
             try:
@@ -109,7 +108,7 @@ def create_suggestion(request: Request,
                  
     if attach1 is not None:
         if attach1.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Attach1 Image Format is not valid", "request_id": generateRequestId()})
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach1 Image Format is not valid")
         file1_location = f"static/suggestions/{current_milli_time()}.png"
             
         try:
@@ -124,7 +123,7 @@ def create_suggestion(request: Request,
             
     if attach2 is not None:
         if attach2.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Attach2 Image Format is not valid", "request_id": generateRequestId()})
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach2 Image Format is not valid")
         file2_location = f"static/suggestions/{current_milli_time()}.png"
             
         try:
@@ -139,7 +138,7 @@ def create_suggestion(request: Request,
                 
     if attach3 is not None:
         if attach3.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Attach3 Image Format is not valid", "request_id": generateRequestId()})
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach3 Image Format is not valid")
         file3_location = f"static/suggestions/{current_milli_time()}.png"
             
         try:

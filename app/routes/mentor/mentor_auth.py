@@ -20,11 +20,11 @@ def login(payload: MentorAuth, db: Session = Depends(get_db)):
     
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid Credentials")
+            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
 
     if not verifyPassword(payload.password, user.password):
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid Credentials")
+            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
         
     access_token = create_access_token(data={"api_key" : "079", "user_id" : user.id})
 
@@ -36,7 +36,7 @@ def forgotPassword(payload: MentorForgotPassword, background_tasks: BackgroundTa
     
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid Credentials")
+            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
     
     send_email_background(background_tasks, 'Hello World', 'aboud.masoud.92@gmail.com')
     return general.generalResponse(message= "Email send successfully", data=None)

@@ -1,4 +1,3 @@
-# from app.utils.generate import generateRequestId
 # from datetime import datetime
 # from fastapi import Request, Depends, APIRouter, HTTPException, status
 
@@ -28,7 +27,6 @@ def generalResponse(message: str, data : Any):
 # class AccountResponse(Main):
 #     data : _AccountResponse
 #     message: str = "aboud masoud"
-#     request_id: str = generateRequestId()
     
 
 #################################################################
@@ -44,6 +42,5 @@ def generalResponse(message: str, data : Any):
 # class Reviews(Main):
 #     data : list[_Reviews]
 #     message: str = "aboud masoud"
-#     request_id: str = generateRequestId()
     
 # #################################################################

@@ -17,11 +17,3 @@ def generateActvationCode() -> str:
         range_end = (10**6)-1
         return randint(range_start, range_end)
 
-
-# TODO: Handle Request_id in each request
-def generateRequestId() -> str:
-    try:
-        return str(random.sample(range(1, 999999999999999999), 1)[0])
-    except ValueError:
-        print('Sample size exceeded population size.')
-        return "0"

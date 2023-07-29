@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.schemas.client.client_account import ClientAccountModel, ClientAccountVerifyModel
-from app.utils.generate import generateAPIKey, generateOTP, generateRequestId
+from app.utils.generate import generateAPIKey, generateOTP
 from app.utils.database import get_db
 from app.models.respond import general, login
 from app.utils.validation import verifyKey
@@ -52,13 +52,13 @@ def verify_otp(payload: ClientAccountVerifyModel, db: Session =  Depends(get_db)
     query = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
 
     if query.first() == None:
-      raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"Mobile number is not valid", "request_id": generateRequestId()})
+      raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Mobile number is not valid")
     
     if not verifyKey(payload.otp, query.first().last_otp):
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"OTP is not valid", "request_id": generateRequestId()})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="OTP is not valid")
 
     if not verifyKey(payload.api_key, query.first().api_key):
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"API Key is not valid", "request_id": generateRequestId()})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="API Key is not valid")
     
     access_token = create_access_token(data={"api_key" : payload.api_key, "user_id" : payload.user_id})
     

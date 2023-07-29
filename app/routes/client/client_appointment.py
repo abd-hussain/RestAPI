@@ -58,7 +58,7 @@ async def cancelAppointment(id: int, request: Request, db: Session = Depends(get
     query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.client_id == get_current_user.user_id
                                                                               ).filter(DB_Appointments.state == AppointmentsState.active)
     if query.first() is  None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"appoitment id not valid"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
     
     
     query.update({"state" : AppointmentsState.client_cancel}, synchronize_session=False)
@@ -74,10 +74,10 @@ async def bookAppointment(payload: AppointmentRequest, db: Session = Depends(get
     dateTo = datetime(payload.dateTo.year, payload.dateTo.month, payload.dateTo.day, payload.dateTo.hour, payload.dateTo.min)
     
     if dateFrom <= datetime.now():
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"dateTime not valid"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="dateTime not valid")
     
     if dateFrom >= dateTo:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"dateTime not valid from > to"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="dateTime not valid from > to")
 
     appointments_query = db.query(DB_Appointments)
     
@@ -90,12 +90,12 @@ async def bookAppointment(payload: AppointmentRequest, db: Session = Depends(get
     if filterd_appointments_query != []:
         for apps in filterd_appointments_query2:
             if (dateFrom >= apps.date_from and dateFrom <= apps.date_to) or (dateTo <= apps.date_to and dateTo >= apps.date_from):
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"mentor already have appointment in that date"})
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="mentor already have appointment in that date")
     
     if filterd_appointments_query2 != []:
         for app in filterd_appointments_query2:
             if (dateFrom >= app.date_from and dateFrom <= app.date_to) or (dateTo <= app.date_to and dateTo >= app.date_from):
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"client already have appointment in that date"})
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="client already have appointment in that date")
     
     obj = DB_Appointments(**{"mentor_id" : payload.mentorId, 
                                      "client_id" : get_current_user.user_id, 
@@ -115,7 +115,7 @@ async def add_comment_to_Appointment(payload: AppointmentComment, request: Reque
     query = db.query(DB_Appointments).filter(DB_Appointments.id == payload.id).filter(DB_Appointments.client_id == get_current_user.user_id
                                                                               ).filter(DB_Appointments.state == AppointmentsState.active)
     if query.first() is None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={"message": f"appoitment id not valid"})
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
     
     query.update({"note_from_client" : payload.comment}, synchronize_session=False)
     db.commit()

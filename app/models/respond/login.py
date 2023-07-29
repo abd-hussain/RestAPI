@@ -1,7 +1,6 @@
 
 from app.models.respond.main import Main
 from pydantic.schema import Optional
-from app.utils.generate import generateRequestId
 
 
 class _LoginResponse(Main):
@@ -14,7 +13,6 @@ class _LoginResponse(Main):
 class LoginResponse(Main):
     data : _LoginResponse
     message: str = ""
-    request_id: str = generateRequestId()
         
 #################################################################
 
@@ -29,4 +27,3 @@ class _LoginDebugResponse(Main):
 class LoginDebugResponse(Main):
     data : _LoginDebugResponse
     message: str = ""
-    request_id: str = generateRequestId()

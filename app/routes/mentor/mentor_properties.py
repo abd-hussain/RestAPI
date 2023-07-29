@@ -31,7 +31,7 @@ async def update_working_hours(payload: WorkingHoursRequest, request: Request, d
     query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
 
     if query.first() == None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid User")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid User")
     
     if payload.dayName == "Saturday":
         query.update({"working_hours_saturday" : payload.working_hours}, synchronize_session=False)
@@ -48,7 +48,7 @@ async def update_working_hours(payload: WorkingHoursRequest, request: Request, d
     elif payload.dayName == "Friday":
         query.update({"working_hours_friday" : payload.working_hours}, synchronize_session=False)
     else:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"day name is wrong")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="day name is wrong")
         
     db.commit()
     
