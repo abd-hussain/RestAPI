@@ -1,5 +1,7 @@
 from fastapi import Request, Depends ,APIRouter, File, UploadFile, Form, HTTPException, status
+from pydantic import EmailStr
 from sqlalchemy.orm import Session
+from app.routes.mentor.mentor_register import validateImageType
 from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
@@ -71,8 +73,7 @@ async def update_account(request: Request,suffixe_name: str = Form(None), first_
         query.update({"speaking_language" : payload.speaking_language}, synchronize_session=False)
         
     if profile_picture is not None:
-        if profile_picture.content_type not in ["image/jpeg", "image/png", "image/jpg", "image/JPG"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Profile Image Format is not valid")
+        validateImageType(profile_picture, "profile_picture")
         
         profile_file_location = f"static/mentorsImg/{get_current_user.user_id}.png"
         try:
@@ -85,8 +86,8 @@ async def update_account(request: Request,suffixe_name: str = Form(None), first_
         finally:
             profile_picture.file.close()
     if id_image is not None:
-        if id_image.content_type not in ["image/jpeg", "image/png", "image/jpg", "image/JPG"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Id Image Format is not valid")
+        validateImageType(id_image, "id_image")
+
         id_file_location = f"static/Ids/{get_current_user.user_id}.png"
         try:
             contents_ids = profile_picture.file.read()
@@ -138,29 +139,12 @@ async def update_password(request: Request,payload: MentorChangePassword,
         
     return generalResponse(message= "Change Password successfully", data=None)
 
-@router.post("/register")
-async def register_mentor(request: Request,suffixe_name: str = Form(None),
-            first_name: str = Form(None),last_name: str = Form(None),
-                         db: Session = Depends(get_db)):
-    myHeader = validateLanguageHeader(request)
-    
-    payload = RegisterMentorAccountModel()
-    
-    if suffixe_name != None:
-        payload.suffixe_name = suffixe_name
-    else:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="suffixe_name required")
 
 
-    if first_name != None:
-        payload.first_name = first_name
-    else:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="first_name required")
-
-    if last_name != None:
-        payload.last_name = last_name
-    else:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="last_name required")
 
 
-    return generalResponse(message= "Account Created successfully", data=None)
+          
+
+            
+            
+
