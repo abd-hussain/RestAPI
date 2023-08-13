@@ -99,7 +99,6 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
        
         validateImageType(profile_picture, "profile_picture")
 
-
         upload_dir = os.path.join(os.getcwd(), "static/clientsImg")
         try:
             os.remove(f"static/clientsImg/{query_account.profile_img}")
