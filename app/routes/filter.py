@@ -49,8 +49,8 @@ async def get_suffix(request: Request, db: Session = Depends(get_db)):
     return generalResponse(message="list of suffix return successfully", data=suffix)
 
 @router.post("/referalcode")
-async def post_validate_referal_code(payload: ReferalCode, request: Request, db: Session = Depends(get_db)): 
-    myHeader = validateLanguageHeader(request)
+async def post_validate_referal_code(payload: ReferalCode, db: Session = Depends(get_db)): 
+
     mentor_query = db.query(DB_Mentor_Users.invitation_code).all()
     client_query = db.query(DB_Client_Users.invitation_code).all()
     
@@ -66,3 +66,39 @@ async def post_validate_referal_code(payload: ReferalCode, request: Request, db:
         codeIsExsist = True
 
     return generalResponse(message="checking Referal Code exsisting", data=codeIsExsist)
+
+@router.post("/checkemial")
+async def post_validate_email(email: str, db: Session = Depends(get_db)): 
+    mentor_query = db.query(DB_Mentor_Users.email).all()
+    client_query = db.query(DB_Client_Users.email).all()
+    
+    clientList = [''.join(i) for i in client_query]
+    mentorList = [''.join(x) for x in mentor_query]
+    
+    emailIsExsist = False
+
+    if email in mentorList:
+        emailIsExsist = True
+    
+    if email in clientList:
+        emailIsExsist = True
+
+    return generalResponse(message="checking email is exsisting", data=emailIsExsist)
+
+@router.post("/checkmobile")
+async def post_validate_mobile(mobile: str, db: Session = Depends(get_db)): 
+    mentor_query = db.query(DB_Mentor_Users.mobile_number).all()
+    client_query = db.query(DB_Client_Users.mobile_number).all()
+    
+    clientList = [''.join(i) for i in client_query]
+    mentorList = [''.join(x) for x in mentor_query]
+    
+    mobileIsExsist = False
+
+    if mobile in mentorList:
+        mobileIsExsist = True
+    
+    if mobile in clientList:
+        mobileIsExsist = True
+
+    return generalResponse(message="checking mobile is exsisting", data=mobileIsExsist)

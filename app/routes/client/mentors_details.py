@@ -3,7 +3,7 @@ import calendar
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter
-from app.models.schemas.mentor.mentor_account import MentorDetailsResponse, MentorFilter, ReviewsResponse
+from app.models.schemas.mentor_account import MentorDetailsResponse, MentorFilter, ReviewsResponse
 from app.utils.average import getAverage
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users, DB_Mentor_Review

@@ -6,7 +6,7 @@ from app.models.database.client.db_client_user import DB_Client_Users
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
 from app.utils.generate import generateActvationCode
-from app.models.schemas.client.client_account import UpdateClientAccountModel
+from app.models.schemas.client_account import UpdateClientAccountModel
 import shutil
 import os
 

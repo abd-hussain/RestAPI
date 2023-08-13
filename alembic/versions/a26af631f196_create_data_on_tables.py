@@ -15,7 +15,6 @@ from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
 from app.models.database.db_client_banners import DB_Client_Banners
 from app.models.database.db_mentor_banners import DB_Mentor_Banners
-from app.models.database.client import db_client_user
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_majors import DB_Majors
 from app.models.database.db_discount import DB_Discount
@@ -36,8 +35,8 @@ depends_on = None
 
 def upgrade() -> None:
     
-    db_client_user.Base.metadata.drop_all(bind=engine)
-    db_client_user.Base.metadata.create_all(bind=engine)
+    # db_client_user.Base.metadata.drop_all(bind=engine)
+    # db_client_user.Base.metadata.create_all(bind=engine)
 
     op.bulk_insert(DB_Discount.__table__,
     [

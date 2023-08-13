@@ -1,13 +1,11 @@
 from fastapi import Request, Depends ,APIRouter, File, UploadFile, Form, HTTPException, status
-from pydantic import EmailStr
 from sqlalchemy.orm import Session
-from app.routes.mentor.mentor_register import validateImageType
 from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.database.db_country import DB_Countries
-from app.models.schemas.mentor.mentor_account import  RegisterMentorAccountModel, UpdateMentorAccountInfoModel
-from app.models.schemas.mentor.mentor_account import MentorChangePassword
+from app.models.schemas.mentor_account import  UpdateMentorAccountInfoModel
+from app.models.schemas.mentor_account import MentorChangePassword
 
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
@@ -140,11 +138,12 @@ async def update_password(request: Request,payload: MentorChangePassword,
     return generalResponse(message= "Change Password successfully", data=None)
 
 
-
-
-
           
-
+def validateImageType(image: Form(None), imageName: str) -> Form(None):
+    if image.content_type not in ["image/jpeg", "image/png", "image/jpg", "image/JPG"]:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail= imageName + " Format is not valid")
+    else:
+        return image
             
             
 

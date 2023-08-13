@@ -1,8 +1,10 @@
 from fastapi import FastAPI
-from app.routes import filter, report, settings, notifications
+from app.routes import filter, report, settings
 from app.models.database.client import db_client_user
 from app.routes.mentor import mentor_auth, mentor_home, mentor_properties,  mentor_register, mentor_account, mentor_payments, mentor_appointment
 from app.routes.client import client_account, archive, client_appointment, client_auth, client_home, discount, loyality, mentor_list, mentors_details
+from app.routes.notifications import client_notifications
+from app.routes.notifications import mentor_notifications
 from app.utils.public_api import origins
 from app.utils.database import engine
 from fastapi.middleware.cors import CORSMiddleware
@@ -34,6 +36,7 @@ app.include_router(mentor_register.router)
 app.include_router(mentor_properties.router)
 app.include_router(mentor_payments.router)
 app.include_router(mentor_appointment.router)
+app.include_router(mentor_notifications.router)
 
 #Clients
 app.include_router(client_auth.router)
@@ -45,12 +48,12 @@ app.include_router(archive.router)
 app.include_router(client_account.router)
 app.include_router(mentors_details.router)
 app.include_router(client_appointment.router)
+app.include_router(client_notifications.router)
 
 #Shared
 app.include_router(filter.router)
 app.include_router(settings.router)
 app.include_router(report.router)
-app.include_router(notifications.router)
 
 
 # TODO: Handle Send SMS For Verifications

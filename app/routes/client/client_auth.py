@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 from app.models.database.client.db_client_user import DB_Client_Users
-from app.models.schemas.client.client_account import ClientAccountModel, ClientAccountVerifyModel
+from app.models.schemas.client_account import ClientAccountModel, ClientAccountVerifyModel
 from app.utils.generate import generateAPIKey, generateOTP
 from app.utils.database import get_db
 from app.models.respond import general, login

@@ -6,6 +6,5 @@ class HeaderRequest(BaseModel):
     user_id: str
     language: str
 
-
 class PreLoginHeaderRequest(BaseModel):
     language: str

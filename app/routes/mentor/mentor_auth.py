@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
-from app.models.schemas.mentor.mentor_account import MentorAuth, MentorForgotPassword
+from app.models.schemas.mentor_account import MentorAuth, MentorForgotPassword
 from app.utils.send_email import send_email_background
 from app.utils.database import get_db
 from app.models.respond import general

@@ -23,7 +23,7 @@ async def create_issue(request: Request,
                        attach2: UploadFile = File(default=None),
                        attach3: UploadFile = File(default=None),
                        db: Session = Depends(get_db)):
-        myHeader = validateLanguageHeader(request)
+    
         payload = Report(content = content)
         if client_user_id != None:
             client_query = db.query(DB_Client_Users).filter(DB_Client_Users.id == client_user_id).first()
@@ -36,9 +36,8 @@ async def create_issue(request: Request,
                  payload.mentor_owner_id = mentor_query.id
             
         if attach1 is not None:
-            if attach1.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach1 Image Format is not valid")
-            file1_location = f"static/reports/{current_milli_time()}.png"
+            validateImageType(attach1, "attach1")
+            file1_location = getImageName()
             
             try:
                 contents1 = attach1.file.read()
@@ -51,9 +50,8 @@ async def create_issue(request: Request,
                 attach1.file.close()
             
         if attach2 is not None:
-            if attach2.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach2 Image Format is not valid")
-            file2_location = f"static/reports/{current_milli_time()}.png"
+            validateImageType(attach2, "attach2")
+            file2_location = getImageName()
             
             try:
                 contents2 = attach2.file.read()
@@ -66,9 +64,8 @@ async def create_issue(request: Request,
                 attach2.file.close()
                 
         if attach3 is not None:
-            if attach3.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach3 Image Format is not valid")
-            file3_location = f"static/reports/{current_milli_time()}.png"
+            validateImageType(attach3, "attach3")
+            file3_location = getImageName()
             
             try:
                 contents3 = attach3.file.read()
@@ -94,7 +91,7 @@ def create_suggestion(request: Request,
                        attach2: UploadFile = File(default=None),
                        attach3: UploadFile = File(default=None),
                        db: Session = Depends(get_db)):  
-    myHeader = validateLanguageHeader(request)
+    
     payload = Report(content = content)
     if client_user_id != None:
         client_query = db.query(DB_Client_Users).filter(DB_Client_Users.id == client_user_id).first()
@@ -107,9 +104,8 @@ def create_suggestion(request: Request,
              payload.mentor_owner_id = mentor_query.id
                  
     if attach1 is not None:
-        if attach1.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach1 Image Format is not valid")
-        file1_location = f"static/suggestions/{current_milli_time()}.png"
+        validateImageType(attach1, "attach1")
+        file1_location = getImageName()
             
         try:
             contents1 = attach1.file.read()
@@ -122,9 +118,8 @@ def create_suggestion(request: Request,
             attach1.file.close()
             
     if attach2 is not None:
-        if attach2.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach2 Image Format is not valid")
-        file2_location = f"static/suggestions/{current_milli_time()}.png"
+        validateImageType(attach2, "attach2")
+        file2_location = getImageName()
             
         try:
             contents2 = attach2.file.read()
@@ -137,9 +132,8 @@ def create_suggestion(request: Request,
             attach2.file.close()
                 
     if attach3 is not None:
-        if attach3.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Attach3 Image Format is not valid")
-        file3_location = f"static/suggestions/{current_milli_time()}.png"
+        validateImageType(attach3, "attach3")
+        file3_location = getImageName()
             
         try:
             contents3 = attach3.file.read()
@@ -156,3 +150,12 @@ def create_suggestion(request: Request,
     db.commit()
     return generalResponse(message= "successfully created suggestion", data= None)
 
+
+def getImageName() -> str:
+    return f"static/suggestions/{current_milli_time()}.png"
+
+def validateImageType(image: Form(None), imageName: str) -> Form(None):
+    if image.content_type not in ["image/jpeg", "image/png", "image/jpg", "image/JPG"]:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail= imageName + " Format is not valid")
+    else:
+        return image

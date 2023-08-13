@@ -1,7 +1,7 @@
 
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
-from app.models.schemas.mentor.mentor_account import MentorObjForListResponse
+from app.models.schemas.mentor_account import MentorObjForListResponse
 from app.utils.average import getAverage
 from app.utils.database import get_db
 from app.utils.validation import validateLanguageHeader

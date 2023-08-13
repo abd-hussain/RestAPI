@@ -120,41 +120,40 @@ class SpeakingLanguage(BaseModel):
     
     
 class RegisterMentorAccountModel(BaseModel):
-    suffixe_name: Optional[str]
-    first_name: Optional[str] 
-    last_name: Optional[str] 
-    country_id : Optional[int] 
-    gender : Optional[int] 
-    date_of_birth : Optional[str] 
-    mobile_number : Optional[str] 
+    suffixe_name: str
+    first_name: str
+    last_name: str
+    country_id : int
+    gender : int
+    date_of_birth : str
+    mobile_number : str
     referal_code : Optional[str] 
-    profile_img : Optional[str]
-    id_img : Optional[str]
-    bio : Optional[str]
-    majors: Optional[list[int]]
-    category_id : Optional[int]
-    cv : Optional[str]
-    cert1 : Optional[str]
-    cert2 : Optional[str]
-    cert3 : Optional[str]
-    speaking_language: Optional[list[str]]
-    working_hours_saturday: Optional[list[str]]
-    working_hours_sunday: Optional[list[str]]
-    working_hours_monday: Optional[list[str]]
-    working_hours_tuesday: Optional[list[str]]
-    working_hours_wednesday: Optional[list[str]]
-    working_hours_thursday: Optional[list[str]]
-    working_hours_friday: Optional[list[str]]
-    hour_rate: Optional[float]
-    email : Optional[EmailStr] 
-    password: Optional[str]
-    app_version: Optional[str]
+    bio : str
+    majors: list[int]
+    category_id : int
+    speaking_language: list[str]
+    working_hours_saturday: list[str]
+    working_hours_sunday: list[str]
+    working_hours_monday: list[str]
+    working_hours_tuesday: list[str]
+    working_hours_wednesday: list[str]
+    working_hours_thursday: list[str]
+    working_hours_friday: list[str]
+    hour_rate: float
+    email : EmailStr
+    password: str
+    app_version: str
     api_key: Optional[str]
     invitation_code: Optional[str]
-    push_token: Optional[str]
-    experience_since: Optional[str]
+    push_token: str
+    experience_since: str
 
-
+    # profile_img : Optional[str]
+    # id_img : Optional[str]
+    # cv : Optional[str]
+    # cert1 : Optional[str]
+    # cert2 : Optional[str]
+    # cert3 : Optional[str]
     
 
 
