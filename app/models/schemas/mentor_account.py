@@ -101,18 +101,19 @@ class MentorDetailsResponse(BaseModel) :
     reviews: list[ReviewsResponse]
     
     
-class UpdateMentorAccountInfoModel(BaseModel):
-    suffixe_name: Optional[str]     
-    first_name: Optional[str] 
-    last_name: Optional[str] 
-    speaking_language: Optional[list[str]]
-    mobile_number : Optional[str] 
-    email : Optional[EmailStr] 
-    gender : Optional[int] 
-    date_of_birth : Optional[str] 
-    profile_img : Optional[str]
-    id_img : Optional[str]
-    country_id : Optional[int] 
+class MentorInfoResponse(BaseModel) :
+    suffixe_name: str    
+    first_name: str
+    last_name: str
+    bio: str
+    speaking_language: list[str]
+    category_name: str
+    profile_img: str
+    gender: int
+    date_of_birth: str
+    experience_since: str
+    country: str
+    
 
 class SpeakingLanguage(BaseModel):
     list: list[str]

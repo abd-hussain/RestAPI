@@ -6,7 +6,7 @@ from app.utils.database import get_db
 from app.models.database import db_suggestion_reported, db_issue_reported
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
-from app.utils.validation import validateLanguageHeader
+from app.utils.validation import validateImageType, validateLanguageHeader
 from app.utils.time import current_milli_time
 
 router = APIRouter(
@@ -154,8 +154,4 @@ def create_suggestion(request: Request,
 def getImageName() -> str:
     return f"static/suggestions/{current_milli_time()}.png"
 
-def validateImageType(image: Form(None), imageName: str) -> Form(None):
-    if image.content_type not in ["image/jpeg", "image/png", "image/jpg", "image/JPG"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail= imageName + " Format is not valid")
-    else:
-        return image
+

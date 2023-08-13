@@ -4,7 +4,7 @@ from fastapi import Request, Depends, APIRouter, File, UploadFile, Form, HTTPExc
 from app.utils.database import get_db
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.utils.oauth2 import get_current_user
-from app.utils.validation import validateLanguageHeader
+from app.utils.validation import validateImageType, validateLanguageHeader
 from app.utils.generate import generateActvationCode
 from app.models.schemas.client_account import UpdateClientAccountModel
 import shutil
@@ -96,8 +96,9 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
         if file_size > 2 * 1024 * 1024:
         # more than 2 MB
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="File too large")
-        if content_type not in ["image/jpeg", "image/png", "image/jpg", "image/gif", "application/octet-stream"]:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Profile Image Format is not valid")
+       
+        validateImageType(profile_picture, "profile_picture")
+
 
         upload_dir = os.path.join(os.getcwd(), "static/clientsImg")
         try:
