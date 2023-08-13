@@ -1,4 +1,5 @@
 from app.models.database.client.db_client_user import DB_Client_Users
+from app.models.database.db_majors import DB_Majors
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
@@ -47,6 +48,17 @@ async def get_suffix(request: Request, db: Session = Depends(get_db)):
         suffix = db.query(DB_Suffix.id, DB_Suffix.name_arabic.label("name")).all()
 
     return generalResponse(message="list of suffix return successfully", data=suffix)
+
+@router.get("/majors")
+async def get_majors(request: Request, db: Session = Depends(get_db)):
+    myHeader = validateLanguageHeader(request)
+
+    majors = db.query(DB_Majors.id, DB_Majors.name_english.label("name")).all()
+    if (myHeader.language == "ar"):
+        majors = db.query(DB_Majors.id, DB_Majors.name_arabic.label("name")).all()
+        
+    return generalResponse(message="majors return successfully", data=majors)
+
 
 @router.post("/referalcode")
 async def post_validate_referal_code(payload: ReferalCode, db: Session = Depends(get_db)): 

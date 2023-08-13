@@ -1,17 +1,13 @@
-from fastapi import Request, Depends ,APIRouter, File, UploadFile, Form, HTTPException, status
+from fastapi import Depends ,APIRouter, File, UploadFile, Form
 from sqlalchemy.orm import Session
 from app.models.database.db_category import DB_Categories
-from app.models.database.db_majors import DB_Majors
-from app.utils.validation import validateImageType, validateLanguageHeader
+from app.utils.validation import validateImageType
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.database.db_country import DB_Countries
-from app.models.schemas.mentor_account import MentorChangePassword
 
 from app.utils.oauth2 import get_current_user
-from app.utils.validation import validateLanguageHeader
 from app.models.respond.general import generalResponse
-from app.utils.oauth2 import verifyPassword, hashingPassword
 
 router = APIRouter(
     prefix="/mentor-account",
@@ -93,36 +89,12 @@ async def update_account(suffixe_name: str = Form(None), first_name: str = Form(
             id_image.file.close()
    
     db.commit()
-    
- 
+
     return generalResponse(message="Profile updated successfully", data=None)
 
-@router.delete("/delete")
-async def delete_account(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
-
-    if query.first() == None:
-       return generalResponse(message="profile was not found", data=None)
-   
-    query.delete()
-    db.commit()
-    return generalResponse(message="Profile deleted successfully", data=None)
 
 
-@router.put("/change-password")
-async def update_password(payload: MentorChangePassword,
-                         db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-  
-    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
 
-    if not verifyPassword(payload.oldpassword, query.first().password):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
-    if payload.newpassword != None:
-        query.update({"password" : hashingPassword(payload.newpassword)}, synchronize_session=False)
-        db.commit()
-        
-    return generalResponse(message= "Change Password successfully", data=None)
 
 
           
