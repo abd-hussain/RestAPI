@@ -23,6 +23,7 @@ from app.models.database.db_suffix import DB_Suffix
 from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, TransactionType, DB_Mentor_PaymentsـReports
 from app.models.database.db_add_loyality_request import DB_AddLoyalityRequest
 from app.models.database.db_archive import DB_Archive
+from app.models.database.client.db_client_user import Base
 
 from app.utils.database import engine
 
@@ -35,8 +36,8 @@ depends_on = None
 
 def upgrade() -> None:
     
-    DB_Client_Users.db_client_user.Base.metadata.drop_all(bind=engine)
-    DB_Client_Users.Base.metadata.create_all(bind=engine)
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
 
     op.bulk_insert(DB_Discount.__table__,
     [
