@@ -35,8 +35,8 @@ depends_on = None
 
 def upgrade() -> None:
     
-    # db_client_user.Base.metadata.drop_all(bind=engine)
-    # db_client_user.Base.metadata.create_all(bind=engine)
+    DB_Client_Users.db_client_user.Base.metadata.drop_all(bind=engine)
+    DB_Client_Users.Base.metadata.create_all(bind=engine)
 
     op.bulk_insert(DB_Discount.__table__,
     [
