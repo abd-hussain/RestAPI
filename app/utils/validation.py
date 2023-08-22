@@ -10,8 +10,33 @@ def validateLanguageHeader(request: Request):
     raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="header missing some data")
 
 
-def validateImageType(image: Form(None), imageName: str) -> Form(None):
+def validateImageType(image: Form(None), imageName: str) -> str :
     if image.content_type not in ["image/jpeg", "image/png", "image/jpg", "image/JPG", "application/octet-stream"]:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail= imageName + " Format is not valid")
     else:
-        return image
+        validateFileSize(image)
+        imageExtension = '.png'
+        if (image.filename.endswith('.jpg')):
+            imageExtension = '.jpg'
+        if (image.filename.endswith('.JPG')):
+            imageExtension = '.JPG'
+        if (image.filename.endswith('.jpeg')):
+            imageExtension = '.jpeg'
+        return imageExtension
+        
+        
+def validateFileType(file: Form(None), fileName: str) -> str:
+    if file.content_type not in ["application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/pdf"]:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail= fileName + " Format is not valid")
+    else:
+        validateFileSize(file)
+        fileExtension = '.docx'
+        if (file.filename.endswith('.pdf')):
+            fileExtension = '.pdf'
+        return fileExtension
+    
+def validateFileSize(file: Form(None)):
+    file_size = file.file.tell()
+    if file_size > 2 * 1024 * 1024:
+        # more than 2 MB
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="File too large")

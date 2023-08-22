@@ -86,33 +86,22 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
         query.update({"country_id" : payload.country_id}, synchronize_session=False)
         
     if profile_picture is not None:
-        content_type = profile_picture.content_type
-        print(content_type)
-        
-        if content_type == "application/octet-stream":
-            content_type = "image/jpg"
-
-        file_size = profile_picture.file.tell()
-        if file_size > 2 * 1024 * 1024:
-        # more than 2 MB
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="File too large")
+        imageExtension = validateImageType(profile_picture, "profile_picture")
        
-        validateImageType(profile_picture, "profile_picture")
-
-        upload_dir = os.path.join(os.getcwd(), "static/clientsImg")
-        try:
-            os.remove(f"static/clientsImg/{query_account.profile_img}")
-        except OSError:
-            pass
-        if not os.path.exists(upload_dir):
-            os.makedirs(upload_dir)
+        # upload_dir = os.path.join(os.getcwd(), "static/clientsImg")
+        # try:
+        #     os.remove(f"static/clientsImg/{query_account.profile_img}")
+        # except OSError:
+        #     pass
+        # if not os.path.exists(upload_dir):
+        #     os.makedirs(upload_dir)
                         
-        dest = os.path.join(upload_dir, f"{get_current_user.user_id}.{content_type[6:]}")
+        # dest = os.path.join(upload_dir, f"{get_current_user.user_id}.{content_type[6:]}")
         
-        with open(dest, "wb") as buffer:
+        # with open(dest, "wb") as buffer:
             
-            shutil.copyfileobj(profile_picture.file, buffer)
-            query.update({"profile_img" : f"{get_current_user.user_id}.{content_type[6:]}"}, synchronize_session=False)
+        #     shutil.copyfileobj(profile_picture.file, buffer)
+        #     query.update({"profile_img" : f"{get_current_user.user_id}.{content_type[6:]}"}, synchronize_session=False)
     
     db.commit()
     

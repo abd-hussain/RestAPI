@@ -1,12 +1,12 @@
 from app.models.schemas.report import Report
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
-from fastapi import Request, Depends, APIRouter, File, UploadFile, Form, HTTPException, status
+from fastapi import Request, Depends, APIRouter, File, UploadFile, Form, status
 from app.utils.database import get_db
 from app.models.database import db_suggestion_reported, db_issue_reported
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
-from app.utils.validation import validateImageType, validateLanguageHeader
+from app.utils.validation import validateImageType
 from app.utils.time import current_milli_time
 
 router = APIRouter(
@@ -36,8 +36,8 @@ async def create_issue(request: Request,
                  payload.mentor_owner_id = mentor_query.id
             
         if attach1 is not None:
-            validateImageType(attach1, "attach1")
-            file1_location = getImageName()
+            attach1Extension = validateImageType(attach1, "attach1")
+            file1_location = getImageName(attach1Extension)
             
             try:
                 contents1 = attach1.file.read()
@@ -50,8 +50,8 @@ async def create_issue(request: Request,
                 attach1.file.close()
             
         if attach2 is not None:
-            validateImageType(attach2, "attach2")
-            file2_location = getImageName()
+            attach2Extension = validateImageType(attach2, "attach2")
+            file2_location = getImageName(attach2Extension)
             
             try:
                 contents2 = attach2.file.read()
@@ -64,8 +64,8 @@ async def create_issue(request: Request,
                 attach2.file.close()
                 
         if attach3 is not None:
-            validateImageType(attach3, "attach3")
-            file3_location = getImageName()
+            attach3Extension = validateImageType(attach3, "attach3")
+            file3_location = getImageName(attach3Extension)
             
             try:
                 contents3 = attach3.file.read()
@@ -104,8 +104,8 @@ def create_suggestion(request: Request,
              payload.mentor_owner_id = mentor_query.id
                  
     if attach1 is not None:
-        validateImageType(attach1, "attach1")
-        file1_location = getImageName()
+        attach1Extension = validateImageType(attach1, "attach1")
+        file1_location = getImageName(attach1Extension)
             
         try:
             contents1 = attach1.file.read()
@@ -118,8 +118,8 @@ def create_suggestion(request: Request,
             attach1.file.close()
             
     if attach2 is not None:
-        validateImageType(attach2, "attach2")
-        file2_location = getImageName()
+        attach2Extension = validateImageType(attach2, "attach2")
+        file2_location = getImageName(attach2Extension)
             
         try:
             contents2 = attach2.file.read()
@@ -132,8 +132,8 @@ def create_suggestion(request: Request,
             attach2.file.close()
                 
     if attach3 is not None:
-        validateImageType(attach3, "attach3")
-        file3_location = getImageName()
+        attach3Extension = validateImageType(attach3, "attach3")
+        file3_location = getImageName(attach3Extension)
             
         try:
             contents3 = attach3.file.read()
@@ -151,7 +151,7 @@ def create_suggestion(request: Request,
     return generalResponse(message= "successfully created suggestion", data= None)
 
 
-def getImageName() -> str:
-    return f"static/suggestions/{current_milli_time()}.png"
+def getImageName(extinsion : str) -> str:
+    return f"static/suggestions/{current_milli_time()}{extinsion}"
 
 

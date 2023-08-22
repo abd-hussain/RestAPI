@@ -12,7 +12,6 @@ from app.models.database.db_category import DB_Categories
 from app.models.database.db_country import DB_Countries
 from app.models.database.db_majors import DB_Majors
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState
-from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
 
 

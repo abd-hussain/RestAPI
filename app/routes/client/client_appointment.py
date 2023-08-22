@@ -4,6 +4,7 @@ from app.models.schemas.appointment import AppointmentRequest
 from app.utils.database import get_db
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
+from app.utils.generate import generateChannelName
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
 from datetime import datetime
@@ -31,7 +32,7 @@ async def get_clientAppointment(request: Request, db: Session = Depends(get_db),
         query = db.query(DB_Appointments.id, DB_Appointments.date_from, DB_Appointments.date_to, 
                      DB_Appointments.client_id, DB_Appointments.mentor_id, DB_Appointments.appointment_type, 
                      DB_Appointments.price_before_discount, DB_Appointments.price_after_discount, DB_Appointments.state,
-                     DB_Appointments.note_from_client, DB_Appointments.note_from_mentor,
+                     DB_Appointments.note_from_client, DB_Appointments.note_from_mentor, DB_Appointments.channel_id,
                      DB_Mentor_Users.profile_img, DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, 
                      DB_Mentor_Users.category_id, DB_Categories.name_english.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
@@ -42,7 +43,7 @@ async def get_clientAppointment(request: Request, db: Session = Depends(get_db),
         query = db.query(DB_Appointments.id, DB_Appointments.date_from, DB_Appointments.date_to, 
                      DB_Appointments.client_id, DB_Appointments.mentor_id, DB_Appointments.appointment_type, 
                      DB_Appointments.price_before_discount, DB_Appointments.price_after_discount, DB_Appointments.state,
-                     DB_Appointments.note_from_client, DB_Appointments.note_from_mentor,
+                     DB_Appointments.note_from_client, DB_Appointments.note_from_mentor, DB_Appointments.channel_id,
                      DB_Mentor_Users.profile_img, DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, 
                      DB_Mentor_Users.category_id, DB_Categories.name_arabic.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
@@ -104,7 +105,8 @@ async def bookAppointment(payload: AppointmentRequest, db: Session = Depends(get
                                      "price_after_discount" : payload.priceAfterDiscount, 
                                      "state" : AppointmentsState.active,
                                      "note_from_client" : payload.note,
-                                     "appointment_type" : AppointmentsType.schudule if payload.type == "schudule" else AppointmentsType.instant})
+                                     "appointment_type" : AppointmentsType.schudule if payload.type == "schudule" else AppointmentsType.instant,
+                                    "channel_id," : generateChannelName()}) 
     db.add(obj)
     db.commit()
     return generalResponse(message="appoitment booked successfuly", data=None)

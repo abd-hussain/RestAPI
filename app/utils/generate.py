@@ -17,3 +17,6 @@ def generateActvationCode() -> str:
         range_end = (10**6)-1
         return randint(range_start, range_end)
 
+def generateChannelName() -> str:
+    return secrets.token_hex(16)
+

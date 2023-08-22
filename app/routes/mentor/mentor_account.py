@@ -1,6 +1,5 @@
 from fastapi import Depends ,APIRouter, File, UploadFile, Form
 from sqlalchemy.orm import Session
-from app.models.database.db_category import DB_Categories
 from app.utils.validation import validateImageType
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
@@ -24,9 +23,8 @@ async def get_account(db: Session = Depends(get_db), get_current_user: int = Dep
                      DB_Mentor_Users.gender,
                      DB_Mentor_Users.speaking_language, DB_Mentor_Users.country_id, 
                      DB_Mentor_Users.referal_code,DB_Mentor_Users.id_img,
-                     DB_Countries,DB_Categories.name_english.label("category_english"), DB_Categories.name_arabic.label("category_arabic")).join(DB_Countries, DB_Mentor_Users.country_id == DB_Countries.id, isouter=True)\
-                    .join(DB_Categories, DB_Mentor_Users.category_id == DB_Categories.id, isouter=True)\
-                         .filter(DB_Mentor_Users.id == get_current_user.user_id).first()
+                     DB_Countries).join(DB_Countries, DB_Mentor_Users.country_id == DB_Countries.id, isouter=True)\
+                        .filter(DB_Mentor_Users.id == get_current_user.user_id).first()
 
     if query == None:
        return generalResponse(message="profile was not found", data=None)
@@ -61,21 +59,21 @@ async def update_account(suffixe_name: str = Form(None), first_name: str = Form(
         query.update({"country_id" : country_id}, synchronize_session=False)
                 
     if profile_picture is not None:
-        validateImageType(profile_picture, "profile_picture")
+        imageExtension = validateImageType(profile_picture, "profile_picture")
         
-        profile_file_location = f"static/mentorsImg/{get_current_user.user_id}.png"
+        profile_file_location = f"static/mentorsImg/{get_current_user.user_id}{imageExtension}"
         try:
             contents_profile = profile_picture.file.read()
             with open(profile_file_location, 'wb+') as out_file:
                 out_file.write(contents_profile)
-                query.update({"profile_img" : f"{get_current_user.user_id}.png"}, synchronize_session=False)
+                query.update({"profile_img" : f"{get_current_user.user_id}{imageExtension}"}, synchronize_session=False)
         except Exception:
             return {"message": "There was an error uploading the file"}
         finally:
             profile_picture.file.close()
             
     if id_image is not None:
-        validateImageType(id_image, "id_image")
+        imageExtension = validateImageType(id_image, "id_image")
 
         id_file_location = f"static/mentorsIDs/{get_current_user.user_id}.png"
         try:

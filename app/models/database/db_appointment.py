@@ -30,5 +30,6 @@ class DB_Appointments(Base):
     state = Column(Enum(AppointmentsState), nullable=False)
     note_from_client = Column(String, nullable=True)
     note_from_mentor = Column(String, nullable=True)
+    channel_id = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
