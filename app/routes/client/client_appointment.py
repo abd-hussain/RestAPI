@@ -38,7 +38,7 @@ async def get_clientAppointment(request: Request, db: Session = Depends(get_db),
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
                      ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True
                             ).filter(DB_Appointments.client_id == get_current_user.user_id
-                                     ).filter(DB_Appointments.state == AppointmentsState.active).all()
+                                     ).all()
     else:
         query = db.query(DB_Appointments.id, DB_Appointments.date_from, DB_Appointments.date_to, 
                      DB_Appointments.client_id, DB_Appointments.mentor_id, DB_Appointments.appointment_type, 
@@ -49,7 +49,7 @@ async def get_clientAppointment(request: Request, db: Session = Depends(get_db),
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
                      ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True
                             ).filter(DB_Appointments.client_id == get_current_user.user_id
-                                     ).filter(DB_Appointments.state == AppointmentsState.active).all()
+                                     ).all()
     
     return generalResponse(message="list of appointments return successfully", data=query)
 
