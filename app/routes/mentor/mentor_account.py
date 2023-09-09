@@ -80,7 +80,7 @@ async def update_account(suffixe_name: str = Form(None), first_name: str = Form(
             contents_ids = id_image.file.read()
             with open(id_file_location, 'wb+') as out_file:
                 out_file.write(contents_ids)
-                query.update({"id_img" : f"{get_current_user.user_id}.png"}, synchronize_session=False)
+                query.update({"id_img" : f"{get_current_user.user_id}{imageExtension}"}, synchronize_session=False)
         except Exception:
             return {"message": "There was an error uploading the file"}
         finally:
