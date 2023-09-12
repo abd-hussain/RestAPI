@@ -129,7 +129,7 @@ class RegisterMentorAccountModel(BaseModel):
     gender : Optional[str]
     date_of_birth : Optional[str]
     bio : Optional[str]
-    majors: Optional[list[int]]
+    majors: Optional[list[str]]
     category_id : Optional[int]
     speaking_language: Optional[list[str]]
     referal_code : Optional[str]

@@ -25,7 +25,7 @@ async def register_mentor(suffixe_name: str = Form(None),
                           country_id: int = Form(None),
                           speaking_language:list[str] = ["en", "hi"],
                           experience_since: str = Form(None),
-                          majors:list[int] = [],
+                          majors:list[str] = Form(None),
                           push_token: str = Form(None),
                           category_id: int = Form(None),
                           referal_code: str = Form(None),
@@ -34,13 +34,13 @@ async def register_mentor(suffixe_name: str = Form(None),
                           password: str = Form(None),
                           email: str = Form(None),
                           mobile_number: str = Form(None),
-                          working_hours_saturday:list[int] = [],
-                          working_hours_sunday:list[int] = [],
-                          working_hours_monday:list[int] = [],
-                          working_hours_tuesday:list[int] = [],
-                          working_hours_wednesday:list[int] = [],
-                          working_hours_thursday:list[int] = [],
-                          working_hours_friday:list[int] = [],
+                          working_hours_saturday:list[str] = [],
+                          working_hours_sunday:list[str] = [],
+                          working_hours_monday:list[str] = [],
+                          working_hours_tuesday:list[str] = [],
+                          working_hours_wednesday:list[str] = [],
+                          working_hours_thursday:list[str] = [],
+                          working_hours_friday:list[str] = [],
                           profile_img: UploadFile = File(default=None), 
                           id_img: UploadFile = File(default=None),
                           cv: UploadFile = File(default=None), 
@@ -60,7 +60,7 @@ async def register_mentor(suffixe_name: str = Form(None),
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail= "User with this Mobile already exsist")
     
     payload = RegisterMentorAccountModel()
-    
+
     payload.id = lastId
     payload.suffixe_name = validateField(suffixe_name) 
     payload.first_name = validateField(first_name) 
@@ -73,14 +73,17 @@ async def register_mentor(suffixe_name: str = Form(None),
     payload.bio = validateField(bio) 
     payload.email = validateField(email) 
     payload.mobile_number = validateField(mobile_number) 
-    payload.push_token = validateField(push_token) 
+    payload.push_token = push_token
+
     payload.app_version = validateField(app_version) 
-    payload.experience_since = validateField(experience_since) 
+    payload.experience_since = experience_since
+
     payload.category_id = validateField(category_id) 
-    payload.hour_rate = validateField(hour_rate) 
+    payload.hour_rate = validateField(hour_rate)
     payload.country_id = validateField(country_id)
     payload.speaking_language = validateField(speaking_language) 
- 
+    
+
     payload.referal_code = referal_code
     payload.working_hours_saturday = working_hours_saturday
     payload.working_hours_sunday = working_hours_sunday
@@ -90,7 +93,6 @@ async def register_mentor(suffixe_name: str = Form(None),
     payload.working_hours_thursday = working_hours_thursday
     payload.working_hours_friday = working_hours_friday
     payload.majors = majors
-
 
     if profile_img is not None:
         imageExtension = validateImageType(profile_img, "profile_img")

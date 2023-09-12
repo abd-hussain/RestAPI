@@ -35,12 +35,10 @@ async def get_Versions(platform: str, request: Request, db: Session = Depends(ge
     return generalResponse(message="list of versions return successfully", data=data)
 
 @router.post("/leads", status_code=status.HTTP_201_CREATED)
-async def upload_leads(payload: ListLeads,request: Request, db: Session = Depends(get_db)):    
-    myHeader = validateLanguageHeader(request)
+async def upload_leads(payload: ListLeads, db: Session = Depends(get_db)):    
     
     for val in payload.list:
         obj = DB_Leads(**val.dict())
         db.add(obj)
         db.commit()
-
     return generalResponse(message= "successfully created leads", data= None)
