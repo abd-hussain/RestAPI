@@ -35,31 +35,31 @@ async def get_Notifications_for_mentor(request: Request, db: Session = Depends(g
             "content"), DB_Notifications.readed, DB_Notifications.created_at).filter(DB_Notifications.mentor_owner_id == get_current_user.user_id).filter(DB_Notifications.title_arabic.contains(search)).limit(limit).offset(skip).all()
     return generalResponse(message="list of notifications return successfully", data=data)
 
-@router.put("/mentor")
-async def mark_As_reded_Notification(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
+# @router.put("/mentor")
+# async def mark_As_reded_Notification(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+#     myHeader = validateLanguageHeader(request)
     
-    query = db.query(DB_Notifications).filter(DB_Notifications.mentor_owner_id == get_current_user.user_id)
-    query.update({"readed" : True}, synchronize_session=False)
-    db.commit()
+#     query = db.query(DB_Notifications).filter(DB_Notifications.mentor_owner_id == get_current_user.user_id)
+#     query.update({"readed" : True}, synchronize_session=False)
+#     db.commit()
 
-    return generalResponse(message="Mark All Notification Readed successfully", data=None)
+#     return generalResponse(message="Mark All Notification Readed successfully", data=None)
 
-@router.delete("/mentor")
-async def delete_Notification(id :int ,request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
+# @router.delete("/mentor")
+# async def delete_Notification(id :int ,request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+#     myHeader = validateLanguageHeader(request)
     
-    query = db.query(DB_Notifications).filter(DB_Notifications.id == id)
+#     query = db.query(DB_Notifications).filter(DB_Notifications.id == id)
     
-    notification = query.first()
+#     notification = query.first()
 
-    if notification == None:
-       return generalResponse(message="No Notification Founded", data=None)
+#     if notification == None:
+#        return generalResponse(message="No Notification Founded", data=None)
    
-    if notification.mentor_owner_id != get_current_user.user_id:
-        return generalResponse(message="Not authorized to perform requested action", data=None)
+#     if notification.mentor_owner_id != get_current_user.user_id:
+#         return generalResponse(message="Not authorized to perform requested action", data=None)
     
-    query.delete(synchronize_session=False)
-    db.commit()
+#     query.delete(synchronize_session=False)
+#     db.commit()
 
-    return generalResponse(message="Notification deleted successfully", data=None)
+#     return generalResponse(message="Notification deleted successfully", data=None)

@@ -5,11 +5,8 @@ import enum
 class PaymentStatus(enum.Enum):
     pending = 1
     approved = 2
-    rejected = 3
     
-class TransactionType(enum.Enum):
-    debit = 1
-    credit = 2
+
 
 class DB_Mentor_Payments(Base):
     __tablename__ = "mentor_payments"
@@ -24,7 +21,6 @@ class DB_Mentor_Payments(Base):
     currency_english = Column(String, nullable=False)
     descriptions = Column(String, nullable=False)
     notes = Column(String)
-    type = Column(Enum(TransactionType), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
     

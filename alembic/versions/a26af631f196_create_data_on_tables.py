@@ -1549,18 +1549,16 @@ def upgrade() -> None:
             "currency_english" : "JD",    
             "descriptions" : "Meeting with client saleh yousef",    
             "durations" : 30, 
-            "type" : TransactionType.debit,                                                                                       
         },
         {
             "id" : 2,
             "mentor_id" : 1,
-            "status" : PaymentStatus.pending,   
+            "status" : PaymentStatus.approved,   
             "amount" : 40.2,   
             "currency_arabic" : "د.ا",   
             "currency_english" : "JD",    
             "descriptions" : "Meeting with client zaid Barghouthi",    
             "durations" : 45, 
-            "type" : TransactionType.debit,                                                                                       
         },        
         {
             "id" : 3,
@@ -1571,7 +1569,6 @@ def upgrade() -> None:
             "currency_english" : "JD",    
             "descriptions" : "Meeting with client zaid Barghouthi",    
             "durations" : 45, 
-            "type" : TransactionType.debit,                                                                                       
         }, 
         {
             "id" : 4,
@@ -1582,7 +1579,6 @@ def upgrade() -> None:
             "currency_english" : "JD",    
             "descriptions" : "Meeting with client Moahmmed Flafil",    
             "durations" : 60, 
-            "type" : TransactionType.credit,  
             "notes" : "delay allowance"                                                                                 
         },
     ]
