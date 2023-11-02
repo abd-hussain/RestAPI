@@ -20,7 +20,7 @@ from app.models.database.db_majors import DB_Majors
 from app.models.database.db_discount import DB_Discount
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType
 from app.models.database.db_suffix import DB_Suffix
-from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, TransactionType, DB_Mentor_PaymentsـReports
+from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, DB_Mentor_PaymentsـReports
 from app.models.database.db_add_loyality_request import DB_AddLoyalityRequest
 from app.models.database.db_archive import DB_Archive
 from app.models.database.client.db_client_user import Base
@@ -1579,7 +1579,6 @@ def upgrade() -> None:
             "currency_english" : "JD",    
             "descriptions" : "Meeting with client Moahmmed Flafil",    
             "durations" : 60, 
-            "notes" : "delay allowance"                                                                                 
         },
     ]
     )

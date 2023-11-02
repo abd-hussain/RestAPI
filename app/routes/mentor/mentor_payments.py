@@ -19,7 +19,6 @@ async def get_mentor_payments(request: Request, db: Session = Depends(get_db), g
     query = db.query(DB_Mentor_Payments.id, DB_Mentor_Payments.mentor_id, DB_Mentor_Payments.status,
                      DB_Mentor_Payments.amount, DB_Mentor_Payments.durations, 
                      DB_Mentor_Payments.currency_arabic, DB_Mentor_Payments.currency_english,
-                     DB_Mentor_Payments.notes, 
                      DB_Mentor_Payments.descriptions, DB_Mentor_Payments.created_at, 
                      DB_Mentor_PaymentsـReports.message.label("report_message")
                      ).join(DB_Mentor_PaymentsـReports, DB_Mentor_PaymentsـReports.payment_id == DB_Mentor_Payments.id, isouter=True

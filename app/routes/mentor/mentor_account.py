@@ -39,6 +39,8 @@ async def update_account(suffixe_name: str = Form(None), first_name: str = Form(
                          profile_picture: UploadFile = File(default=None), id_image: UploadFile = File(default=None),
                          db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
 
+
+    print("waseeel")
     query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
         
     if suffixe_name != None:
@@ -75,7 +77,7 @@ async def update_account(suffixe_name: str = Form(None), first_name: str = Form(
     if id_image is not None:
         imageExtension = validateImageType(id_image, "id_image")
 
-        id_file_location = f"static/mentorsIDs/{get_current_user.user_id}.png"
+        id_file_location = f"static/mentorsIDs/{get_current_user.user_id}{imageExtension}"
         try:
             contents_ids = id_image.file.read()
             with open(id_file_location, 'wb+') as out_file:
