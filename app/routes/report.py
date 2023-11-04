@@ -37,7 +37,7 @@ async def create_issue(request: Request,
             
         if attach1 is not None:
             attach1Extension = validateImageType(attach1, "attach1")
-            file1_location = getImageName(attach1Extension)
+            file1_location = getReportImageName(attach1Extension)
             
             try:
                 contents1 = attach1.file.read()
@@ -51,7 +51,7 @@ async def create_issue(request: Request,
             
         if attach2 is not None:
             attach2Extension = validateImageType(attach2, "attach2")
-            file2_location = getImageName(attach2Extension)
+            file2_location = getReportImageName(attach2Extension)
             
             try:
                 contents2 = attach2.file.read()
@@ -65,7 +65,7 @@ async def create_issue(request: Request,
                 
         if attach3 is not None:
             attach3Extension = validateImageType(attach3, "attach3")
-            file3_location = getImageName(attach3Extension)
+            file3_location = getReportImageName(attach3Extension)
             
             try:
                 contents3 = attach3.file.read()
@@ -105,7 +105,7 @@ def create_suggestion(request: Request,
                  
     if attach1 is not None:
         attach1Extension = validateImageType(attach1, "attach1")
-        file1_location = getImageName(attach1Extension)
+        file1_location = getSuggestionsImageName(attach1Extension)
             
         try:
             contents1 = attach1.file.read()
@@ -119,7 +119,7 @@ def create_suggestion(request: Request,
             
     if attach2 is not None:
         attach2Extension = validateImageType(attach2, "attach2")
-        file2_location = getImageName(attach2Extension)
+        file2_location = getSuggestionsImageName(attach2Extension)
             
         try:
             contents2 = attach2.file.read()
@@ -133,7 +133,7 @@ def create_suggestion(request: Request,
                 
     if attach3 is not None:
         attach3Extension = validateImageType(attach3, "attach3")
-        file3_location = getImageName(attach3Extension)
+        file3_location = getSuggestionsImageName(attach3Extension)
             
         try:
             contents3 = attach3.file.read()
@@ -151,7 +151,8 @@ def create_suggestion(request: Request,
     return generalResponse(message= "successfully created suggestion", data= None)
 
 
-def getImageName(extinsion : str) -> str:
+def getSuggestionsImageName(extinsion : str) -> str:
     return f"static/suggestions/{current_milli_time()}{extinsion}"
 
-
+def getReportImageName(extinsion : str) -> str:
+    return f"static/reports/{current_milli_time()}{extinsion}"
