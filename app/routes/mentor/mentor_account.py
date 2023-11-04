@@ -40,7 +40,6 @@ async def update_account(suffixe_name: str = Form(None), first_name: str = Form(
                          db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
 
 
-    print("waseeel")
     query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
         
     if suffixe_name != None:

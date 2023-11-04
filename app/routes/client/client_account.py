@@ -46,6 +46,7 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
     myHeader = validateLanguageHeader(request)
     query_account = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id).first()
     query = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id)
+    print("Xxxxxx")
     payload = UpdateClientAccountModel(first_name = first_name, last_name = last_name, email = email, date_of_birth = date_of_birth, 
                                      country_id = country_id, gender = gender, referal_code = referal_code, 
                                       os_type = os_type, device_type_name = device_type_name, app_version = app_version)
@@ -88,21 +89,17 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
     if profile_picture is not None:
         imageExtension = validateImageType(profile_picture, "profile_picture")
        
-        # upload_dir = os.path.join(os.getcwd(), "static/clientsImg")
-        # try:
-        #     os.remove(f"static/clientsImg/{query_account.profile_img}")
-        # except OSError:
-        #     pass
-        # if not os.path.exists(upload_dir):
-        #     os.makedirs(upload_dir)
-                        
-        # dest = os.path.join(upload_dir, f"{get_current_user.user_id}.{content_type[6:]}")
-        
-        # with open(dest, "wb") as buffer:
-            
-        #     shutil.copyfileobj(profile_picture.file, buffer)
-        #     query.update({"profile_img" : f"{get_current_user.user_id}.{content_type[6:]}"}, synchronize_session=False)
-    
+        profile_file_location = f"static/clientsImg/{get_current_user.user_id}{imageExtension}"
+        try:
+            contents_profile = profile_picture.file.read()
+            with open(profile_file_location, 'wb+') as out_file:
+                out_file.write(contents_profile)
+                query.update({"profile_img" : f"{get_current_user.user_id}{imageExtension}"}, synchronize_session=False)
+        except Exception:
+            return {"message": "There was an error uploading the file"}
+        finally:
+            profile_picture.file.close()
+
     db.commit()
     
     return generalResponse(message="Profile updated successfully", data=query.first())
