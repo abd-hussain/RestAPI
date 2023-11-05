@@ -21,7 +21,6 @@ from app.models.database.db_discount import Base
 from app.models.database.db_appointment import Base
 from app.models.database.db_suffix import Base
 from app.models.database.db_payments import Base
-from app.models.database.db_add_loyality_request import Base
 from app.models.database.db_archive import Base
 
 from app.config import settings
