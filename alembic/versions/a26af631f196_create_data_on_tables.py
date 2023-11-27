@@ -22,7 +22,6 @@ from app.models.database.db_appointment import DB_Appointments, AppointmentsStat
 from app.models.database.db_suffix import DB_Suffix
 from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, DB_Mentor_PaymentsـReports
 from app.models.database.db_archive import DB_Archive
-from app.models.database.client.db_client_user import Base
 
 from app.utils.database import engine
 
@@ -34,8 +33,8 @@ depends_on = None
 
 
 def upgrade() -> None:
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
+    # Base.metadata.drop_all(bind=engine)
+    # Base.metadata.create_all(bind=engine)
 
     op.bulk_insert(DB_Discount.__table__,
     [
