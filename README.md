@@ -8,6 +8,14 @@ python3 -m venv venv
 
 source venv/bin/activate
 
-### Run the live server ###
+###  Switch OFF Env ###
+
+deactivate
+
+###  install packages ###
+
+pip install -r requirements.txt 
+
+### Run the local server ###
 
 uvicorn main:app --reload

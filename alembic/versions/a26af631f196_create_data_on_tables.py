@@ -34,7 +34,6 @@ depends_on = None
 
 
 def upgrade() -> None:
-    
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
 
@@ -446,7 +445,7 @@ def upgrade() -> None:
         }
     ]
     )
-    
+
     op.bulk_insert(DB_Client_Users.__table__,
     [
         {
@@ -455,21 +454,18 @@ def upgrade() -> None:
             "last_name" : "al haj hussain",         
             "mobile_number" : "00962795190663",        
             "email" : "aboud.masoud.92@gmail.com",         
-            "gender" : 1,         
-            "hide_number" : False,         
-            "hide_email" : False,        
-            "allow_notifications" : True,         
-            "blocked" : False,         
+            "gender" : 1,  
+            "allow_notifications" : True,
+            "blocked" : False,
             "referal_code" : "",
             "invitation_code" : "123456",
             "profile_img" : "",
             "os_type" : "iOS",         
             "device_type_name" : "iPhone XR",        
             "os_version" : "16.2",         
-            "app_version" : "1.0",         
+            "app_version" : "1.0",
             "date_of_birth" : "1992/05/22",         
-            "last_otp" : "0000",         
-            "api_key" : "00101",
+            "last_otp" : "0000",      
             "push_token" : "",         
             "country_id" : 4
         },
@@ -479,9 +475,7 @@ def upgrade() -> None:
             "last_name" : "maswadeh",         
             "mobile_number" : "00962795190661",        
             "email" : "aboud.masoud.91@gmail.com",         
-            "gender" : 2,         
-            "hide_number" : False,         
-            "hide_email" : False,        
+            "gender" : 2,              
             "allow_notifications" : True,         
             "blocked" : True,         
             "referal_code" : "",
