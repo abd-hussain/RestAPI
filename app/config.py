@@ -10,7 +10,6 @@ class Settings(BaseSettings):
     secret_key:str
     algorithm_of_sining_token:str 
     
-    
     class Config:
         env_file = ".env"
     
