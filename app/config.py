@@ -8,8 +8,7 @@ class Settings(BaseSettings):
     database_username:str 
     database_name:str 
     secret_key:str
-    algorithm_of_sining_token: str 
-    access_token_expire_hours:int 
+    algorithm_of_sining_token:str 
     
     
     class Config:

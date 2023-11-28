@@ -1,5 +1,5 @@
-from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, Boolean, text
 from app.utils.database import Base
+from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, Boolean, text
 
 class DB_Client_Users(Base):
     __tablename__ = "client-users"

@@ -10,12 +10,11 @@ oath2_scheme = OAuth2PasswordBearer(tokenUrl='auth')
 
 SECRET_KEY = settings.secret_key
 ALGORITHM = settings.algorithm_of_sining_token
-ACCESS_TOKEN_EXPIRE_HOURS = settings.access_token_expire_hours
 
 def create_access_token(data: dict):
     to_encode = data.copy()
     
-    expire  = datetime.utcnow() + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)
+    expire  = datetime.utcnow() + timedelta(hours=99999)
     to_encode.update({"exp" : expire})
     
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
