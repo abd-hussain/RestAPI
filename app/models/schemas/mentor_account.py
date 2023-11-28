@@ -23,7 +23,7 @@ class MentorFilter(BaseModel) :
     profile_img: str 
     hour_rate: float
     bio: str
-    working_hours: list[int]
+    working_hours: Optional[list[int]]
     rate: Optional[float]
     date: str
     day: str
