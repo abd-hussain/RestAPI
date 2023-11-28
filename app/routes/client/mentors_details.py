@@ -125,22 +125,22 @@ def get_mentorAvaliable(catId :int, request: Request, db: Session = Depends(get_
                 obj = MentorFilter(id = mentor["id"], gender =  mentor["gender"], suffixe_name = mentor["suffixe_name"], 
                                first_name = mentor["first_name"], last_name = mentor["last_name"], 
                                profile_img = mentor["profile_img"], hour_rate = mentor["hour_rate"],
-                               bio = mentor["bio"], working_hours = [], date = booking_time.strftime('%Y-%m-%d'), day = currentTimeDayName, hour = 0)
+                               bio = mentor["bio"], date = booking_time.strftime('%Y-%m-%d'), day = currentTimeDayName, hour = 0)#, working_hours = []
         
-                if (currentTimeDayName == "Saturday"):
-                    obj.working_hours = mentor["working_hours_saturday"]
-                elif currentTimeDayName == "Sunday":
-                    obj.working_hours = mentor["working_hours_sunday"]
-                elif (currentTimeDayName == "Monday"):
-                    obj.working_hours = mentor["working_hours_monday"]
-                elif (currentTimeDayName == "Tuesday"):
-                    obj.working_hours = mentor["working_hours_tuesday"]
-                elif (currentTimeDayName == "Wednesday"):
-                    obj.working_hours = mentor["working_hours_wednesday"]
-                elif (currentTimeDayName == "Thursday"):
-                    obj.working_hours = mentor["working_hours_thursday"]
-                elif (currentTimeDayName == "Friday"):
-                    obj.working_hours = mentor["working_hours_friday"]
+                # if (currentTimeDayName == "Saturday"):
+                #     obj.working_hours = mentor["working_hours_saturday"]
+                # elif currentTimeDayName == "Sunday":
+                #     obj.working_hours = mentor["working_hours_sunday"]
+                # elif (currentTimeDayName == "Monday"):
+                #     obj.working_hours = mentor["working_hours_monday"]
+                # elif (currentTimeDayName == "Tuesday"):
+                #     obj.working_hours = mentor["working_hours_tuesday"]
+                # elif (currentTimeDayName == "Wednesday"):
+                #     obj.working_hours = mentor["working_hours_wednesday"]
+                # elif (currentTimeDayName == "Thursday"):
+                #     obj.working_hours = mentor["working_hours_thursday"]
+                # elif (currentTimeDayName == "Friday"):
+                #     obj.working_hours = mentor["working_hours_friday"]
                 
                 list_of_mentors.append(obj)
  
