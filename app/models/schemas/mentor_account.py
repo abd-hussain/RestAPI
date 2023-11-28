@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
+from typing import List
 
 class MentorAuth(BaseModel):
     email : str
@@ -23,7 +24,7 @@ class MentorFilter(BaseModel) :
     profile_img: str 
     hour_rate: float
     bio: str
-    working_hours: Optional[list[int]]
+    working_hours: List[int] = []
     rate: Optional[float]
     date: str
     day: str
