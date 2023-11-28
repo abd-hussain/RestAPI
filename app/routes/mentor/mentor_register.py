@@ -1,12 +1,11 @@
 from fastapi import Request, Depends ,APIRouter, Form, HTTPException, status,File, UploadFile
 from sqlalchemy.orm import Session
 from app.utils.generate import generateAPIKey, generateActvationCode
-from app.utils.validation import validateFileType, validateImageType, validateLanguageHeader
+from app.utils.validation import validateFileType, validateImageType
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.schemas.mentor_account import  RegisterMentorAccountModel
 
-from app.utils.validation import validateLanguageHeader
 from app.models.respond.general import generalResponse
 from app.utils.oauth2 import hashingPassword
 

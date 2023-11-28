@@ -1,14 +1,12 @@
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
-from fastapi import Request, Depends, APIRouter, File, UploadFile, Form, HTTPException, status
+from fastapi import Request, Depends, APIRouter, File, UploadFile, Form
 from app.utils.database import get_db
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateImageType, validateLanguageHeader
 from app.utils.generate import generateActvationCode
 from app.models.schemas.client_account import UpdateClientAccountModel
-import shutil
-import os
 
 router = APIRouter(
     prefix="/client-account",

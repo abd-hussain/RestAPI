@@ -5,7 +5,6 @@ from app.utils.database import get_db
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.utils.oauth2 import get_current_user
-from app.utils.validation import validateLanguageHeader
 from app.models.respond.general import generalResponse
 from app.models.schemas.comment_appointment import AppointmentComment
 

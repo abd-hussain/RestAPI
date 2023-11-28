@@ -6,7 +6,6 @@ from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
 from app.models.database.db_notifications import DB_Notifications
 from app.models.respond.general import generalResponse
-from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 
 router = APIRouter(

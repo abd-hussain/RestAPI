@@ -5,8 +5,6 @@ from app.utils.database import get_db
 from app.models.database.db_client_banners import DB_Client_Banners
 from app.models.respond.general import generalResponse
 from app.models.schemas.home import HomeResponse
-from sqlalchemy import func
-from datetime import datetime
 
 router = APIRouter(
     prefix="/client-home",
