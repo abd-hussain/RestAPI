@@ -134,11 +134,14 @@ class RegisterMentorAccountModel(BaseModel):
     gender : Optional[str]
     date_of_birth : Optional[str]
     bio : Optional[str]
+        # TODO
     # majors: Optional[list[str]]
     category_id : Optional[int]
+        # TODO
     # speaking_language: Optional[list[str]]
     referal_code : Optional[str]
     mobile_number : Optional[str]
+        # TODO
     # working_hours_saturday: Optional[list[int]]
     # working_hours_sunday: Optional[list[int]]
     # working_hours_monday: Optional[list[int]]
