@@ -80,18 +80,18 @@ async def register_mentor(suffixe_name: str = Form(None),
     payload.category_id = validateField(category_id) 
     payload.hour_rate = validateField(hour_rate)
     payload.country_id = validateField(country_id)
-    payload.speaking_language = validateField(speaking_language) 
+    # payload.speaking_language = validateField(speaking_language) 
     
 
     payload.referal_code = referal_code
-    payload.working_hours_saturday = working_hours_saturday
-    payload.working_hours_sunday = working_hours_sunday
-    payload.working_hours_monday = working_hours_monday
-    payload.working_hours_tuesday = working_hours_tuesday
-    payload.working_hours_wednesday = working_hours_wednesday
-    payload.working_hours_thursday = working_hours_thursday
-    payload.working_hours_friday = working_hours_friday
-    payload.majors = majors
+    # payload.working_hours_saturday = working_hours_saturday
+    # payload.working_hours_sunday = working_hours_sunday
+    # payload.working_hours_monday = working_hours_monday
+    # payload.working_hours_tuesday = working_hours_tuesday
+    # payload.working_hours_wednesday = working_hours_wednesday
+    # payload.working_hours_thursday = working_hours_thursday
+    # payload.working_hours_friday = working_hours_friday
+    # payload.majors = majors
 
     if profile_img is not None:
         imageExtension = validateImageType(profile_img, "profile_img")
