@@ -24,6 +24,7 @@ class MentorFilter(BaseModel) :
     profile_img: str 
     hour_rate: float
     bio: str
+    # TODO
     # working_hours: List[int] = []
     rate: Optional[float]
     date: str
@@ -55,6 +56,7 @@ class MentorObjForListResponse(BaseModel) :
     rate: float
     hour_rate: float
     profile_img: str
+    # TODO
     # languages: list[str]
     country_name: str
     country_flag: str
@@ -81,7 +83,8 @@ class MentorDetailsResponse(BaseModel) :
     first_name: str
     last_name: str
     bio: str
-    speaking_language: list[str]
+    # TODO
+    # speaking_language: list[str]
     hour_rate: float
     total_rate: float
     gender: int
@@ -102,18 +105,18 @@ class MentorDetailsResponse(BaseModel) :
     reviews: list[ReviewsResponse]
     
     
-class MentorInfoResponse(BaseModel) :
-    suffixe_name: str    
-    first_name: str
-    last_name: str
-    bio: str
-    speaking_language: list[str]
-    category_name: str
-    profile_img: str
-    gender: int
-    date_of_birth: str
-    experience_since: str
-    country: str
+# class MentorInfoResponse(BaseModel) :
+#     suffixe_name: str    
+#     first_name: str
+#     last_name: str
+#     bio: str
+#     # speaking_language: list[str]
+#     category_name: str
+#     profile_img: str
+#     gender: int
+#     date_of_birth: str
+#     experience_since: str
+#     country: str
     
 
 class SpeakingLanguage(BaseModel):
