@@ -55,7 +55,7 @@ class MentorObjForListResponse(BaseModel) :
     rate: float
     hour_rate: float
     profile_img: str
-    languages: list[str]
+    # languages: list[str]
     country_name: str
     country_flag: str
     number_of_reviewr: int
