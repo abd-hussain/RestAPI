@@ -35,7 +35,8 @@ async def get_account(db: Session = Depends(get_db), get_current_user: int = Dep
 async def update_account(suffixe_name: str = Form(None), first_name: str = Form(None),last_name: str = Form(None),
                          gender: int = Form(None),date_of_birth: str = Form(None),
                          bio: str = Form(None),
-                         country_id: int = Form(None), speaking_language:list[str] = ["en", "hi"],
+                         country_id: int = Form(None), 
+                        #  speaking_language:list[str] = ["en", "hi"],
                          profile_picture: UploadFile = File(default=None), id_image: UploadFile = File(default=None),
                          db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
 
@@ -54,8 +55,8 @@ async def update_account(suffixe_name: str = Form(None), first_name: str = Form(
         query.update({"gender" : gender}, synchronize_session=False)
     if bio != None:
         query.update({"bio" : bio}, synchronize_session=False)
-    if speaking_language != None:
-        query.update({"speaking_language" : speaking_language}, synchronize_session=False)
+    # if speaking_language != None:
+    #     query.update({"speaking_language" : speaking_language}, synchronize_session=False)
     if country_id != None:
         query.update({"country_id" : country_id}, synchronize_session=False)
                 
