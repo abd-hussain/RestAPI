@@ -81,15 +81,16 @@ async def get_account(id :int , request: Request, db: Session = Depends(get_db))
                                           country = query["country_arabic"] if (myHeader.language == "ar") else query["country_english"], 
                                           country_flag = query["country_flag"], 
                                           total_rate = rate_avg, 
-                                          major = majors_list,
-                                          working_hours_saturday = query["working_hours_saturday"],
-                                          working_hours_sunday = query["working_hours_sunday"],
-                                          working_hours_monday = query["working_hours_monday"],
-                                          working_hours_tuesday = query["working_hours_tuesday"],
-                                          working_hours_wednesday = query["working_hours_wednesday"],
-                                          working_hours_thursday = query["working_hours_thursday"],
-                                          working_hours_friday = query["working_hours_friday"],
-                                          reviews = list_of_reviews)
+                                        #   major = majors_list,
+                                        #   working_hours_saturday = query["working_hours_saturday"],
+                                        #   working_hours_sunday = query["working_hours_sunday"],
+                                        #   working_hours_monday = query["working_hours_monday"],
+                                        #   working_hours_tuesday = query["working_hours_tuesday"],
+                                        #   working_hours_wednesday = query["working_hours_wednesday"],
+                                        #   working_hours_thursday = query["working_hours_thursday"],
+                                        #   working_hours_friday = query["working_hours_friday"],
+                                        #   reviews = list_of_reviews
+                                          )
     
     return generalResponse(message="Profile return successfully", data= mentor_dtails)
     
