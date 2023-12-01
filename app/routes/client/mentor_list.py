@@ -47,7 +47,7 @@ async def get_accounts(categories_id :int ,request: Request, db: Session = Depen
                                              suffixe_name = mentor["suffixe_name"], first_name = mentor["first_name"], 
                                              last_name = mentor["last_name"], rate = rate_avg, 
                                              hour_rate = mentor["hour_rate"], 
-                                            #  languages = mentor["speaking_language"], 
+                                             languages = mentor["speaking_language"], 
                                              country_name = mentor["country_name_ar"] if (myHeader.language == "ar") else mentor["country_name_en"],
                                              country_flag = mentor["flag_image"], 
                                              number_of_reviewr = number_of_reviewr,

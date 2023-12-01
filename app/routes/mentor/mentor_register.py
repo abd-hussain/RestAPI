@@ -22,9 +22,9 @@ async def register_mentor(suffixe_name: str = Form(None),
                           date_of_birth: str = Form(None),
                           bio: str = Form(None),
                           country_id: int = Form(None),
-                        #   speaking_language:list[str] = ["en", "hi"],
+                          speaking_language:list[str] = ["en", "hi"],
                           experience_since: str = Form(None),
-                        #   majors:list[str] = Form(None),
+                          majors:list[str] = Form(None),
                           push_token: str = Form(None),
                           category_id: int = Form(None),
                           referal_code: str = Form(None),
@@ -33,13 +33,13 @@ async def register_mentor(suffixe_name: str = Form(None),
                           password: str = Form(None),
                           email: str = Form(None),
                           mobile_number: str = Form(None),
-                        #   working_hours_saturday:list[str] = [],
-                        #   working_hours_sunday:list[str] = [],
-                        #   working_hours_monday:list[str] = [],
-                        #   working_hours_tuesday:list[str] = [],
-                        #   working_hours_wednesday:list[str] = [],
-                        #   working_hours_thursday:list[str] = [],
-                        #   working_hours_friday:list[str] = [],
+                          working_hours_saturday:list[str] = [],
+                          working_hours_sunday:list[str] = [],
+                          working_hours_monday:list[str] = [],
+                          working_hours_tuesday:list[str] = [],
+                          working_hours_wednesday:list[str] = [],
+                          working_hours_thursday:list[str] = [],
+                          working_hours_friday:list[str] = [],
                           profile_img: UploadFile = File(default=None), 
                           id_img: UploadFile = File(default=None),
                           cv: UploadFile = File(default=None), 
@@ -80,18 +80,18 @@ async def register_mentor(suffixe_name: str = Form(None),
     payload.category_id = validateField(category_id) 
     payload.hour_rate = validateField(hour_rate)
     payload.country_id = validateField(country_id)
-    # payload.speaking_language = validateField(speaking_language) 
+    payload.speaking_language = validateField(speaking_language) 
     
 
     payload.referal_code = referal_code
-    # payload.working_hours_saturday = working_hours_saturday
-    # payload.working_hours_sunday = working_hours_sunday
-    # payload.working_hours_monday = working_hours_monday
-    # payload.working_hours_tuesday = working_hours_tuesday
-    # payload.working_hours_wednesday = working_hours_wednesday
-    # payload.working_hours_thursday = working_hours_thursday
-    # payload.working_hours_friday = working_hours_friday
-    # payload.majors = majors
+    payload.working_hours_saturday = working_hours_saturday
+    payload.working_hours_sunday = working_hours_sunday
+    payload.working_hours_monday = working_hours_monday
+    payload.working_hours_tuesday = working_hours_tuesday
+    payload.working_hours_wednesday = working_hours_wednesday
+    payload.working_hours_thursday = working_hours_thursday
+    payload.working_hours_friday = working_hours_friday
+    payload.majors = majors
 
     if profile_img is not None:
         imageExtension = validateImageType(profile_img, "profile_img")

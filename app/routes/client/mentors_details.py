@@ -71,7 +71,7 @@ async def get_account(id :int , request: Request, db: Session = Depends(get_db))
                                           first_name = query["first_name"], 
                                           last_name = query["last_name"], 
                                           bio = query["bio"], 
-                                        #   speaking_language = query["speaking_language"], 
+                                          speaking_language = query["speaking_language"], 
                                           hour_rate = query["hour_rate"], 
                                           gender = query["gender"], 
                                           profile_img = query["profile_img"], 
@@ -81,15 +81,15 @@ async def get_account(id :int , request: Request, db: Session = Depends(get_db))
                                           country = query["country_arabic"] if (myHeader.language == "ar") else query["country_english"], 
                                           country_flag = query["country_flag"], 
                                           total_rate = rate_avg, 
-                                        #   major = majors_list,
-                                        #   working_hours_saturday = query["working_hours_saturday"],
-                                        #   working_hours_sunday = query["working_hours_sunday"],
-                                        #   working_hours_monday = query["working_hours_monday"],
-                                        #   working_hours_tuesday = query["working_hours_tuesday"],
-                                        #   working_hours_wednesday = query["working_hours_wednesday"],
-                                        #   working_hours_thursday = query["working_hours_thursday"],
-                                        #   working_hours_friday = query["working_hours_friday"],
-                                        #   reviews = list_of_reviews
+                                          major = majors_list,
+                                          working_hours_saturday = query["working_hours_saturday"],
+                                          working_hours_sunday = query["working_hours_sunday"],
+                                          working_hours_monday = query["working_hours_monday"],
+                                          working_hours_tuesday = query["working_hours_tuesday"],
+                                          working_hours_wednesday = query["working_hours_wednesday"],
+                                          working_hours_thursday = query["working_hours_thursday"],
+                                          working_hours_friday = query["working_hours_friday"],
+                                          reviews = list_of_reviews
                                           )
     
     return generalResponse(message="Profile return successfully", data= mentor_dtails)
@@ -126,22 +126,22 @@ def get_mentorAvaliable(catId :int, request: Request, db: Session = Depends(get_
                 obj = MentorFilter(id = mentor["id"], gender =  mentor["gender"], suffixe_name = mentor["suffixe_name"], 
                                first_name = mentor["first_name"], last_name = mentor["last_name"], 
                                profile_img = mentor["profile_img"], hour_rate = mentor["hour_rate"],
-                               bio = mentor["bio"], date = booking_time.strftime('%Y-%m-%d'), day = currentTimeDayName, hour = 0)#, working_hours = []
+                               bio = mentor["bio"], date = booking_time.strftime('%Y-%m-%d'), day = currentTimeDayName, hour = 0, working_hours = [])
         
-                # if (currentTimeDayName == "Saturday"):
-                #     obj.working_hours = mentor["working_hours_saturday"]
-                # elif currentTimeDayName == "Sunday":
-                #     obj.working_hours = mentor["working_hours_sunday"]
-                # elif (currentTimeDayName == "Monday"):
-                #     obj.working_hours = mentor["working_hours_monday"]
-                # elif (currentTimeDayName == "Tuesday"):
-                #     obj.working_hours = mentor["working_hours_tuesday"]
-                # elif (currentTimeDayName == "Wednesday"):
-                #     obj.working_hours = mentor["working_hours_wednesday"]
-                # elif (currentTimeDayName == "Thursday"):
-                #     obj.working_hours = mentor["working_hours_thursday"]
-                # elif (currentTimeDayName == "Friday"):
-                #     obj.working_hours = mentor["working_hours_friday"]
+                if (currentTimeDayName == "Saturday"):
+                    obj.working_hours = mentor["working_hours_saturday"]
+                elif currentTimeDayName == "Sunday":
+                    obj.working_hours = mentor["working_hours_sunday"]
+                elif (currentTimeDayName == "Monday"):
+                    obj.working_hours = mentor["working_hours_monday"]
+                elif (currentTimeDayName == "Tuesday"):
+                    obj.working_hours = mentor["working_hours_tuesday"]
+                elif (currentTimeDayName == "Wednesday"):
+                    obj.working_hours = mentor["working_hours_wednesday"]
+                elif (currentTimeDayName == "Thursday"):
+                    obj.working_hours = mentor["working_hours_thursday"]
+                elif (currentTimeDayName == "Friday"):
+                    obj.working_hours = mentor["working_hours_friday"]
                 
                 list_of_mentors.append(obj)
  

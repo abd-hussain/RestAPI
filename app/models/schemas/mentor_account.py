@@ -24,8 +24,7 @@ class MentorFilter(BaseModel) :
     profile_img: str 
     hour_rate: float
     bio: str
-    # TODO
-    # working_hours: List[int] = []
+    working_hours: List[int] = []
     rate: Optional[float]
     date: str
     day: str
@@ -56,8 +55,7 @@ class MentorObjForListResponse(BaseModel) :
     rate: float
     hour_rate: float
     profile_img: str
-    # TODO
-    # languages: list[str]
+    languages: list[str]
     country_name: str
     country_flag: str
     number_of_reviewr: int
@@ -83,8 +81,7 @@ class MentorDetailsResponse(BaseModel) :
     first_name: str
     last_name: str
     bio: str
-    # TODO
-    # speaking_language: list[str]
+    speaking_language: list[str]
     hour_rate: float
     total_rate: float
     gender: int
@@ -94,34 +91,33 @@ class MentorDetailsResponse(BaseModel) :
     category_name: str
     country: str
     country_flag: str
-        # TODO
-    # major: list[str]
-    # working_hours_saturday: list[int]
-    # working_hours_sunday: list[int]
-    # working_hours_monday: list[int]
-    # working_hours_tuesday: list[int]
-    # working_hours_wednesday: list[int]
-    # working_hours_thursday: list[int]
-    # working_hours_friday: list[int]
-    # reviews: list[ReviewsResponse]
+    major: list[str]
+    working_hours_saturday: list[int]
+    working_hours_sunday: list[int]
+    working_hours_monday: list[int]
+    working_hours_tuesday: list[int]
+    working_hours_wednesday: list[int]
+    working_hours_thursday: list[int]
+    working_hours_friday: list[int]
+    reviews: list[ReviewsResponse]
     
     
-# class MentorInfoResponse(BaseModel) :
-#     suffixe_name: str    
-#     first_name: str
-#     last_name: str
-#     bio: str
-#     # speaking_language: list[str]
-#     category_name: str
-#     profile_img: str
-#     gender: int
-#     date_of_birth: str
-#     experience_since: str
-#     country: str
+class MentorInfoResponse(BaseModel) :
+    suffixe_name: str    
+    first_name: str
+    last_name: str
+    bio: str
+    speaking_language: list[str]
+    category_name: str
+    profile_img: str
+    gender: int
+    date_of_birth: str
+    experience_since: str
+    country: str
     
 
-# class SpeakingLanguage(BaseModel):
-#     list: list[str]
+class SpeakingLanguage(BaseModel):
+    list: list[str]
     
     
     
@@ -136,16 +132,16 @@ class RegisterMentorAccountModel(BaseModel):
     bio : Optional[str]
     majors: Optional[list[str]]
     category_id : Optional[int]
-    # speaking_language: Optional[list[str]]
+    speaking_language: Optional[list[str]]
     referal_code : Optional[str]
     mobile_number : Optional[str]
-    # working_hours_saturday: Optional[list[int]]
-    # working_hours_sunday: Optional[list[int]]
-    # working_hours_monday: Optional[list[int]]
-    # working_hours_tuesday: Optional[list[int]]
-    # working_hours_wednesday: Optional[list[int]]
-    # working_hours_thursday: Optional[list[int]]
-    # working_hours_friday: Optional[list[int]]
+    working_hours_saturday: Optional[list[int]]
+    working_hours_sunday: Optional[list[int]]
+    working_hours_monday: Optional[list[int]]
+    working_hours_tuesday: Optional[list[int]]
+    working_hours_wednesday: Optional[list[int]]
+    working_hours_thursday: Optional[list[int]]
+    working_hours_friday: Optional[list[int]]
     hour_rate: Optional[str] 
     email : Optional[EmailStr] 
     password: Optional[str] 
