@@ -18,21 +18,22 @@ router = APIRouter(
 async def register_mentor(suffixe_name: str = Form(None),
                           first_name: str = Form(None),
                           last_name: str = Form(None),
-                          gender: int = Form(None),
-                          date_of_birth: str = Form(None),
-                          bio: str = Form(None),
-                          country_id: int = Form(None),
-                          speaking_language:list[str] = ["en", "hi"],
-                          experience_since: str = Form(None),
-                          majors:list[str] = Form(None),
-                          push_token: str = Form(None),
-                          category_id: int = Form(None),
-                          referal_code: str = Form(None),
-                          app_version: str = Form(None),
-                          hour_rate: str = Form(None),
-                          password: str = Form(None),
                           email: str = Form(None),
+                          password: str = Form(None),
+                          date_of_birth: str = Form(None),
+                          gender: int = Form(None),
+                          bio: str = Form(None),
                           mobile_number: str = Form(None),
+                          push_token: str = Form(None),
+                          app_version: str = Form(None),
+                          category_id: int = Form(None),
+                          hour_rate: str = Form(None), 
+                          iban: str = Form(None),
+                          experience_since: str = Form(None),
+                          country_id: int = Form(None),
+                          referal_code: str = Form(None),
+                          
+                          majors:list[int] = Form(None),
                           working_hours_saturday:list[str] = [],
                           working_hours_sunday:list[str] = [],
                           working_hours_monday:list[str] = [],
@@ -40,6 +41,8 @@ async def register_mentor(suffixe_name: str = Form(None),
                           working_hours_wednesday:list[str] = [],
                           working_hours_thursday:list[str] = [],
                           working_hours_friday:list[str] = [],
+                          speaking_language:list[str] = ["en", "hi"],
+                          
                           profile_img: UploadFile = File(default=None), 
                           id_img: UploadFile = File(default=None),
                           cv: UploadFile = File(default=None), 
@@ -52,6 +55,7 @@ async def register_mentor(suffixe_name: str = Form(None),
     filterQuery1 = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.email == email).first()
     filterQuery2 = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.mobile_number == mobile_number).first()
     filterQuery3 = db.query(DB_Mentor_Users).order_by(DB_Mentor_Users.id.desc()).first()
+    
     lastId = filterQuery3.id + 1
     if filterQuery1 != None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail= "User with this email already exsist")
@@ -75,14 +79,14 @@ async def register_mentor(suffixe_name: str = Form(None),
     payload.push_token = push_token
 
     payload.app_version = validateField(app_version) 
-    payload.experience_since = experience_since
+    payload.experience_since = validateField(experience_since)
 
     payload.category_id = validateField(category_id) 
     payload.hour_rate = validateField(hour_rate)
     payload.country_id = validateField(country_id)
     payload.speaking_language = validateField(speaking_language) 
     
-
+    payload.iban = iban
     payload.referal_code = referal_code
     payload.working_hours_saturday = working_hours_saturday
     payload.working_hours_sunday = working_hours_sunday
@@ -91,6 +95,7 @@ async def register_mentor(suffixe_name: str = Form(None),
     payload.working_hours_wednesday = working_hours_wednesday
     payload.working_hours_thursday = working_hours_thursday
     payload.working_hours_friday = working_hours_friday
+
     payload.majors = majors
 
     if profile_img is not None:
