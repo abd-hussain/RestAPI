@@ -26,7 +26,7 @@ def validateImageType(image: Form(None), imageName: str) -> str :
         
         
 def validateFileType(file: Form(None), fileName: str) -> str:
-    if file.content_type not in ["application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/pdf"]:
+    if file.content_type not in ["application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/pdf", "application/octet-stream"]:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail= fileName + " Format is not valid ==>" + file.content_type)
     else:
         validateFileSize(file)
