@@ -17,8 +17,8 @@ router = APIRouter(
 @router.post("/issue", status_code=status.HTTP_201_CREATED)
 async def create_issue(request: Request,
                        content: str = Form(None),
-                       client_user_id: int = Form(None),
-                       mentor_user_id: int = Form(None),
+                       client_user_id: str = Form(None),
+                       mentor_user_id: str = Form(None),
                        attach1:  UploadFile = File(default=None),
                        attach2: UploadFile = File(default=None),
                        attach3: UploadFile = File(default=None),
@@ -29,13 +29,13 @@ async def create_issue(request: Request,
             my_int = int(client_user_id)
             client_query = db.query(DB_Client_Users).filter(DB_Client_Users.id == my_int).first()
             if (client_query != None):
-                 payload.client_owner_id = client_query.id
+                 payload.client_owner_id = my_int
                  
         if mentor_user_id != None:
             my_int = int(mentor_user_id)
             mentor_query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == my_int).first()
-            if (client_query != None):
-                 payload.mentor_owner_id = mentor_query.id
+            if (mentor_query != None):
+                 payload.mentor_owner_id = my_int
             
         if attach1 is not None:
             attach1Extension = validateImageType(attach1, "attach1")
@@ -87,8 +87,8 @@ async def create_issue(request: Request,
 @router.post("/suggestion", status_code=status.HTTP_201_CREATED)
 def create_suggestion(request: Request,
                        content: str = Form(None),
-                       client_user_id: int = Form(None),
-                       mentor_user_id: int = Form(None),
+                       client_user_id: str = Form(None),
+                       mentor_user_id: str = Form(None),
                        attach1:  UploadFile = File(default=None),
                        attach2: UploadFile = File(default=None),
                        attach3: UploadFile = File(default=None),
@@ -99,13 +99,13 @@ def create_suggestion(request: Request,
         my_int = int(client_user_id)
         client_query = db.query(DB_Client_Users).filter(DB_Client_Users.id == my_int).first()
         if (client_query != None):
-            payload.client_owner_id = client_query.id
+            payload.client_owner_id = my_int
             
     if mentor_user_id != None:
         my_int = int(mentor_user_id)
         mentor_query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == my_int).first()
-        if (client_query != None):
-             payload.mentor_owner_id = mentor_query.id
+        if (mentor_query != None):
+             payload.mentor_owner_id = my_int
                  
     if attach1 is not None:
         attach1Extension = validateImageType(attach1, "attach1")
