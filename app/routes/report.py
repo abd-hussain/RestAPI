@@ -17,8 +17,8 @@ router = APIRouter(
 @router.post("/issue", status_code=status.HTTP_201_CREATED)
 async def create_issue(request: Request,
                        content: str = Form(None),
-                       client_user_id: str = Form(None),
-                       mentor_user_id: str = Form(None),
+                       client_user_id: int = Form(None),
+                       mentor_user_id: int = Form(None),
                        attach1:  UploadFile = File(default=None),
                        attach2: UploadFile = File(default=None),
                        attach3: UploadFile = File(default=None),
@@ -32,7 +32,7 @@ async def create_issue(request: Request,
                  payload.client_owner_id = client_query.id
                  
         if mentor_user_id != None:
-            my_int = int(client_user_id)
+            my_int = int(mentor_user_id)
             mentor_query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == my_int).first()
             if (client_query != None):
                  payload.mentor_owner_id = mentor_query.id
@@ -96,12 +96,14 @@ def create_suggestion(request: Request,
     
     payload = Report(content = content)
     if client_user_id != None:
-        client_query = db.query(DB_Client_Users).filter(DB_Client_Users.id == client_user_id).first()
+        my_int = int(client_user_id)
+        client_query = db.query(DB_Client_Users).filter(DB_Client_Users.id == my_int).first()
         if (client_query != None):
             payload.client_owner_id = client_query.id
             
     if mentor_user_id != None:
-        mentor_query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == mentor_user_id).first()
+        my_int = int(mentor_user_id)
+        mentor_query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == my_int).first()
         if (client_query != None):
              payload.mentor_owner_id = mentor_query.id
                  
