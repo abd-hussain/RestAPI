@@ -14,26 +14,27 @@ router = APIRouter(
 )
 
 @router.get("/hour-rate")
-async def get_hourRate(db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def get_hourRateAndIban(db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
 
-    query = db.query(DB_Mentor_Users.hour_rate).filter(DB_Mentor_Users.id == get_current_user.user_id).first()
+    query = db.query(DB_Mentor_Users.hour_rate,DB_Mentor_Users.iban).filter(DB_Mentor_Users.id == get_current_user.user_id).first()
 
     if query == None:
        return generalResponse(message="profile was not found", data=None)
 
-    return generalResponse(message="hour_rate return successfully", data=query)
+    return generalResponse(message="hour_rate & IBAN return successfully", data=query)
 
 @router.put("/hour-rate")
-async def update_hourRate(rate: str,
+async def update_hourRate(rate: str, iban: str,
                          db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
   
     query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
 
     if rate != None:
         query.update({"hour_rate" : rate}, synchronize_session=False)
+        query.update({"iban" : iban}, synchronize_session=False)
         db.commit()
         
-    return generalResponse(message= "Change hour_rate successfully", data=None)
+    return generalResponse(message= "Change hour_rate And IBAN successfully", data=None)
 
 @router.put("/change-password")
 async def update_password(payload: MentorChangePassword,
