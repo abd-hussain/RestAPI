@@ -113,7 +113,7 @@ async def register_mentor(suffixe_name: str = Form(None),
             
     if id_img is not None:
         imageExtension = validateImageType(id_img, "id_img")
-        id_file_location = f"static/mentorsIDs/{lastId}.png"
+        id_file_location = f"static/mentorsIDs/{lastId}{imageExtension}"
         try:
             contents_ids = id_img.file.read()
             with open(id_file_location, 'wb+') as out_file:
