@@ -1,28 +1,31 @@
-import os
-from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import FastAPI, BackgroundTasks, HTTPException
+import smtplib
+from email.mime.text import MIMEText
+from email.message import EmailMessage
+from starlette.templating import Jinja2Templates
 
-conf = ConnectionConfig(
-    MAIL_USERNAME="abd.alhaj.hussain",
-    MAIL_PASSWORD="lzwoirqlsaixbqha",
-    MAIL_FROM="abd.alhaj.hussain@gmail.com",
-    MAIL_PORT=587,
-    MAIL_SERVER="smtp.gmail.com",
-    MAIL_FROM_NAME="test",
-    USE_CREDENTIALS=True,
-    MAIL_SSL_TLS=False,
-    MAIL_STARTTLS=False,
-    TEMPLATE_FOLDER='./app/utils/templates/email'
-)
+templates = Jinja2Templates(directory="templates/email")
+
+def send_email(email_to: str, message : str):
+    sender_email = "abd.alhaj.hussain@gmail.com"
+    password = "yzhhzkyatoagamqu"
     
-def send_email_background(background_tasks: BackgroundTasks, subject: str, email_to: str):
-    #TODO: Sending Email Not Working
-    message = MessageSchema(
-        subject=subject,
-        recipients=[email_to],
-        body="s",
-        subtype='html',
+    msg = EmailMessage()
+    msg['Subject'] = "Forgot Password"
+    msg['From'] = sender_email
+    msg['To'] = email_to
+    msg.set_content(
+       f"""\
+    Your Password Is : {message}   
+    """,
+         
     )
-    fm = FastMail(conf)
-    background_tasks.add_task(
-       fm.send_message, message, template_name='email.html')
+    
+    # send email
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(sender_email, password)
+        smtp.send_message(msg)
+    
+    return "email successfully sent"
+
+

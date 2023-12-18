@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, status, HTTPException, BackgroundTasks
+from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.schemas.mentor_account import MentorAuth, MentorForgotPassword
-from app.utils.send_email import send_email_background
+from app.utils.send_email import send_email
 from app.utils.database import get_db
 from app.models.respond import general
 from app.utils.oauth2 import create_access_token, verifyPassword
@@ -31,12 +31,10 @@ def login(payload: MentorAuth, db: Session = Depends(get_db)):
     return general.generalResponse(message= "Logged In successfully", data=access_token)
         
 @router.post('/forgotpassword')
-def forgotPassword(payload: MentorForgotPassword, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+def forgotPassword(payload: MentorForgotPassword, db: Session = Depends(get_db)):
     user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.email == payload.email).first()
-    
     if not user:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
-    
-    send_email_background(background_tasks, 'Hello World', 'aboud.masoud.92@gmail.com')
+    send_email(payload.email, user.password)
     return general.generalResponse(message= "Email send successfully", data=None)

@@ -44,7 +44,6 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
     myHeader = validateLanguageHeader(request)
     query_account = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id).first()
     query = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id)
-    print("Xxxxxx")
     payload = UpdateClientAccountModel(first_name = first_name, last_name = last_name, email = email, date_of_birth = date_of_birth, 
                                      country_id = country_id, gender = gender, referal_code = referal_code, 
                                       os_type = os_type, device_type_name = device_type_name, app_version = app_version)
