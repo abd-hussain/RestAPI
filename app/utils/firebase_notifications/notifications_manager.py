@@ -14,9 +14,16 @@ class UserType(Enum):
 
 def addNewNotification(user_type : UserType, userId : int, title : str, body: str, db: Session = Depends(get_db)):
     
-    payload = NewNotification(title_arabic = title, title_english = title, 
-                              content_english = body, content_arabic = body)
+  
+    
+    filterQuery3 = db.query(DB_Notifications).order_by(DB_Notifications.id.desc()).first()
+    
+    lastId = filterQuery3.id + 1
     userToken = ""
+    
+    payload = NewNotification(id = lastId, title_arabic = title, title_english = title, 
+                              content_english = body, content_arabic = body)
+      
     if user_type == UserType.Mentor:
         payload.mentor_owner_id = userId
         query = db.query(DB_Mentor_Users.push_token).filter(DB_Mentor_Users.id == userId).first()
