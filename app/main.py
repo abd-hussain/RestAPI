@@ -59,8 +59,10 @@ app.include_router(report.router)
 
 # TODO: Handle Send SMS For Verifications
 # TODO: Handle Send Push Notifications
-# TODO: Handle Send Email On Reset Password
+    # addNewNotification(UserType.Mentor, user.id, "notification" , "new Login", db)
+
 # TODO: Handle WebPage of aboutus 
 # TODO: Handle WebPage of joinasmentor 
+# TODO: handle payment after success call
 
 

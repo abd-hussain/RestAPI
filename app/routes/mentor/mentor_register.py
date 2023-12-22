@@ -5,7 +5,7 @@ from app.utils.validation import validateFileType, validateImageType
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from app.models.schemas.mentor_account import  RegisterMentorAccountModel
-
+from app.utils.firebase_notifications.notifications_manager import UserType, addNewNotification
 from app.models.respond.general import generalResponse
 from app.utils.oauth2 import hashingPassword
 
@@ -181,6 +181,12 @@ async def register_mentor(suffixe_name: str = Form(None),
     db.commit()
     db.refresh(obj)
     
+
+    try:
+        addNewNotification(UserType.Mentor, lastId, "Account Registerd Successfully" , "Welcome To the Applications", db)
+    finally:
+       print("error sending push notifications")
+
     return generalResponse(message= "Account Created successfully", data=None)
 
 

@@ -7,7 +7,6 @@ from app.utils.database import get_db
 from app.models.respond import general
 from app.utils.oauth2 import create_access_token, verifyPassword
 
-
 router = APIRouter(    
     prefix="/mentor-auth",
     tags=["Authentication"]
@@ -25,9 +24,7 @@ def login(payload: MentorAuth, db: Session = Depends(get_db)):
     if not verifyPassword(payload.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
-        
     access_token = create_access_token(data={"api_key" : "079", "user_id" : user.id})
-
     return general.generalResponse(message= "Logged In successfully", data=access_token)
         
 @router.post('/forgotpassword')
