@@ -7,6 +7,7 @@ from app.models.database.client.db_client_user import DB_Client_Users
 from app.utils.oauth2 import get_current_user
 from app.models.respond.general import generalResponse
 from app.models.schemas.comment_appointment import AppointmentComment
+from datetime import datetime, timezone
 
 router = APIRouter(
     prefix="/mentor-appointment",
@@ -38,17 +39,28 @@ async def cancelAppointment(id: int, db: Session = Depends(get_db), get_current_
     query.update({"state" : AppointmentsState.mentor_cancel}, synchronize_session=False)
     db.commit()
     return generalResponse(message="appoitment canceled successfuly", data=None)
-        
-@router.post("/compleated")
-async def compleateAppointment(id: int, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.mentor_id == get_current_user.user_id
-                                                                              ).filter(DB_Appointments.state == AppointmentsState.active)
+
+@router.put("/join-call")
+async def mentorJoinAppointment(id: int, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.mentor_id == get_current_user.user_id)
+
     if query.first() is None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
     
-    query.update({"state" : AppointmentsState.completed}, synchronize_session=False)
+    query.update({"mentor_join_call" : datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, synchronize_session=False)
     db.commit()
-    return generalResponse(message="appoitment compleated successfuly", data=None)
+    return generalResponse(message="mentor join appoitment successfuly", data=None)
+
+@router.put("/end-call")
+async def mentorEndAppointment(id: int, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.mentor_id == get_current_user.user_id)
+    
+    if query.first() is None:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")       
+                                                             
+    query.update({"mentor_date_of_close" : datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, synchronize_session=False)
+    db.commit()
+    return generalResponse(message="mentor end appoitment successfuly", data=None)
 
 
 @router.post("/comment")
