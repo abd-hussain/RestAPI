@@ -59,6 +59,10 @@ async def mentorEndAppointment(id: int, db: Session = Depends(get_db), get_curre
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")       
                                                              
     query.update({"mentor_date_of_close" : datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, synchronize_session=False)
+    
+    if query.first().client_join_call is None:
+        query.update({"state" : AppointmentsState.client_miss}, synchronize_session=False)
+    
     db.commit()
     return generalResponse(message="mentor end appoitment successfuly", data=None)
 
