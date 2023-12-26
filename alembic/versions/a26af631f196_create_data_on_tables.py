@@ -1490,7 +1490,7 @@ def upgrade() -> None:
         {
             "id" : 1,      
             "language" : "en",
-            "image" : "banner1.jpg",
+            "image" : "banner1.png",
             "published" : True      
         },
         {
@@ -1509,7 +1509,19 @@ def upgrade() -> None:
         {
             "id" : 4,      
             "language" : "ar",
-            "image" : "banner4.jpeg",
+            "image" : "banner4.png",
+            "published" : True           
+        },
+        {
+            "id" : 5,      
+            "language" : "ar",
+            "image" : "banner5.png",
+            "published" : True           
+        },
+        {
+            "id" : 6,      
+            "language" : "en",
+            "image" : "banner6.png",
             "published" : True           
         },
     ]
@@ -1520,7 +1532,7 @@ def upgrade() -> None:
         {
             "id" : 1,      
             "language" : "en",
-            "image" : "banner1.jpg",
+            "image" : "banner1.png",
             "published" : True      
         },
         {
@@ -1534,22 +1546,26 @@ def upgrade() -> None:
             "id" : 3,      
             "language" : "ar",
             "image" : "banner3.jpg",
-            "action_type" : "https://www.youtube.com/watch?v=FrCO41i2tWM&ab_channel=%D8%AD%D8%B3%D9%86%D8%A7%D9%84%D9%81%D8%A7%D8%B6%D9%84%D9%8A-ElfadiliTV",
             "published" : True            
         },
         {
             "id" : 4,      
             "language" : "ar",
-            "image" : "banner4.jpg",
+            "image" : "banner4.png",
             "published" : True           
         },
         {
             "id" : 5,      
             "language" : "ar",
-            "image" : "banner4.jpeg",
-            "action_type" : "null",
-            "published" : False           
-        }
+            "image" : "banner5.png",
+            "published" : True           
+        },
+        {
+            "id" : 6,      
+            "language" : "en",
+            "image" : "banner6.png",
+            "published" : True           
+        },
     ]
     )
 
