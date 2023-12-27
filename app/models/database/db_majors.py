@@ -7,5 +7,7 @@ class DB_Majors(Base):
     id = Column(Integer, primary_key=True, nullable=False, index=True)
     name_english = Column(String)
     name_arabic = Column(String)
+    categories_id = Column(Integer, ForeignKey(
+        "categories.id", ondelete="CASCADE"))
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
