@@ -11,6 +11,7 @@ from datetime import datetime
 from app.models.respond.general import generalResponse
 from app.models.database.db_category import DB_Categories
 from app.models.schemas.comment_appointment import AppointmentComment
+from app.utils.agora.my_interface import generateTokenClient
 
 router = APIRouter(
     prefix="/client-appointment",
@@ -112,15 +113,17 @@ async def bookAppointment(payload: AppointmentRequest, db: Session = Depends(get
     return generalResponse(message="appoitment booked successfuly", data=None)
 
 @router.put("/join-call")
-async def clientJoinAppointment(id: int, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def clientJoinAppointment(id: int, channelName: str, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.channel_id == get_current_user.user_id)
 
     if query.first() is None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
     
+    callToken = generateTokenClient(channelName)
+
     query.update({"client_join_call" : datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, synchronize_session=False)
     db.commit()
-    return generalResponse(message="client join appoitment successfuly", data=None)
+    return generalResponse(message="client join appoitment successfuly", data=callToken)
 
 @router.put("/end-call")
 async def clientEndAppointment(id: int, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):

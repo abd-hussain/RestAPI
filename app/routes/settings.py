@@ -7,8 +7,6 @@ from app.models.database.db_leads import DB_Leads
 from app.models.respond.general import generalResponse
 from app.utils.database import get_db
 from app.utils.validation import validateLanguageHeader
-from app.utils.agora.my_interface import generateTokenMentor, generateTokenClient
-
 
 router = APIRouter(
     prefix="/settings",
@@ -43,12 +41,3 @@ async def upload_leads(payload: ListLeads, db: Session = Depends(get_db)):
         db.add(obj)
         db.commit()
     return generalResponse(message= "successfully created leads", data= None)
-
-
-@router.post("/generateToken", status_code=status.HTTP_201_CREATED)
-async def create_call_Token(channelName: str, userType: str, request: Request, db: Session = Depends(get_db)):    
-    if userType == "mentor":
-        callToken = generateTokenMentor(channelName)
-    else: 
-        callToken = generateTokenClient(channelName)
-    return generalResponse(message= "token generated", data= callToken)
