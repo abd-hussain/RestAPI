@@ -35,6 +35,5 @@ class DB_Appointments(Base):
     mentor_date_of_close = Column(DateTime, nullable=True)
     client_date_of_close = Column(DateTime, nullable=True)
     channel_id = Column(String, nullable=False)
-    call_token = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text('now()'))
