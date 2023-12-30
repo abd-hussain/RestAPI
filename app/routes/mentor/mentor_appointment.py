@@ -19,7 +19,7 @@ router = APIRouter(
 async def get_mentorAppointment(db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):    
     query = db.query(DB_Appointments.id, DB_Appointments.date_from, DB_Appointments.date_to,
                       DB_Appointments.client_id, DB_Appointments.mentor_id, 
-                      DB_Appointments.appointment_type, DB_Appointments.channel_id, DB_Appointments.call_token,
+                      DB_Appointments.appointment_type, DB_Appointments.channel_id, 
                       DB_Appointments.note_from_mentor, DB_Appointments.note_from_client,
                       DB_Appointments.price_before_discount, DB_Appointments.price_after_discount, DB_Appointments.state,
                       DB_Client_Users.profile_img, DB_Client_Users.first_name, DB_Client_Users.last_name,
