@@ -114,7 +114,7 @@ async def bookAppointment(payload: AppointmentRequest, db: Session = Depends(get
 
 @router.put("/join-call")
 async def clientJoinAppointment(id: int, channelName: str, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.channel_id == get_current_user.user_id)
+    query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.client_id == get_current_user.user_id)
 
     if query.first() is None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
