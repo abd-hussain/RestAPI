@@ -43,22 +43,3 @@ async def mark_As_reded_Notification(request: Request, db: Session = Depends(get
     db.commit()
 
     return generalResponse(message="Mark All Notification Readed successfully", data=None)
-
-@router.delete("/client")
-async def delete_Notification(id :int ,request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
-    
-    query = db.query(DB_Notifications).filter(DB_Notifications.id == id)
-    
-    notification = query.first()
-
-    if notification == None:
-       return generalResponse(message="No Notification Founded", data=None)
-   
-    if notification.client_owner_id != get_current_user.user_id:
-        return generalResponse(message="Not authorized to perform requested action", data=None)
-    
-    query.delete(synchronize_session=False)
-    db.commit()
-
-    return generalResponse(message="Notification deleted successfully", data=None)

@@ -20,6 +20,11 @@ def login(payload: MentorAuth, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
+        
+        
+    if user.published == False:
+         raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="User Under Review")
 
     if not verifyPassword(payload.password, user.password):
         raise HTTPException(

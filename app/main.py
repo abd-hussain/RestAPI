@@ -56,13 +56,20 @@ app.include_router(filter.router)
 app.include_router(settings.router)
 app.include_router(report.router)
 
-# TODO: Handle generate token for Agora call
 # TODO: Handle Send SMS For Verifications
 # TODO: Handle Send Push Notifications
     # addNewNotification(UserType.Mentor, user.id, "notification" , "new Login", db)
-
-# TODO: Handle WebPage of aboutus 
-# TODO: Handle WebPage of joinasmentor 
+# TODO: Currencys 
+# TODO: UTC and Timing
 # TODO: handle payment after success call
+# TODO: handle mentor user need to verify
+# TODO: handle mentor user rating hours / 1/2 1/4 3/4
+# TODO: handle record call
+# TODO: generate apikey for each login
 
+# TODO: crod to delete duplicated contact in leads
+# TODO: add  points for each mentor/client was used his referal code
 
+# TODO: mentor must see rating and reviews for mentors and respond
+
+# TODO: client login should have one methods delete debug
