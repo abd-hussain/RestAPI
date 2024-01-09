@@ -30,7 +30,6 @@ class UpdateClientAccountModel(BaseModel):
     email : Optional[EmailStr] 
     gender : Optional[int] 
     blocked : Optional[bool] 
-    referal_code : Optional[str]
     invitation_code : Optional[str]
     profile_img : Optional[str]
     os_type : Optional[str]
@@ -39,4 +38,4 @@ class UpdateClientAccountModel(BaseModel):
     app_version : Optional[str]
     date_of_birth : Optional[str] 
     country_id : Optional[int] 
-    last_usage: datetime = datetime.now()
+    last_usage: datetime = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")

@@ -5,38 +5,50 @@ from app.models.schemas.new_notifications import NewNotification
 from app.utils.firebase_notifications.handler import send_push_notification_mentor, send_push_notification_client
 from enum import Enum
 from sqlalchemy.orm import Session
-from app.utils.database import get_db
-from fastapi import Depends
 
 class UserType(Enum):
     Mentor = 1
     Client = 2
+    
+# class NotificationsObj():
+#     user_type : UserType
+#     user_id: int
+#     currentLanguage: str
+#     title_english : str
+#     title_arabic : str
+#     content_english : str
+#     content_arabic : str
+#     db: Session
+    
+def addNewNotification(user_type : UserType,
+    user_id: int,
+    currentLanguage: str,
+    title_english : str,
+    title_arabic : str,
+    content_english : str,
+    content_arabic : str,
+    db: Session):
+    
+    user_model = DB_Mentor_Users if user_type == UserType.Mentor else DB_Client_Users
+    push_notification_func = send_push_notification_mentor if user_type == UserType.Mentor else send_push_notification_client
 
-def addNewNotification(user_type : UserType, userId : int, title : str, body: str, db: Session = Depends(get_db)):
+    query = db.query(user_model.push_token).filter(user_model.id == user_id).first()
     
-  
+    user_token = query[0] if query else None
     
-    filterQuery3 = db.query(DB_Notifications).order_by(DB_Notifications.id.desc()).first()
+    payload = NewNotification(title_arabic=title_arabic, 
+                              title_english=title_english, 
+                              content_english=content_english, 
+                              content_arabic=content_arabic,
+                              mentor_owner_id=user_id if user_type == UserType.Mentor else None,
+                              client_owner_id=user_id if user_type == UserType.Client else None)
     
-    lastId = filterQuery3.id + 1
-    userToken = ""
-    
-    payload = NewNotification(id = lastId, title_arabic = title, title_english = title, 
-                              content_english = body, content_arabic = body)
-      
-    if user_type == UserType.Mentor:
-        payload.mentor_owner_id = userId
-        query = db.query(DB_Mentor_Users.push_token).filter(DB_Mentor_Users.id == userId).first()
-        userToken = query[0] if query else None
-        send_push_notification_mentor(userToken, title, body)
-    else:
-        payload.client_owner_id = userId
-        query = db.query(DB_Client_Users.push_token).filter(DB_Client_Users.id == userId).first()
-        userToken = query[0] if query else None
-        send_push_notification_client(userToken, title, body)
-
-
+    if user_token:
+        if currentLanguage == "ar":
+            push_notification_func(user_token, title_arabic, content_arabic)
+        else:
+            push_notification_func(user_token, title_english, content_english)
+            
     obj = DB_Notifications(**payload.dict())
     db.add(obj)
     db.commit()
- 

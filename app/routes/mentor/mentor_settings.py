@@ -1,63 +1,96 @@
-from fastapi import Depends ,APIRouter, HTTPException, status
+from fastapi import Request, Depends ,APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
+from app.models.database.mentor.db_mentor_review import DB_Mentor_Review
 from app.models.schemas.mentor_account import MentorChangePassword
-
+from app.models.schemas.mentor_account import MentorForgotPassword
 from app.utils.oauth2 import get_current_user
 from app.models.respond.general import generalResponse
-from app.utils.oauth2 import verifyPassword, hashingPassword
+from app.utils.oauth2 import verifyPassword
+from app.utils.send_email import send_email
+from app.utils.firebase_notifications.notifications_manager import UserType, addNewNotification
+from app.utils.validation import validateLanguageHeader
+from app.models.database.client.db_client_user import DB_Client_Users
+from app.models.database.db_country import DB_Countries
 
 router = APIRouter(
     prefix="/mentor-settings",
     tags=["Account"]
 )
 
-@router.get("/hour-rate")
-async def get_hourRateAndIban(db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+@router.get('/review')
+def getMentorReview(db: Session = Depends(get_db), 
+                         current_user: int = Depends(get_current_user)):
+    
+    query = db.query(DB_Mentor_Review.id, DB_Mentor_Review.client_id, DB_Mentor_Review.stars, 
+                      DB_Mentor_Review.comment, DB_Mentor_Review.mentor_response, 
+                      DB_Mentor_Review.created_at,
+                      DB_Client_Users.profile_img, DB_Client_Users.first_name, DB_Client_Users.last_name,
+                      DB_Client_Users.country_id, DB_Countries.flag_image
+                     ).join(DB_Client_Users, DB_Client_Users.id == DB_Mentor_Review.client_id, isouter=True)\
+                         .join(DB_Countries, DB_Countries.id == DB_Client_Users.country_id, isouter=True).filter(
+                         DB_Mentor_Review.mentor_id == current_user.user_id).all()
+   
+    return generalResponse(message= "All reviews return successfully", data=query)
 
-    query = db.query(DB_Mentor_Users.hour_rate,DB_Mentor_Users.iban).filter(DB_Mentor_Users.id == get_current_user.user_id).first()
 
-    if query == None:
-       return generalResponse(message="profile was not found", data=None)
+@router.put('/review-response')
+def getMentorReview(id: int, response: str, db: Session = Depends(get_db), 
+                         current_user: int = Depends(get_current_user)):
+    
 
-    return generalResponse(message="hour_rate & IBAN return successfully", data=query)
+    review = db.query(DB_Mentor_Review).filter(DB_Mentor_Review.id == id, DB_Mentor_Review.mentor_id == current_user.user_id).first()
+    
+    if review is None:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Review Not Exsist")
+    
+    review.mentor_response = response
+    db.commit()
+   
+    return generalResponse(message= "Review updated successfully", data=None)
 
-@router.put("/hour-rate")
-async def update_hourRate(rate: str, iban: str,
-                         db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-  
-    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
-
-    if rate != None:
-        query.update({"hour_rate" : rate}, synchronize_session=False)
-        query.update({"iban" : iban}, synchronize_session=False)
-        db.commit()
-        
-    return generalResponse(message= "Change hour_rate And IBAN successfully", data=None)
+@router.post('/forgotpassword')
+def forgotPassword(payload: MentorForgotPassword, db: Session = Depends(get_db)):
+    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.email == payload.email).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    send_email(payload.email, user.password)
+    return generalResponse(message= "Email send successfully", data=None)
 
 @router.put("/change-password")
-async def update_password(payload: MentorChangePassword,
-                         db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-  
-    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
+async def change_password(request: Request, payload: MentorChangePassword,
+                         db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id).first()
 
-    if not verifyPassword(payload.oldpassword, query.first().password):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
-    if payload.newpassword != None:
-        query.update({"password" : hashingPassword(payload.newpassword)}, synchronize_session=False)
+    if not user or not verifyPassword(payload.oldpassword, user.password):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
+    
+    if payload.newpassword:
+        user.password = payload.newpassword
         db.commit()
-        
-    return generalResponse(message= "Change Password successfully", data=None)
+        addNewNotification(user_type=UserType.Mentor,
+                                        user_id=current_user.user_id,
+                                        currentLanguage=myHeader.language,
+                                        db=db,
+                                        title_english="Change Password",
+                                        title_arabic="تغيير كلمة المرور",
+                                        content_english="Your Password change successfully",
+                                        content_arabic="تم تغيير كلمة المرور الخاصة بك بنجاح")
+        return generalResponse(message="Password changed successfully", data=None)
+    else:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="New password is required")
 
 @router.delete("/delete")
-async def delete_account(db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    query = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == get_current_user.user_id)
-
-    if query.first() == None:
-       return generalResponse(message="profile was not found", data=None)
-   
-    query.delete()
+async def delete_account(db: Session = Depends(get_db), 
+                         current_user: int = Depends(get_current_user)):
+    
+    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    
+    db.delete(user)
     db.commit()
     return generalResponse(message="Profile deleted successfully", data=None)

@@ -12,7 +12,7 @@ router = APIRouter(
     prefix="/client-account",
     tags=["Account"]
 )
-
+# //TODO
 @router.get("/")
 async def get_account(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
@@ -38,16 +38,16 @@ async def delete_account(request: Request, db: Session = Depends(get_db), get_cu
 
 @router.put("/update")
 async def update_account(request: Request,first_name: str = Form(None),last_name: str = Form(None),email: str = Form(None),gender: int = Form(None),
-                         country_id: int = Form(None), referal_code: str = Form(None),date_of_birth: str = Form(None),profile_picture: UploadFile = File(None), 
+                         country_id: int = Form(None), invitation_code: str = Form(None),date_of_birth: str = Form(None),profile_picture: UploadFile = File(None), 
                          os_type: str = Form(""),device_type_name: str = Form(""),app_version: str = Form(""),
                          db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
     query_account = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id).first()
     query = db.query(DB_Client_Users).filter(DB_Client_Users.id == get_current_user.user_id)
     payload = UpdateClientAccountModel(first_name = first_name, last_name = last_name, email = email, date_of_birth = date_of_birth, 
-                                     country_id = country_id, gender = gender, referal_code = referal_code, 
+                                     country_id = country_id, gender = gender, invitation_code = invitation_code, 
                                       os_type = os_type, device_type_name = device_type_name, app_version = app_version)
-    
+    # //HERE
     if query.first().invitation_code is None:
         query.update({"invitation_code" : generateActvationCode()}, synchronize_session=False)
 
@@ -66,8 +66,8 @@ async def update_account(request: Request,first_name: str = Form(None),last_name
     if payload.gender != None:
         query.update({"gender" : payload.gender}, synchronize_session=False)
         
-    if payload.referal_code != None:
-        query.update({"referal_code" : payload.referal_code}, synchronize_session=False)
+    # if payload.referal_code != None:
+    #     query.update({"referal_code" : payload.referal_code}, synchronize_session=False)
     if payload.profile_img != None:
         query.update({"profile_img" : payload.profile_img}, synchronize_session=False)
     if payload.os_type != None:

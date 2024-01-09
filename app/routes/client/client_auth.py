@@ -8,6 +8,8 @@ from app.models.respond import general, login
 from app.utils.validation import verifyKey
 from app.utils.oauth2 import create_access_token
 
+# TODO: client login should have one methods delete debug
+# //TODO
 router = APIRouter(    
     prefix="/client-auth",
     tags=["Authentication"]

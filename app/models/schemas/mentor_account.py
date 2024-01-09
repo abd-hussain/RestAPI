@@ -133,7 +133,6 @@ class RegisterMentorAccountModel(BaseModel):
     majors: Optional[list[int]]
     category_id : Optional[int]
     speaking_language: Optional[list[str]]
-    referal_code : Optional[str]
     mobile_number : Optional[str]
     working_hours_saturday: Optional[list[int]]
     working_hours_sunday: Optional[list[int]]
@@ -157,6 +156,5 @@ class RegisterMentorAccountModel(BaseModel):
     cert1 : Optional[str] = ""
     cert2 : Optional[str] = ""
     cert3 : Optional[str] = "" 
-    
 
 

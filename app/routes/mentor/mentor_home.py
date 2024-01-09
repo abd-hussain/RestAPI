@@ -2,9 +2,8 @@ from fastapi import Request, Depends ,APIRouter
 from sqlalchemy.orm import Session
 from app.utils.validation import validateLanguageHeader
 from app.utils.database import get_db
-from app.models.database.db_mentor_banners import DB_Mentor_Banners
+from app.models.database.mentor.db_mentor_banners import DB_Mentor_Banners
 from app.models.respond.general import generalResponse
-from app.models.schemas.home import HomeResponse
 
 router = APIRouter(
     prefix="/mentor-home",
@@ -13,9 +12,10 @@ router = APIRouter(
 
 @router.get("/")
 async def get_home(request: Request, db: Session = Depends(get_db)):
-    myHeader = validateLanguageHeader(request)
+    language = validateLanguageHeader(request).language
     
-    main_banner = db.query(DB_Mentor_Banners).filter(DB_Mentor_Banners.language == myHeader.language).filter(DB_Mentor_Banners.published == True).all()
+    main_banners = db.query(DB_Mentor_Banners.image, DB_Mentor_Banners.action_type
+                           ).filter_by(language=language, published=True
+                                ).all()
 
-    respose = HomeResponse(main_banner = main_banner) 
-    return generalResponse(message="home return successfully", data=respose)
+    return generalResponse(message="Home returned successfully", data=main_banners)

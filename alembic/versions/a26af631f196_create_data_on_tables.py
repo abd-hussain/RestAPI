@@ -8,23 +8,27 @@ Create Date: 2022-10-20 12:40:47.209451
 import datetime
 from alembic import op
 
-from app.models.database.db_versions import DB_Versions, Platform
+from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
+from app.models.database.mentor.db_mentor_review import DB_Mentor_Review
+from app.models.database.mentor.db_mentor_banners import DB_Mentor_Banners
+from app.models.database.client.db_client_user import DB_Client_Users
+from app.models.database.client.db_client_banners import DB_Client_Banners
+from app.models.database.client.db_client_points import DB_Client_Points
+from app.models.database.mentor.db_mentor_points import DB_Mentor_Points
+
 from app.models.database.db_country import DB_Countries
-from app.models.database.mentor.db_mentor_user import DB_Mentor_Users, DB_Mentor_Review
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_notifications import DB_Notifications
-from app.models.database.db_client_banners import DB_Client_Banners
-from app.models.database.db_mentor_banners import DB_Mentor_Banners
-from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_majors import DB_Majors
 from app.models.database.db_discount import DB_Discount
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType
 from app.models.database.db_suffix import DB_Suffix
 from app.models.database.db_payments import DB_Mentor_Payments, PaymentStatus, DB_Mentor_PaymentsـReports
 from app.models.database.db_archive import DB_Archive
-from app.models.database.client.db_client_user import Base
+
 
 from app.utils.database import engine
+from app.models.database.client.db_client_user import Base
 
 # revision identifiers, used by Alembic.
 revision = 'a26af631f1969'
@@ -63,27 +67,6 @@ def upgrade() -> None:
             "id" : 5,
             "code" : "abd100",
             "percent_value" : 100,         
-        }
-    ]
-    )
-    
-    op.bulk_insert(DB_Versions.__table__,
-    [
-        {
-            "id" : 1,
-            "version" : 1.0,
-            "content_arabic" : "اول اصدار",         
-            "content_english" : "First Build",    
-            "platform" : Platform.mentor,    
-            "is_forced" : False
-        },
-        {
-            "id" : 2,
-            "version" : 1.0,
-            "content_arabic" : "اول اصدار",         
-            "content_english" : "First Build",    
-            "platform" : Platform.client,    
-            "is_forced" : False
         }
     ]
     )
@@ -799,7 +782,6 @@ def upgrade() -> None:
             "gender" : 1,  
             "allow_notifications" : True,
             "blocked" : False,
-            "referal_code" : "",
             "invitation_code" : "123456",
             "profile_img" : "",
             "os_type" : "iOS",         
@@ -821,7 +803,6 @@ def upgrade() -> None:
             "gender" : 2,              
             "allow_notifications" : True,         
             "blocked" : True,         
-            "referal_code" : "",
             "invitation_code" : "234567",
             "profile_img" : "",
             "os_type" : "iOS",         
@@ -860,7 +841,6 @@ def upgrade() -> None:
             "email" : "aboud.masoud.1@gmail.com",
             "gender" : 1,
             "hour_rate" : 20.5,   
-            "referal_code" : "",
             "invitation_code" : "123",
             "profile_img" : "1.png",
             "id_img" : "1.png",
@@ -873,7 +853,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",   
             "experience_since" : "1992",
-            "last_usage" : "",        
             "api_key" : "00001",
             "push_token" : "",    
             "country_id" : 6
@@ -899,7 +878,6 @@ def upgrade() -> None:
             "category_id" : 1,  
             "gender" : 2,  
             "hour_rate" : 34.7,                
-            "referal_code" : "",
             "invitation_code" : "234",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -912,7 +890,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",   
             "experience_since" : "1999",
-            "last_usage" : "",             
             "api_key" : "00002",
             "push_token" : "",         
             "country_id" : 2
@@ -938,7 +915,6 @@ def upgrade() -> None:
             "category_id" : 2,
             "hour_rate" : 12.1,                  
             "gender" : 0,         
-            "referal_code" : "",
             "invitation_code" : "345",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -951,7 +927,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2000",
-            "last_usage" : "",             
             "api_key" : "00003", 
             "push_token" : "",        
             "country_id" : 7
@@ -977,7 +952,6 @@ def upgrade() -> None:
             "category_id" : 1,
             "hour_rate" : 65.0,                    
             "gender" : 0,         
-            "referal_code" : "",
             "invitation_code" : "456",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -990,7 +964,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2014",                        
-            "last_usage" : "",          
             "api_key" : "00004",
             "push_token" : "",         
             "country_id" : 6
@@ -1016,7 +989,6 @@ def upgrade() -> None:
             "category_id" : 3,
             "hour_rate" : 33.0,                      
             "gender" : 0,         
-            "referal_code" : "",
             "invitation_code" : "567",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1029,7 +1001,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2014",                                 
-            "last_usage" : "",          
             "api_key" : "00005",
             "push_token" : "",         
             "country_id" : 1
@@ -1055,7 +1026,6 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,
             "hour_rate" : 17.8,                               
-            "referal_code" : "",
             "invitation_code" : "678",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1068,7 +1038,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2014",                                 
-            "last_usage" : "",          
             "api_key" : "00006",
             "push_token" : "",         
             "country_id" : 5
@@ -1094,7 +1063,6 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,
             "hour_rate" : 43.0,                                        
-            "referal_code" : "",
             "invitation_code" : "789",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1107,7 +1075,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2014",                              
-            "last_usage" : "",          
             "api_key" : "00007",
             "push_token" : "",         
             "country_id" : 6
@@ -1133,7 +1100,6 @@ def upgrade() -> None:
             "category_id" : 2,
             "hour_rate" : 77.2,                                          
             "gender" : 0,         
-            "referal_code" : "",
             "invitation_code" : "890",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1146,7 +1112,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2019",                                       
-            "last_usage" : "",          
             "api_key" : "00008",
             "push_token" : "",        
             "country_id" : 5
@@ -1172,7 +1137,6 @@ def upgrade() -> None:
             "category_id" : 4,
             "hour_rate" : 12.2,                                            
             "gender" : 0,         
-            "referal_code" : "",
             "invitation_code" : "901",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1185,7 +1149,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2020",                                                
-            "last_usage" : "",          
             "api_key" : "00009",
             "push_token" : "",        
             "country_id" : 5
@@ -1211,7 +1174,6 @@ def upgrade() -> None:
             "category_id" : 3,
             "hour_rate" : 28.9,                                              
             "gender" : 0,         
-            "referal_code" : "",
             "invitation_code" : "012",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1224,7 +1186,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2000",                                                         
-            "last_usage" : "",          
             "api_key" : "000010",
             "push_token" : "",         
             "country_id" : 4
@@ -1250,7 +1211,6 @@ def upgrade() -> None:
             "category_id" : 7,  
             "gender" : 0,
             "hour_rate" : 35.2,                                                       
-            "referal_code" : "",
             "invitation_code" : "098",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1263,7 +1223,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2000",                                                                  
-            "last_usage" : "",          
             "api_key" : "000011",
             "push_token" : "",         
             "country_id" : 3
@@ -1289,7 +1248,6 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,
             "hour_rate" : 52.1,                                                                
-            "referal_code" : "",
             "invitation_code" : "987",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1302,7 +1260,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2001",                                                                  
-            "last_usage" : "",          
             "api_key" : "000012",
             "push_token" : "",         
             "country_id" : 2
@@ -1328,7 +1285,6 @@ def upgrade() -> None:
             "category_id" : 7,  
             "gender" : 0,  
             "hour_rate" : 11.0,                           
-            "referal_code" : "",
             "invitation_code" : "876",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1341,7 +1297,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2011",                                                                           
-            "last_usage" : "",          
             "api_key" : "000013",
             "push_token" : "",         
             "country_id" : 3
@@ -1367,7 +1322,6 @@ def upgrade() -> None:
             "category_id" : 2,  
             "gender" : 0,
             "hour_rate" : 14.0,                    
-            "referal_code" : "",
             "invitation_code" : "765",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1380,7 +1334,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2020",                                                                                    
-            "last_usage" : "",         
             "api_key" : "000014",
             "push_token" : "",         
             "country_id" : 2
@@ -1406,7 +1359,6 @@ def upgrade() -> None:
             "category_id" : 5,  
             "gender" : 0, 
             "hour_rate" : 84.0,                            
-            "referal_code" : "",
             "invitation_code" : "654",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1419,7 +1371,6 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "22/05/1992",
             "experience_since" : "2021",                                                                                             
-            "last_usage" : "",          
             "api_key" : "000015",
             "push_token" : "",         
             "country_id" : 2
@@ -1445,7 +1396,6 @@ def upgrade() -> None:
             "category_id" : 6,  
             "gender" : 1, 
             "hour_rate" : 120.0,                            
-            "referal_code" : "",
             "invitation_code" : "543",
             "profile_img" : "",
             "id_img" : "1.png",
@@ -1458,23 +1408,38 @@ def upgrade() -> None:
             "app_version" : "1.0",         
             "date_of_birth" : "12/01/1990",
             "experience_since" : "2000",                                                                                             
-            "last_usage" : "",          
             "api_key" : "000016",
             "push_token" : "",         
             "country_id" : 8
         }
     ]
     )
-    op.bulk_insert(DB_Appointments.__table__,
+    
+    op.bulk_insert(DB_Mentor_Points.__table__,
     [
         {
             "id" : 1,
             "mentor_id" : 2,
+            "invited_mentor_id" : 1,
+            "reason" : "Registration"
+        }
+    ]
+    )
+        
+    op.bulk_insert(DB_Appointments.__table__,
+    [
+        {
+            "id" : 1,
+            "mentor_id" : 1,
             "client_id" : 1,
             "date_from" : datetime.datetime(2023, 12, 28, 8),
             "date_to" : datetime.datetime(2023, 12, 28, 9),
-            "price_before_discount" : 20,
-            "price_after_discount" : 10,
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.schudule,
             "state" : AppointmentsState.completed,
             "note_from_client" : "example Client note",
@@ -1487,12 +1452,16 @@ def upgrade() -> None:
         },
         {
             "id" : 2,
-            "mentor_id" : 2,            
+            "mentor_id" : 15,            
             "client_id" : 2,
             "date_from" : datetime.datetime(2023, 12, 31, 14),    
             "date_to" : datetime.datetime(2023, 12, 31, 14, 30),
-            "price_before_discount" : 9.9,
-            "price_after_discount" : 9.9,
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.schudule,
             "state" : AppointmentsState.active,
             "note_from_client" : "this is Client note",
@@ -1509,8 +1478,12 @@ def upgrade() -> None:
             "client_id" : 1,
             "date_from" : datetime.datetime(2023, 12, 31, 10),    
             "date_to" : datetime.datetime(2023, 12, 31, 10, 15),
-            "price_before_discount" : 10,
-            "price_after_discount" : 10,
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.instant,
             "state" : AppointmentsState.active,
             "note_from_client" : None,
@@ -1527,8 +1500,12 @@ def upgrade() -> None:
             "client_id" : 1,
             "date_from" : datetime.datetime(2023, 12, 25, 0),    
             "date_to" : datetime.datetime(2023, 12, 25, 0, 30),
-            "price_before_discount" : 14,
-            "price_after_discount" : 14,
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.instant,
             "state" : AppointmentsState.completed,
             "note_from_client" : None,
@@ -1545,8 +1522,12 @@ def upgrade() -> None:
             "client_id" : 1,
             "date_from" : datetime.datetime(2023, 12, 26, 10),    
             "date_to" : datetime.datetime(2023, 12, 26, 10, 15),
-            "price_before_discount" : 21,
-            "price_after_discount" : 20,
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.instant,
             "state" : AppointmentsState.mentor_cancel,
             "note_from_client" : None,
@@ -1563,8 +1544,12 @@ def upgrade() -> None:
             "client_id" : 2,
             "date_from" : datetime.datetime(2023, 12, 27, 19),    
             "date_to" : datetime.datetime(2023, 12, 27, 19, 30),
-            "price_before_discount" : 17,
-            "price_after_discount" : 15,  
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.schudule,
             "state" : AppointmentsState.client_cancel,
             "note_from_client" : None,
@@ -1581,8 +1566,12 @@ def upgrade() -> None:
             "client_id" : 1,
             "date_from" : datetime.datetime(2023, 12, 30, 20),    
             "date_to" : datetime.datetime(2023, 12, 30, 21),
-            "price_before_discount" : 12,
-            "price_after_discount" : 12,
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.schudule,
             "state" : AppointmentsState.active,
             "note_from_client" : None,
@@ -1599,8 +1588,12 @@ def upgrade() -> None:
             "client_id" : 1,
             "date_from" : datetime.datetime(2023, 12, 30, 21),    
             "date_to" : datetime.datetime(2023, 12, 30, 22),
-            "price_before_discount" : 9,
-            "price_after_discount" : 9,
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.instant,
             "state" : AppointmentsState.active,
             "note_from_client" : "this is Client note",
@@ -1617,8 +1610,12 @@ def upgrade() -> None:
             "client_id" : 1,
             "date_from" : datetime.datetime(2023, 12, 31, 14),    
             "date_to" : datetime.datetime(2023, 12, 31, 14, 15),
-            "price_before_discount" : 12,
-            "price_after_discount" : 12,
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.schudule,
             "state" : AppointmentsState.active,
             "note_from_client" : None,
@@ -1635,8 +1632,12 @@ def upgrade() -> None:
             "client_id" : 1,
             "date_from" : datetime.datetime(2023, 12, 30, 15),    
             "date_to" : datetime.datetime(2023, 12, 30, 15, 15),
-            "price_before_discount" : 16.3,
-            "price_after_discount" : 16,  
+            "is_free" : False,
+            "price" : 20,
+            "discounted_price" : 10,
+            "currency_english" : "JD",
+            "currency_arabic" : "د.ا",
+            "mentor_hour_rate" : 20,
             "appointment_type" : AppointmentsType.schudule,
             "state" : AppointmentsState.active,
             "note_from_client" : None,
@@ -1647,78 +1648,6 @@ def upgrade() -> None:
             "mentor_date_of_close" : None,
             "client_date_of_close" : None
         },
-        {
-            "id" : 11,
-            "mentor_id" : 2,
-            "client_id" : 1,
-            "date_from" : datetime.datetime(2023, 12, 18, 14),    
-            "date_to" : datetime.datetime(2023, 12, 18, 14, 30),
-            "price_before_discount" : 12,
-            "price_after_discount" : 12,   
-            "appointment_type" : AppointmentsType.schudule,
-            "state" : AppointmentsState.mentor_miss, 
-            "note_from_mentor" : "this is mentor note",
-            "note_from_client" : None,
-            "channel_id" : "test11",
-            "mentor_join_call" : None,
-            "client_join_call" : datetime.datetime(2023, 12, 18, 14),
-            "mentor_date_of_close" : None,
-            "client_date_of_close" : datetime.datetime(2023, 12, 18, 14, 10)
-        },
-        {
-            "id" : 12,
-            "mentor_id" : 2,
-            "client_id" : 1,
-            "date_from" : datetime.datetime(2023, 12, 15, 15),    
-            "date_to" : datetime.datetime(2023, 12, 15, 15, 30),
-            "price_before_discount" : 12,
-            "price_after_discount" : 12,     
-            "appointment_type" : AppointmentsType.schudule,
-            "state" : AppointmentsState.client_miss, 
-            "note_from_client" : None,
-            "note_from_mentor" : None,
-            "channel_id" : "test12",
-            "mentor_join_call" : datetime.datetime(2023, 12, 15, 15),
-            "client_join_call" : None,
-            "mentor_date_of_close" : datetime.datetime(2023, 12, 15, 15, 5),
-            "client_date_of_close" : None
-        },
-        {
-            "id" : 13,
-            "mentor_id" : 2,
-            "client_id" : 1,
-            "date_from" : datetime.datetime(2023, 12, 30, 14),    
-            "date_to" : datetime.datetime(2023, 12, 30, 15),
-            "price_before_discount" : 12,
-            "price_after_discount" : 12,       
-            "appointment_type" : AppointmentsType.schudule,
-            "state" : AppointmentsState.active,
-            "note_from_client" : None,
-            "note_from_mentor" : None,
-            "channel_id" : "test13",
-            "mentor_join_call" : None,
-            "client_join_call" : None,
-            "mentor_date_of_close" : None,
-            "client_date_of_close" : None
-        },
-        {
-            "id" : 14,
-            "mentor_id" : 2,
-            "client_id" : 2,
-            "date_from" : datetime.datetime(2023, 12, 31, 15),    
-            "date_to" : datetime.datetime(2023, 12, 31, 16),
-            "price_before_discount" : 11,
-            "price_after_discount" : 8.75,          
-            "appointment_type" : AppointmentsType.schudule,
-            "state" : AppointmentsState.active,
-            "note_from_client" : "this is Client note",
-            "note_from_mentor" : None,
-            "channel_id" : "test14",
-            "mentor_join_call" : None,
-            "client_join_call" : None,
-            "mentor_date_of_close" : None,
-            "client_date_of_close" : None
-        }
     ]
     )
     
@@ -1910,48 +1839,44 @@ def upgrade() -> None:
         },
     ]
     )
-
+    
     op.bulk_insert(DB_Mentor_Payments.__table__,
     [
         {
             "id" : 1,
             "mentor_id" : 1,
+            "appointment_id" : 1,
             "status" : PaymentStatus.pending,   
             "amount" : 12,   
             "currency_arabic" : "د.ا",   
             "currency_english" : "JD",    
-            "descriptions" : "Meeting with client saleh yousef",    
-            "durations" : 30, 
         },
         {
             "id" : 2,
-            "mentor_id" : 1,
-            "status" : PaymentStatus.approved,   
-            "amount" : 40.2,   
+            "mentor_id" : 2,
+            "appointment_id" : 1,
+            "status" : PaymentStatus.pending,   
+            "amount" : 12,   
             "currency_arabic" : "د.ا",   
             "currency_english" : "JD",    
-            "descriptions" : "Meeting with client zaid Barghouthi",    
-            "durations" : 45, 
         },        
         {
             "id" : 3,
             "mentor_id" : 2,
+            "appointment_id" : 3,
             "status" : PaymentStatus.pending,   
             "amount" : 19.2,   
             "currency_arabic" : "د.ا",   
             "currency_english" : "JD",    
-            "descriptions" : "Meeting with client zaid Barghouthi",    
-            "durations" : 45, 
         }, 
         {
             "id" : 4,
             "mentor_id" : 1,
+            "appointment_id" : 4,
             "status" : PaymentStatus.approved,   
             "amount" : 18.56,   
             "currency_arabic" : "د.ا",   
             "currency_english" : "JD",    
-            "descriptions" : "Meeting with client Moahmmed Flafil",    
-            "durations" : 60, 
         },
     ]
     )
@@ -1967,7 +1892,7 @@ def upgrade() -> None:
         {
             "id" : 2,
             "mentor_id" : 1,
-            "payment_id" : 4,   
+            "payment_id" : 2,   
             "message" : "There is Something wrong",                                                                                     
         },     
     ]

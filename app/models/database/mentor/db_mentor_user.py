@@ -1,10 +1,16 @@
-from sqlalchemy import ARRAY, TIMESTAMP, Column, ForeignKey, Integer, String, DECIMAL, Boolean, text
+from sqlalchemy import ARRAY, TIMESTAMP, Column, ForeignKey, Integer, String, DECIMAL, Boolean, text, Enum
 from app.utils.database import Base
+import enum
 
+class FreeCallTypes(enum.Enum):
+    free_disabled = 1
+    free_15_min = 2
+    free_15_min_with_promocode = 3
+    
 class DB_Mentor_Users(Base):
     __tablename__ = "mentor-users"
 
-    id = Column(Integer, primary_key=True, nullable=False, index=True)
+    id = Column(Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
     category_id = Column(Integer, ForeignKey(
         "categories.id", ondelete="CASCADE"), nullable=False)
     suffixe_name = Column(String, nullable=False)
@@ -21,7 +27,7 @@ class DB_Mentor_Users(Base):
     gender = Column(Integer)
     blocked = Column(Boolean, server_default='FALSE')     
     published = Column(Boolean, server_default='FALSE') 
-    referal_code = Column(String)
+    free_call = Column(Enum(FreeCallTypes))
     invitation_code = Column(String)
     profile_img = Column(String)
     id_img = Column(String)
@@ -32,7 +38,7 @@ class DB_Mentor_Users(Base):
     app_version = Column(String, nullable=False)
     date_of_birth = Column(String)
     experience_since = Column(String)
-    last_usage = Column(String)
+    last_usage = Column(TIMESTAMP(timezone=True))
     working_hours_saturday = Column(ARRAY(Integer))
     working_hours_sunday = Column(ARRAY(Integer))
     working_hours_monday = Column(ARRAY(Integer))
@@ -45,17 +51,6 @@ class DB_Mentor_Users(Base):
     country_id = Column(Integer, ForeignKey(
         "countries.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
-                        nullable=False, server_default=text('now()'))
+                        nullable=False, server_default=text("timezone('utc', now())"))
     
     
-class DB_Mentor_Review(Base):
-    __tablename__ = "mentor_review"
-    id = Column(Integer, primary_key=True, nullable=False, index=True)
-    mentor_id = Column(Integer, ForeignKey(
-        "mentor-users.id", ondelete="CASCADE"), primary_key=True)
-    client_id = Column(Integer, ForeignKey(
-        "client-users.id", ondelete="CASCADE"), primary_key=True)
-    stars = Column(DECIMAL, nullable=False, server_default=text('5.0'))
-    comment = Column(String)
-    created_at = Column(TIMESTAMP(timezone=True),
-                        nullable=False, server_default=text('now()'))

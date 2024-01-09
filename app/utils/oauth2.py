@@ -48,5 +48,5 @@ def hashingPassword(password: str):
     return password
 
 def verifyPassword(plain_password, hashed_password):
-    return plain_password == hashed_password or pwd_context.verify(plain_password, hashed_password)
+    return plain_password == hashed_password
     # return pwd_context.verify(plain_password, hashed_password)

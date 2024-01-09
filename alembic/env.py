@@ -6,16 +6,18 @@ from sqlalchemy import pool
 from alembic import context
 
 from app.models.database.client.db_client_user import Base
+from app.models.database.client.db_client_banners import Base
 from app.models.database.mentor.db_mentor_user import Base
+from app.models.database.mentor.db_mentor_review import Base
+from app.models.database.mentor.db_mentor_banners import Base
+from app.models.database.client.db_client_points import Base
+from app.models.database.mentor.db_mentor_points import Base
 from app.models.database.db_category import Base
 from app.models.database.db_country import Base
 from app.models.database.db_issue_reported import Base
 from app.models.database.db_leads import Base
 from app.models.database.db_notifications import Base
 from app.models.database.db_suggestion_reported import Base
-from app.models.database.db_versions import Base
-from app.models.database.db_client_banners import Base
-from app.models.database.db_mentor_banners import Base
 from app.models.database.db_majors import Base
 from app.models.database.db_discount import Base
 from app.models.database.db_appointment import Base

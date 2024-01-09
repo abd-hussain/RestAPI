@@ -1,7 +1,6 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
-
 class Leads(BaseModel):
     full_name: str
     mobile_number: str

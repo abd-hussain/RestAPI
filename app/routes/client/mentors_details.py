@@ -6,14 +6,15 @@ from fastapi import Request, Depends, APIRouter
 from app.models.schemas.mentor_account import MentorDetailsResponse, MentorFilter, ReviewsResponse
 from app.utils.average import getAverage
 from app.utils.database import get_db
-from app.models.database.mentor.db_mentor_user import DB_Mentor_Users, DB_Mentor_Review
+from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
+from app.models.database.mentor.db_mentor_review import DB_Mentor_Review
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_category import DB_Categories
 from app.models.database.db_country import DB_Countries
 from app.models.database.db_majors import DB_Majors
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState
 from app.utils.validation import validateLanguageHeader
-
+# //TODO
 
 router = APIRouter(
     prefix="/mentors-details",
@@ -150,7 +151,7 @@ def get_mentorAvaliable(catId :int, request: Request, db: Session = Depends(get_
         for mentor in list_of_mentors:
             if (booking_time).hour in mentor.working_hours:
                 list_of_mentors[indexOfReservations].hour = booking_time.hour 
-
+                # //TODO
                 query_of_reservations = db.query(DB_Appointments.mentor_id, DB_Appointments.date_from, DB_Appointments.date_to, DB_Appointments.state
                             ).filter(DB_Appointments.mentor_id == mentor.id
                             ).filter(DB_Appointments.state == AppointmentsState.active).all()          

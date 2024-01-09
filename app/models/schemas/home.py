@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 
 class MentorOut(BaseModel):
     id: int
@@ -13,16 +13,3 @@ class MentorOut(BaseModel):
     class Config:
         orm_mode = True
         
-class Banner(BaseModel) :
-    image: str
-    action_type: Optional[str]
-    
-    class Config:
-        orm_mode = True
-        
-
-class HomeResponse(BaseModel) :
-    main_banner: List[Banner]
-
-    class Config:
-        orm_mode = True
