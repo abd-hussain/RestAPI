@@ -15,11 +15,6 @@ class ClientAccountModel(BaseModel):
 class ClientAccountVerifyModel(BaseModel):
     mobile_number : str
     user_id: int
-    os_type: str
-    country_id: int
-    device_type_name: str
-    os_version: str
-    app_version: str
     otp: str
     api_key: str
     

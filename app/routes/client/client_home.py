@@ -9,11 +9,13 @@ router = APIRouter(
     prefix="/client-home",
     tags=["Home"]
 )
-# //TODO
+
 @router.get("/")
 async def get_home(request: Request, db: Session = Depends(get_db)):
-    myHeader = validateLanguageHeader(request)
+    language = validateLanguageHeader(request).language
     
-    main_banner = db.query(DB_Client_Banners).filter(DB_Client_Banners.language == myHeader.language).filter(DB_Client_Banners.published == True).all()
+    main_banners = db.query(DB_Client_Banners.image, DB_Client_Banners.action_type
+        ).filter_by(language=language, published=True
+                                ).all()
         
-    return generalResponse(message="home return successfully", data=main_banner)
+    return generalResponse(message="Home returned successfully", data=main_banners)

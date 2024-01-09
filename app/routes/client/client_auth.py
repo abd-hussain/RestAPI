@@ -4,64 +4,69 @@ from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.schemas.client_account import ClientAccountModel, ClientAccountVerifyModel
 from app.utils.generate import generateAPIKey, generateOTP
 from app.utils.database import get_db
-from app.models.respond import general, login
+from app.models.respond.general import generalResponse
+from app.models.respond.login import LoginResponse
 from app.utils.validation import verifyKey
 from app.utils.oauth2 import create_access_token
+from datetime import datetime
 
-# TODO: client login should have one methods delete debug
-# //TODO
 router = APIRouter(    
     prefix="/client-auth",
     tags=["Authentication"]
 )
 
-@router.post('/', response_model=login.LoginResponse)
-def authentication(payload: ClientAccountModel, db: Session =  Depends(get_db)):
-    query = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
+@router.post('/', response_model=LoginResponse)
+def authentication(payload: ClientAccountModel, db: Session = Depends(get_db)):
+    user = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number).first()
     payload.last_otp = generateOTP()
     
-    if query.first() == None:
-        payload.api_key = generateAPIKey()
-        obj = DB_Client_Users(**payload.dict())
-        db.add(obj)
-        db.commit()
-        db.refresh(obj)
-        return general.generalResponse(message= "successfully created account", data=obj)
+    if user is None:
+        user = create_user(db, payload)
+        return generalResponse(message= "successfully created new account", data=user)
     
-    query.update({"last_otp" : payload.last_otp}, synchronize_session=False)
-    db.commit()
-    return general.generalResponse(message= "OTP Sended successfully", data=query.first())
-
-@router.post('-debug', response_model=login.LoginDebugResponse)
-def authentication(payload: ClientAccountModel, db: Session =  Depends(get_db)):
-    query = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
-    payload.last_otp = generateOTP()
-    
-    if query.first() == None:
-        payload.api_key = generateAPIKey()
-        obj = DB_Client_Users(**payload.dict())
-        db.add(obj)
-        db.commit()
-        db.refresh(obj)
-        return general.generalResponse(message= "successfully created account", data=obj)
-    
-    query.update({"last_otp" : payload.last_otp}, synchronize_session=False)
-    db.commit()
-    return general.generalResponse(message= "OTP Sended successfully", data=query.first())
+    if user.blocked == True:
+         raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="User Blocked")
+         
+    user = update_user(db, user, payload.last_otp)
+    return generalResponse(message= "OTP Sended successfully", data=user)
 
 @router.post('-verify')
 def verify_otp(payload: ClientAccountVerifyModel, db: Session =  Depends(get_db)):
-    query = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
+    user = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number).first()
 
-    if query.first() == None:
+    if user is None:
       raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Mobile number is not valid")
     
-    if not verifyKey(payload.otp, query.first().last_otp):
+    if not verifyKey(payload.otp, user.last_otp):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="OTP is not valid")
 
-    if not verifyKey(payload.api_key, query.first().api_key):
+    if not verifyKey(payload.user_id, user.id):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="id is not valid")
+    
+    if not verifyKey(payload.api_key, user.api_key):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="API Key is not valid")
     
     access_token = create_access_token(data={"api_key" : payload.api_key, "user_id" : payload.user_id})
     
-    return general.generalResponse(message= "You Have Loged in Successfully", data={"token" : access_token, "token_type": "bearer"})
+    user.last_usage = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
+    db.commit()
+    
+    return generalResponse(message= "You Have Loged in Successfully", data={"token" : access_token, "token_type": "bearer"})
+
+
+#############################################################################################
+
+def create_user(db: Session, user_data: ClientAccountModel):
+    user_data.api_key = generateAPIKey()
+    new_user = DB_Client_Users(**user_data.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+def update_user(db: Session, user: DB_Client_Users, last_otp: str):
+    user.last_otp = last_otp
+    user.last_usage = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
+    db.commit()
+    return user

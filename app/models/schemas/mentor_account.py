@@ -2,6 +2,7 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import List
+from app.models.database.mentor.db_mentor_user import FreeCallTypes
 
 class MentorAuth(BaseModel):
     email : str
@@ -27,8 +28,13 @@ class MentorFilter(BaseModel) :
     working_hours: List[int] = []
     rate: Optional[float]
     date: str
+    currency: str
+    languages: list[str]
+    country_name: str
+    country_flag: str
+    number_of_reviewers: int
     day: str
-    hour: int
+    hour: int = 0
     class Config:
         orm_mode = True
     
@@ -58,7 +64,8 @@ class MentorObjForListResponse(BaseModel) :
     languages: list[str]
     country_name: str
     country_flag: str
-    number_of_reviewr: int
+    currency: str
+    number_of_reviewers: int
 
     class Config:
         orm_mode = True
@@ -72,17 +79,22 @@ class ReviewsResponse(BaseModel) :
     mentor_id: int
     stars: float
     comments: str
+    mentor_response:Optional[str]
+    flag_image: str
     created_at: datetime                  
     class Config:
         orm_mode = True
         
 class MentorDetailsResponse(BaseModel) :
+    id: int
     suffixe_name: str    
     first_name: str
     last_name: str
     bio: str
     speaking_language: list[str]
     hour_rate: float
+    free_call: Optional[FreeCallTypes]
+    currency: str
     total_rate: float
     gender: int
     profile_img: str
