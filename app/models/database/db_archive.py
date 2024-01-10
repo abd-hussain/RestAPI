@@ -10,13 +10,8 @@ class DB_Archive(Base):
         "mentor-users.id", ondelete="CASCADE"), primary_key=True)
     client_id = Column(Integer, ForeignKey(
         "client-users.id", ondelete="CASCADE"), primary_key=True)
-    appointment_type = Column(Enum(AppointmentsType), nullable=False)
-    date_from = Column(DateTime, nullable=False)
-    date_to = Column(DateTime, nullable=False)
-    price_before_discount = Column(DECIMAL, nullable=False)
-    price_after_discount = Column(DECIMAL, nullable=False)
-    note_from_client = Column(String, nullable=True)
-    note_from_mentor = Column(String, nullable=True)
+    appointment_id = Column(Integer, ForeignKey(
+        "appointments.id", ondelete="CASCADE"), primary_key=True)
     attachment = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text("timezone('utc', now())"))
