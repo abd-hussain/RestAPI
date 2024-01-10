@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 import calendar
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
@@ -14,6 +13,7 @@ from app.models.database.db_country import DB_Countries
 from app.models.database.db_majors import DB_Majors
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState
 from app.utils.validation import validateLanguageHeader
+from datetime import datetime, timedelta
 
 router = APIRouter(
     prefix="/mentors-details",

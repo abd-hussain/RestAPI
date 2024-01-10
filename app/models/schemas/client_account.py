@@ -1,6 +1,5 @@
-from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 class ClientAccountModel(BaseModel):
     mobile_number : str
@@ -17,20 +16,3 @@ class ClientAccountVerifyModel(BaseModel):
     user_id: int
     otp: str
     api_key: str
-    
-class UpdateClientAccountModel(BaseModel):
-    first_name : Optional[str] 
-    last_name : Optional[str] 
-    mobile_number : Optional[str] 
-    email : Optional[EmailStr] 
-    gender : Optional[int] 
-    blocked : Optional[bool] 
-    invitation_code : Optional[str]
-    profile_img : Optional[str]
-    os_type : Optional[str]
-    device_type_name : Optional[str]
-    os_version : Optional[str]
-    app_version : Optional[str]
-    date_of_birth : Optional[str] 
-    country_id : Optional[int] 
-    last_usage: datetime = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")

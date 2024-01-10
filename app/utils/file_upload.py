@@ -30,13 +30,14 @@ def handle_file_upload(file, file_type, last_id, payload):
         
         
 def edit_file_uploaded(file, file_type, last_id) -> str:
-    if file_type in ['profile_img', 'id_img']:
+    if file_type in ['profile_img', 'id_img', 'client_profile_img']:
         extension = validateImageType(file, file_type)
     else:
         extension = validateFileType(file, file_type)
         
     file_locations = {
         'profile_img': f"static/mentorsImg/{last_id}{extension}",
+        'client_profile_img': f"static/clientsImg/{last_id}{extension}",
         'id_img': f"static/mentorsIDs/{last_id}{extension}",
         'cv': f"static/mentorsCVs/{last_id}{extension}",
         'cert1': f"static/mentorsCerts/{last_id}-cer1{extension}",

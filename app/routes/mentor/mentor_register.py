@@ -117,7 +117,7 @@ async def register_mentor(request: Request,
         
     
     add_points_to_referer(referral_code = referral_code, 
-                          new_mentor_id = lastId, 
+                          new_mentor_client_id = lastId, 
                           db = db)
         
     return generalResponse(message= "Account Created successfully", data=None)

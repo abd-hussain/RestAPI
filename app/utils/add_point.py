@@ -6,7 +6,7 @@ from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
 from sqlalchemy.orm import Session
 
-def add_points_to_referer(referral_code: str, new_mentor_id: int, db: Session):
+def add_points_to_referer(referral_code: str, new_mentor_client_id: int, db: Session):
     if not referral_code:
         return
     
@@ -15,9 +15,9 @@ def add_points_to_referer(referral_code: str, new_mentor_id: int, db: Session):
         return
     
     if isinstance(referrer, DB_Mentor_Users):
-        add_mentor_points(referrer.id, new_mentor_id, db)
+        add_mentor_points(referrer.id, new_mentor_client_id, db)
     elif isinstance(referrer, DB_Client_Users):
-        add_client_points(referrer.id, new_mentor_id, db)
+        add_client_points(referrer.id, new_mentor_client_id, db)
         
 def find_referrer(referral_code: str, db: Session):
     mentor_referrer = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.invitation_code == referral_code).first()

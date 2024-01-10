@@ -12,7 +12,9 @@ router = APIRouter(
     prefix="/archive",
     tags=["Archive"]
 )
+
 # //TODO
+
 @router.get("/")
 async def get_client_archives(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
