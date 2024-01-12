@@ -15,7 +15,6 @@ class MentorChangePassword(BaseModel):
 class MentorForgotPassword(BaseModel):
     email : str
 
-
 class MentorFilter(BaseModel) :
     id: int
     suffixe_name: str
@@ -37,20 +36,6 @@ class MentorFilter(BaseModel) :
     class Config:
         orm_mode = True
     
-class InstantMentor(BaseModel) :
-    id: int
-    suffixe_name: str
-    first_name: str
-    last_name: str
-    rate: float
-    gender: int
-    profile_img: str 
-    hour_rate: float              
-    class Config:
-        orm_mode = True
-    
-
-    
 class MentorObjForListResponse(BaseModel) :
     id: int
     category_name: str
@@ -65,10 +50,8 @@ class MentorObjForListResponse(BaseModel) :
     country_flag: str
     currency: str
     number_of_reviewers: int
-
     class Config:
         orm_mode = True
-        
         
 class ReviewsResponse(BaseModel) :
     id: int
@@ -111,26 +94,6 @@ class MentorDetailsResponse(BaseModel) :
     working_hours_thursday: list[int]
     working_hours_friday: list[int]
     reviews: list[ReviewsResponse]
-    
-    
-class MentorInfoResponse(BaseModel) :
-    suffixe_name: str    
-    first_name: str
-    last_name: str
-    bio: str
-    speaking_language: list[str]
-    category_name: str
-    profile_img: str
-    gender: int
-    date_of_birth: str
-    experience_since: str
-    country: str
-    
-
-class SpeakingLanguage(BaseModel):
-    list: list[str]
-    
-    
     
 class RegisterMentorAccountModel(BaseModel):
     id: Optional[int]
