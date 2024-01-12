@@ -115,8 +115,8 @@ async def register_mentor(request: Request,
     if push_token != None:
         add_new_notification(myHeader.language, lastId, db)
         
-    
-    add_points_to_referer(referral_code = referral_code, 
+    if referral_code != None:
+        add_points_to_referer(referral_code = referral_code, 
                           new_mentor_client_id = lastId, 
                           db = db)
         
