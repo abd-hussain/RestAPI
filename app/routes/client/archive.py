@@ -21,7 +21,7 @@ async def get_client_archives(request: Request, db: Session = Depends(get_db), c
 
     category_column = DB_Categories.name_arabic if myHeader.language == "ar" else DB_Categories.name_english
     country_column = DB_Countries.name_arabic if myHeader.language == "ar" else DB_Countries.name_english
-    currency_column = DB_Appointments.currency_english if myHeader.language == "ar" else DB_Appointments.currency_arabic
+    currency_column = DB_Appointments.currency_arabic if myHeader.language == "ar" else DB_Appointments.currency_english
 
     query = db.query(DB_Archive.id, 
                      DB_Archive.client_id, 

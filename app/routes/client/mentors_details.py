@@ -21,7 +21,6 @@ router = APIRouter(
 )
 
 
-
 @router.get("/")
 async def get_mentor_account_details(id :int ,request: Request, db: Session = Depends(get_db)):
     language = validateLanguageHeader(request).language
@@ -51,18 +50,20 @@ def get_nearest_mentor_available(catId :int, request: Request, db: Session = Dep
     list_of_mentors: list[MentorFilter] = []
     hour = 0
     
-    while hour < 48:
-        booking_time = (datetime.utcnow() + timedelta(hours=hour))
+    while len(list_of_mentors) <= 7:
+        hour = hour + 1
+        booking_time = (datetime.now() + timedelta(hours=hour))
         currentTimeDayName = calendar.day_name[booking_time.weekday()]
+
         for mentor in mentors:
-            obj = MentorFilter(id = mentor.id, 
+            if (booking_time).hour in get_working_hours(mentor,currentTimeDayName):
+                obj = MentorFilter(id = mentor.id, 
                                 suffixe_name = mentor.suffixe_name, 
                                 first_name = mentor.first_name, 
                                 last_name = mentor.last_name, 
                                 gender = mentor.gender, 
                                 profile_img = mentor.profile_img, 
                                 hour_rate = mentor.hour_rate,
-                                bio = mentor.bio, 
                                 currency = mentor.currency,
                                 languages = mentor.speaking_language,
                                 country_name = mentor.country_name,
@@ -72,52 +73,33 @@ def get_nearest_mentor_available(catId :int, request: Request, db: Session = Dep
                                 working_hours = get_working_hours(mentor,currentTimeDayName),                             
                                 number_of_reviewers = 0,
                                 rate = 0)
-            
-            
-                
-            list_of_mentors.append(obj)
- 
-        indexOfReservations = 0
-        list_of_mentors_to_be_deleted: list[MentorFilter] = []
+                list_of_mentors.append(obj)
+
         for mentor in list_of_mentors:
+            # check if mentor avaliable in this time
             if (booking_time).hour in mentor.working_hours:
-                list_of_mentors[indexOfReservations].hour = booking_time.hour 
                 query_of_reservations = db.query(DB_Appointments.mentor_id, DB_Appointments.date_from, DB_Appointments.date_to, DB_Appointments.state
                             ).filter(
                                 DB_Appointments.mentor_id == mentor.id, 
                                 DB_Appointments.state == AppointmentsState.active
-                            ).all()          
+                            ).all()  
+                # check if mentor dont have any other appointment in this time
                 if (query_of_reservations != []):
                     for reservations in query_of_reservations:
                         if reservations["date_from"] <= booking_time <= reservations["date_to"]:
-                            list_of_mentors_to_be_deleted.append(mentor)
-                      
-                else:
-                    list_of_mentors_to_be_deleted.append(mentor)
-                
-            indexOfReservations = indexOfReservations + 1
+                            list_of_mentors.remove(mentor)
 
-        for mentor in list_of_mentors_to_be_deleted:
-            list_of_mentors.remove(mentor)
-
-        indexOfRating = 0
-        for mentor in list_of_mentors:
-            review_query = db.query(DB_Mentor_Review.id, DB_Mentor_Review.client_id, DB_Mentor_Review.mentor_id, DB_Mentor_Review.stars, 
+    indexOfRating = 0
+    for mentor in list_of_mentors:
+        review_query = db.query(DB_Mentor_Review.id, DB_Mentor_Review.client_id, DB_Mentor_Review.mentor_id, DB_Mentor_Review.stars, 
                              ).filter(DB_Mentor_Review.mentor_id == mentor.id).all()
             
-            list_of_mentors[indexOfRating].rate = getAverage([review.stars for review in review_query])
-            indexOfRating = indexOfRating + 1
+        list_of_mentors[indexOfRating].rate = getAverage([review.stars for review in review_query])
+        list_of_mentors[indexOfRating].number_of_reviewers = len(review_query)
 
-        if list_of_mentors != []:
-            
-            respond_mentor = list_of_mentors[0]
-            for mentor in list_of_mentors:
-                if mentor.rate > respond_mentor.rate:
-                    respond_mentor = mentor
-            print(hour)
-            return generalResponse(message="Profiles return successfully", data=respond_mentor)
-        else:
-            hour += 1
+        indexOfRating = indexOfRating + 1
+
+    return generalResponse(message="Profiles return successfully", data=list_of_mentors)
            
 #############################################################################################
 

@@ -62,7 +62,6 @@ app.include_router(discount.router)
                         # title_arabic="تم إلغاء الموعد بنجاح",
                         # content_english="canceling appointment will not cost you any thing and will not added to the payment screen",
                         # content_arabic="إلغاء الموعد لن يكلفك شيئا ولن يضاف إلى شاشة الدفع")
-# TODO: Currencys 
-# TODO: UTC and Timing
+
 
 # TODO: handle record call & add Archive

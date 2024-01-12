@@ -12,145 +12,183 @@ from app.models.respond.general import generalResponse
 from app.models.database.db_category import DB_Categories
 from app.models.schemas.comment_appointment import AppointmentComment
 from app.utils.agora.my_interface import generateTokenClient
+from app.models.database.db_country import DB_Countries
+from app.utils.firebase_notifications.notifications_manager import UserType, addNewNotification
 
-# //TODO
 router = APIRouter(
     prefix="/client-appointment",
     tags=["Appointment"]
 )
 
-
-
-@router.get("/mentor-appointment")
-async def get_mentor_appointment(id :int , request: Request, db: Session = Depends(get_db)):
-    myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Appointments).filter(DB_Appointments.mentor_id == id).filter(DB_Appointments.date_from > datetime.now()
-                                                                                     ).filter(DB_Appointments.state == AppointmentsState.active).all()
+@router.get("/specific-mentor-appointments")
+async def get_specific_mentor_appointments(id :int, db: Session = Depends(get_db)):
+    query = db.query(DB_Appointments.date_from, DB_Appointments.date_to, 
+                     ).filter(DB_Appointments.mentor_id == id, 
+                              DB_Appointments.state == AppointmentsState.active,
+                              DB_Appointments.date_from > datetime.utcnow()
+                                ).filter(DB_Mentor_Users.blocked == False,
+                                DB_Mentor_Users.published == True
+                                ).all()
+                     
     return generalResponse(message="list of appointments return successfully", data=query)
-    
+
 @router.get("/")
-async def get_clientAppointment(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def get_client_appointments(request: Request, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    
-    if myHeader.language == "en" :
-        query = db.query(DB_Appointments.id, DB_Appointments.date_from, DB_Appointments.date_to, 
-                     DB_Appointments.client_id, DB_Appointments.mentor_id, DB_Appointments.appointment_type, 
-                     DB_Appointments.price_before_discount, DB_Appointments.price_after_discount, DB_Appointments.state,
-                     DB_Appointments.note_from_client, DB_Appointments.note_from_mentor, DB_Appointments.channel_id,
-                     DB_Mentor_Users.profile_img, DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, 
-                     DB_Mentor_Users.category_id, DB_Categories.name_english.label("categoryName"), 
+    category_column = DB_Categories.name_arabic if myHeader.language == "ar" else DB_Categories.name_english
+    currency_column = DB_Appointments.currency_arabic if myHeader.language == "ar" else DB_Appointments.currency_english
+    country_column = DB_Countries.name_arabic if myHeader.language == "ar" else DB_Countries.name_english
+
+    query = db.query(DB_Appointments.id, 
+                     DB_Appointments.date_from, 
+                     DB_Appointments.date_to, 
+                     DB_Appointments.mentor_id, 
+                     DB_Appointments.appointment_type, 
+                     DB_Appointments.state,
+                     DB_Appointments.discount_id,
+                     DB_Appointments.is_free,
+                     DB_Appointments.price,
+                     DB_Appointments.discounted_price,
+                     currency_column.label("currency"), 
+                     DB_Appointments.mentor_hour_rate,
+                     DB_Appointments.note_from_client, 
+                     DB_Appointments.note_from_mentor, 
+                     DB_Appointments.channel_id,
+                     
+                     DB_Mentor_Users.profile_img, 
+                     DB_Mentor_Users.suffixe_name, 
+                     DB_Mentor_Users.first_name, 
+                     DB_Mentor_Users.last_name, 
+                     DB_Mentor_Users.speaking_language,
+                     country_column.label("countryName"), 
+                     category_column.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
                      ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True
-                            ).filter(DB_Appointments.client_id == get_current_user.user_id
-                                     ).all()
-    else:
-        query = db.query(DB_Appointments.id, DB_Appointments.date_from, DB_Appointments.date_to, 
-                     DB_Appointments.client_id, DB_Appointments.mentor_id, DB_Appointments.appointment_type, 
-                     DB_Appointments.price_before_discount, DB_Appointments.price_after_discount, DB_Appointments.state,
-                     DB_Appointments.note_from_client, DB_Appointments.note_from_mentor, DB_Appointments.channel_id,
-                     DB_Mentor_Users.profile_img, DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name, DB_Mentor_Users.last_name, 
-                     DB_Mentor_Users.category_id, DB_Categories.name_arabic.label("categoryName"), 
-                     ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
-                     ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True
-                            ).filter(DB_Appointments.client_id == get_current_user.user_id
-                                     ).all()
+                     ).join(DB_Countries, DB_Countries.id == DB_Mentor_Users.country_id, isouter=True
+                     ).filter(DB_Appointments.client_id == current_user.user_id,
+                                DB_Mentor_Users.blocked == False,
+                                DB_Mentor_Users.published == True
+                     ).all()
     
     return generalResponse(message="list of appointments return successfully", data=query)
 
 @router.post("/cancel")
-async def cancelAppointment(id: int, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def cancel_appointment(id: int, request: Request, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.client_id == get_current_user.user_id
-                                                                              ).filter(DB_Appointments.state == AppointmentsState.active)
-    if query.first() is  None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
     
-    
-    query.update({"state" : AppointmentsState.client_cancel}, synchronize_session=False)
-    db.commit()
-    return generalResponse(message="appoitment canceled successfuly", data=None)
-        
+    appointment = get_db_appointment(db, id, current_user.user_id, AppointmentsState.active)
+    raise_http_exception_if_none(appointment, "Appointment ID not valid or cannot be canceled")
 
+    
+    appointment.state = AppointmentsState.client_cancel
+    db.commit()
+    
+    addNewNotification(user_type=UserType.Client,
+                        user_id=current_user.user_id,
+                        currentLanguage=myHeader.language,
+                        db=db,
+                        title_english="Appointment canceled successfully",
+                        title_arabic="تم إلغاء الموعد بنجاح",
+                        content_english="canceling appointment will will cost you 50/100 of the call charged",
+                        content_arabic="سيكلفك إلغاء الموعد 50/100 من تكلفة المكالمة")
+    
+    return generalResponse(message="Appointment canceled successfully", data=None)
+
+@router.put("/join-call")
+async def client_join_appointment(id: int, channel_name: str, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
+    
+    appointment = get_db_appointment(db, id, current_user.user_id)
+    raise_http_exception_if_none(appointment, "Appointment ID not valid")
+
+    callToken = generateTokenClient(channel_name)
+    appointment.client_join_call = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+
+    db.commit()
+    return generalResponse(message="Client joined appointment successfully", data=callToken)
+
+@router.put("/end-call")
+async def client_endup_appointment(id: int, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
+    
+    appointment = get_db_appointment(db, id, current_user.user_id)
+    raise_http_exception_if_none(appointment, "Appointment ID not valid")
+            
+    if appointment.mentor_join_call is None:
+        appointment.state = AppointmentsState.mentor_miss
+                                 
+    appointment.client_date_of_close = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    db.commit()
+    
+    return generalResponse(message="client end appoitment successfuly", data=None)
+
+@router.post("/comment")
+async def add_comment_to_appointment(payload: AppointmentComment, request: Request, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
+
+    appointment = get_db_appointment(db, payload.id, current_user.user_id)
+    raise_http_exception_if_none(appointment, "Appointment ID not valid")
+
+    appointment.note_from_client = payload.comment
+    db.commit()
+    return generalResponse(message="Client added comment to appointment successfully", data=None)
 
 @router.post("/book")
-async def bookAppointment(payload: AppointmentRequest, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+async def book_appointment(payload: AppointmentRequest, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
     
     dateFrom = datetime(payload.dateFrom.year, payload.dateFrom.month, payload.dateFrom.day, payload.dateFrom.hour, payload.dateFrom.min)
     dateTo = datetime(payload.dateTo.year, payload.dateTo.month, payload.dateTo.day, payload.dateTo.hour, payload.dateTo.min)
     
-    if dateFrom <= datetime.now():
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="dateTime not valid")
+    if dateFrom <= datetime.utcnow():
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="dateFrom not valid")
     
     if dateFrom >= dateTo:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="dateTime not valid from > to")
 
     appointments_query = db.query(DB_Appointments)
     
-    filterd_appointments_query = appointments_query.filter(DB_Appointments.mentor_id == payload.mentorId
+    mentor_appointments_query = appointments_query.filter(DB_Appointments.mentor_id == payload.mentorId
                                     ).filter(DB_Appointments.state == AppointmentsState.active).all()
     
-    filterd_appointments_query2 = appointments_query.filter(DB_Appointments.client_id == get_current_user.user_id
+    client_appointments_query = appointments_query.filter(DB_Appointments.client_id == current_user.user_id
                                     ).filter(DB_Appointments.state == AppointmentsState.active).all()
         
-    if filterd_appointments_query != []:
-        for apps in filterd_appointments_query2:
-            if (dateFrom >= apps.date_from and dateFrom <= apps.date_to) or (dateTo <= apps.date_to and dateTo >= apps.date_from):
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="mentor already have appointment in that date")
-    
-    if filterd_appointments_query2 != []:
-        for app in filterd_appointments_query2:
+    if mentor_appointments_query != []:
+        for app in mentor_appointments_query:
             if (dateFrom >= app.date_from and dateFrom <= app.date_to) or (dateTo <= app.date_to and dateTo >= app.date_from):
-                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="client already have appointment in that date")
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Mentor already have appointment in that date")
+    
+    if client_appointments_query != []:
+        for app in client_appointments_query:
+            if (dateFrom >= app.date_from and dateFrom <= app.date_to) or (dateTo <= app.date_to and dateTo >= app.date_from):
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Client already have appointment in that date")
+    
     
     obj = DB_Appointments(**{"mentor_id" : payload.mentorId, 
-                                     "client_id" : get_current_user.user_id, 
-                                     "date_from" : dateFrom, "date_to" : dateTo, 
-                                     "price_before_discount" : payload.priceBeforeDiscount, 
-                                     "price_after_discount" : payload.priceAfterDiscount, 
-                                     "state" : AppointmentsState.active,
-                                     "note_from_client" : payload.note,
-                                     "appointment_type" : AppointmentsType.schudule if payload.type == "schudule" else AppointmentsType.instant,
-                                    "channel_id," : generateChannelName()}) 
+                            "client_id" : current_user.user_id, 
+                            "date_from" : dateFrom, 
+                            "date_to" : dateTo, 
+                            "discount_id" : payload.discount_id,
+                            "is_free" : payload.is_free,
+                            "price" : payload.price,
+                            "discounted_price" : payload.discounted_price,
+                            "currency_english" : payload.currency_english,
+                            "currency_arabic" : payload.currency_arabic,
+                            "mentor_hour_rate" : payload.mentor_hour_rate,
+                            "state" : AppointmentsState.active,
+                            "note_from_client" : payload.note,
+                            "appointment_type" : payload.type,
+                            "channel_id" : generateChannelName()}) 
     db.add(obj)
     db.commit()
     return generalResponse(message="appoitment booked successfuly", data=None)
 
-@router.put("/join-call")
-async def clientJoinAppointment(id: int, channelName: str, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.client_id == get_current_user.user_id)
+#############################################################################################
 
-    if query.first() is None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
-    
-    callToken = generateTokenClient(channelName)
+def get_db_appointment(db: Session, appointment_id: int, client_id: int, state: AppointmentsState = None):
+    query = db.query(DB_Appointments).filter(DB_Appointments.id == appointment_id, DB_Appointments.client_id == client_id)
+    if state:
+        query = query.filter(DB_Appointments.state == state)
+    return query.first()
 
-    query.update({"client_join_call" : datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, synchronize_session=False)
-    db.commit()
-    return generalResponse(message="client join appoitment successfuly", data=callToken)
 
-@router.put("/end-call")
-async def clientEndAppointment(id: int, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    query = db.query(DB_Appointments).filter(DB_Appointments.id == id).filter(DB_Appointments.client_id == get_current_user.user_id)
-    
-    if query.first() is None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")       
-                                                             
-    query.update({"client_date_of_close" : datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, synchronize_session=False)
-    
-    if query.first().client_join_call is None:
-        query.update({"state" : AppointmentsState.mentor_miss}, synchronize_session=False)
-    
-    db.commit()
-    return generalResponse(message="client end appoitment successfuly", data=None)
-
-@router.post("/comment")
-async def add_comment_to_Appointment(payload: AppointmentComment, request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
-    query = db.query(DB_Appointments).filter(DB_Appointments.id == payload.id).filter(DB_Appointments.client_id == get_current_user.user_id
-                                                                              ).filter(DB_Appointments.state == AppointmentsState.active)
-    if query.first() is None:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="appoitment id not valid")
-    
-    query.update({"note_from_client" : payload.comment}, synchronize_session=False)
-    db.commit()
-    return generalResponse(message="appoitment compleated successfuly", data=None)
+def raise_http_exception_if_none(entity, message: str):
+    if entity is None:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=message)

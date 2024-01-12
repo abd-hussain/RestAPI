@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from app.models.database.db_appointment import AppointmentsType
 
 
 class AppointmentFromTo(BaseModel):
@@ -14,9 +15,15 @@ class AppointmentFromTo(BaseModel):
         
 class AppointmentRequest(BaseModel):
     mentorId: int
-    type: str
-    priceBeforeDiscount: float
-    priceAfterDiscount: float
+    type: AppointmentsType
     dateFrom : AppointmentFromTo
     dateTo: AppointmentFromTo
     note: Optional[str]
+    discount_id: Optional[int]
+    is_free: bool
+    currency_english: str
+    currency_arabic: str
+    mentor_hour_rate: float
+    price: float
+    discounted_price: float
+
