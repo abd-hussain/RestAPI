@@ -52,8 +52,8 @@ def getMentorReview(id: int, response: str, db: Session = Depends(get_db),
 
 @router.post('/forgotpassword')
 def forgotPassword(payload: MentorForgotPassword, db: Session = Depends(get_db)):
-    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.email == payload.email).first()
-    if not user:
+    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.email == payload.email)
+    if not user.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     send_email(payload.email, user.password)
