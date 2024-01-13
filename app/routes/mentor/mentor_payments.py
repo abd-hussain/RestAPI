@@ -18,24 +18,39 @@ router = APIRouter(
 )
 
 @router.get("/")
-async def get_mentor_payments(db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
-    
-    query = db.query(DB_Mentor_Payments.id, DB_Mentor_Payments.mentor_id,
-                     DB_Mentor_Payments.appointment_id, DB_Mentor_Payments.status,
+async def get_mentor_payments(request: Request, db: Session = Depends(get_db), get_current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
+
+    currency_name_field = DB_Appointments.currency_english if myHeader.language == "en" else DB_Appointments.currency_arabic
+
+    query = db.query(DB_Mentor_Payments.id, 
+                     DB_Mentor_Payments.mentor_id,
+                     DB_Mentor_Payments.appointment_id, 
+                     DB_Mentor_Payments.status.label("payment_status"),
                      DB_Mentor_Payments.created_at, 
-                     DB_Mentor_PaymentsـReports.message,
-                     DB_Appointments.client_id, DB_Appointments.appointment_type,
-                     DB_Appointments.date_from, DB_Appointments.date_to,
-                     DB_Appointments.state, DB_Appointments.is_free,
-                     DB_Appointments.price, DB_Appointments.discounted_price,
-                     DB_Appointments.currency_english, DB_Appointments.currency_arabic,
-                     DB_Appointments.mentor_hour_rate, DB_Appointments.note_from_client,
-                     DB_Appointments.note_from_mentor, DB_Appointments.discount_id,
-                     DB_Client_Users.first_name, DB_Client_Users.last_name,
-                     DB_Client_Users.profile_img.label("client_profile_img"), DB_Client_Users.country_id,
-                     DB_Countries.flag_image,
-                     DB_Mentor_Users.suffixe_name, DB_Mentor_Users.first_name,
-                     DB_Mentor_Users.last_name, DB_Mentor_Users.iban,
+                     DB_Mentor_PaymentsـReports.message.label("payment_reported_message"),
+                     DB_Appointments.client_id, 
+                     DB_Appointments.appointment_type,
+                     DB_Appointments.date_from.label("appointment_date_from"), 
+                     DB_Appointments.date_to.label("appointment_date_to"),
+                     DB_Appointments.state.label("appointment_state"), 
+                     DB_Appointments.is_free.label("appointment_is_free"),
+                     DB_Appointments.price.label("appointment_price"), 
+                     DB_Appointments.discounted_price.label("appointment_discounted_price"),
+                     currency_name_field.label("currency"),
+                     DB_Appointments.mentor_hour_rate, 
+                     DB_Appointments.note_from_client,
+                     DB_Appointments.note_from_mentor, 
+                     DB_Appointments.discount_id.label("appointment_discount_id"),
+                     DB_Client_Users.first_name.label("client_first_name"), 
+                     DB_Client_Users.last_name.label("client_last_name"),
+                     DB_Client_Users.profile_img.label("client_profile_img"), 
+                     DB_Client_Users.country_id.label("client_country_id"),
+                     DB_Countries.flag_image.label("client_flag_img"),
+                     DB_Mentor_Users.suffixe_name.label("mentor_suffixe_name"), 
+                     DB_Mentor_Users.first_name.label("mentor_first_name"),
+                     DB_Mentor_Users.last_name.label("mentor_last_name"), 
+                     DB_Mentor_Users.iban.label("mentor_iban"),
                      DB_Mentor_Users.profile_img.label("mentor_profile_img"),
                      ).join(DB_Mentor_PaymentsـReports, DB_Mentor_PaymentsـReports.payment_id == DB_Mentor_Payments.id, isouter=True
                     ).join(DB_Appointments, DB_Appointments.id == DB_Mentor_Payments.appointment_id, isouter=True
