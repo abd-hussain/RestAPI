@@ -56,7 +56,7 @@ def forgotPassword(payload: MentorForgotPassword, db: Session = Depends(get_db))
     if not user.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    send_email(payload.email, user.password)
+    send_email(payload.email, user.first().password)
     return generalResponse(message= "Email send successfully", data=None)
 
 @router.put("/change-password")
