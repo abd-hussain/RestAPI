@@ -35,4 +35,4 @@ def login(payload: MentorAuth, db: Session = Depends(get_db)):
     user.last_usage = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
     db.commit()
     
-    return generalResponse(message="Logged In successfully", data=access_token)
+    return generalResponse(message="Mentor Logged In successfully", data=access_token)
