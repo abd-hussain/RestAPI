@@ -16,21 +16,21 @@ router = APIRouter(
 @router.post('/')
 def login(payload: MentorAuth, db: Session = Depends(get_db)):
     
-    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.email == payload.email).first()
+    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.email == payload.email)
     
-    if not user or not verifyPassword(payload.password, user.password):
+    if not user.first() or not verifyPassword(payload.password, user.first().password):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
         
-    if user.published == False:
+    if user.first().published == False:
          raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="User Under Review")
 
-    if user.blocked == True:
+    if user.first().blocked == True:
          raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="User Blocked")
     
-    access_token = create_access_token(data={"api_key" : generateAPIKey(), "user_id" : user.id})
+    access_token = create_access_token(data={"api_key" : generateAPIKey(), "user_id" : user.first().id})
     
     user.last_usage = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
     db.commit()
