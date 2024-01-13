@@ -51,16 +51,13 @@ async def get_mentor_payments(request: Request, db: Session = Depends(get_db), g
                      DB_Mentor_Users.first_name.label("mentor_first_name"),
                      DB_Mentor_Users.last_name.label("mentor_last_name"), 
                      DB_Mentor_Users.iban.label("mentor_iban"),
-                     DB_Mentor_Users.profile_img.label("mentor_profile_img"),
+                     DB_Mentor_Users.profile_img.label("mentor_profile_img")
                      ).join(DB_Mentor_PaymentsـReports, DB_Mentor_PaymentsـReports.payment_id == DB_Mentor_Payments.id, isouter=True
                     ).join(DB_Appointments, DB_Appointments.id == DB_Mentor_Payments.appointment_id, isouter=True
                     ).join(DB_Client_Users, DB_Client_Users.id ==  DB_Appointments.client_id, isouter=True
                     ).join(DB_Countries, DB_Countries.id ==  DB_Client_Users.country_id, isouter=True
                     ).join(DB_Mentor_Users, DB_Mentor_Users.id ==  DB_Mentor_Payments.mentor_id, isouter=True
                     ).filter(DB_Mentor_Payments.mentor_id == get_current_user.user_id).all()
-                     
-                     
-                     
         
     return generalResponse(message="List of Mentor Payments", data= query)
 
