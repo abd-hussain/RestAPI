@@ -13,6 +13,7 @@ from app.utils.firebase_notifications.notifications_manager import UserType, add
 from app.utils.validation import validateLanguageHeader
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_country import DB_Countries
+from app.models.database.db_appointment import DB_Appointments, AppointmentsState
 
 router = APIRouter(
     prefix="/mentor-settings",
@@ -90,6 +91,14 @@ async def delete_account(db: Session = Depends(get_db),
     user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    
+    
+    appointments = db.query(DB_Appointments).filter(DB_Appointments.mentor_id == current_user.user_id,
+                                                    DB_Appointments.state == AppointmentsState.active).all()
+    
+    for appoint in appointments:
+        appoint.state = AppointmentsState.mentor_cancel
+        db.commit()
     
     db.delete(user)
     db.commit()
