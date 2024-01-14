@@ -64,9 +64,9 @@ def forgotPassword(payload: MentorForgotPassword, db: Session = Depends(get_db))
 async def change_password(request: Request, payload: MentorChangePassword,
                          db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id).first()
+    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id)
 
-    if not user or not verifyPassword(payload.oldpassword, user.password):
+    if not user.first() or not verifyPassword(payload.oldpassword, user.first().password):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
     
     if payload.newpassword:
@@ -94,12 +94,5 @@ async def delete_account(db: Session = Depends(get_db),
     
     db.delete(user)
     db.commit()
-    
-    appointments = db.query(DB_Appointments).filter(DB_Appointments.mentor_id == current_user.user_id,
-                                                    DB_Appointments.state == AppointmentsState.active).all()
-    
-    for appoint in appointments:
-        appoint.state = AppointmentsState.mentor_cancel
-        db.commit()
- 
+
     return generalResponse(message="Profile deleted successfully", data=None)
