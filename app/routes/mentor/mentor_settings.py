@@ -92,6 +92,8 @@ async def delete_account(db: Session = Depends(get_db),
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     
+    db.delete(user)
+    db.commit()
     
     appointments = db.query(DB_Appointments).filter(DB_Appointments.mentor_id == current_user.user_id,
                                                     DB_Appointments.state == AppointmentsState.active).all()
@@ -99,7 +101,5 @@ async def delete_account(db: Session = Depends(get_db),
     for appoint in appointments:
         appoint.state = AppointmentsState.mentor_cancel
         db.commit()
-    
-    db.delete(user)
-    db.commit()
+ 
     return generalResponse(message="Profile deleted successfully", data=None)
