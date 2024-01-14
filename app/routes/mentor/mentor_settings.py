@@ -73,15 +73,15 @@ async def change_password(request: Request, payload: MentorChangePassword,
         user.password = payload.newpassword
         db.commit()
         
-        if not user.push_token or not user.push_token == "":
-            addNewNotification(user_type=UserType.Mentor,
-                                        user_id=current_user.user_id,
-                                        currentLanguage=myHeader.language,
-                                        db=db,
-                                        title_english="Change Password",
-                                        title_arabic="تغيير كلمة المرور",
-                                        content_english="Your Password change successfully",
-                                        content_arabic="تم تغيير كلمة المرور الخاصة بك بنجاح")
+        # if not user.push_token or not user.push_token == "":
+        #     addNewNotification(user_type=UserType.Mentor,
+        #                                 user_id=current_user.user_id,
+        #                                 currentLanguage=myHeader.language,
+        #                                 db=db,
+        #                                 title_english="Change Password",
+        #                                 title_arabic="تغيير كلمة المرور",
+        #                                 content_english="Your Password change successfully",
+        #                                 content_arabic="تم تغيير كلمة المرور الخاصة بك بنجاح")
         return generalResponse(message="Password changed successfully", data=None)
     else:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="New password is required")

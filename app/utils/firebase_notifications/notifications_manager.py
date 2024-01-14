@@ -10,16 +10,6 @@ class UserType(Enum):
     Mentor = 1
     Client = 2
     
-# class NotificationsObj():
-#     user_type : UserType
-#     user_id: int
-#     currentLanguage: str
-#     title_english : str
-#     title_arabic : str
-#     content_english : str
-#     content_arabic : str
-#     db: Session
-    
 def addNewNotification(user_type : UserType,
     user_id: int,
     currentLanguage: str,
