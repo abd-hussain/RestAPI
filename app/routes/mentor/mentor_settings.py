@@ -64,17 +64,15 @@ def forgotPassword(payload: MentorForgotPassword, db: Session = Depends(get_db))
 async def change_password(request: Request, payload: MentorChangePassword,
                          db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
-    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id)
+    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id).first()
 
-    if not user.first() or not verifyPassword(payload.oldpassword, user.first().password):
+    if not user or not verifyPassword(payload.oldpassword, user.password):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
     
     if payload.newpassword:
         user.password = payload.newpassword
         db.commit()
-        
-        # if not user.push_token or not user.push_token == "":
-        #     addNewNotification(user_type=UserType.Mentor,
+        # addNewNotification(user_type=UserType.Mentor,
         #                                 user_id=current_user.user_id,
         #                                 currentLanguage=myHeader.language,
         #                                 db=db,
