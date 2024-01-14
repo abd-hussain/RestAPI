@@ -12,21 +12,6 @@ router = APIRouter(
     tags=["Account"]
 )
 
-@router.put("/freeCall")
-async def update_free_call_type(type: str, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
-   
-    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id).first()
-    if not user:
-        return not_found_response()
-
-    if type in FreeCallTypes.__members__:
-        user.free_call = getattr(FreeCallTypes, type)
-        db.commit()
-    else:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Wrong Type")
-
-    return generalResponse(message="Free Call Type updated successfully", data=None)
-
 @router.get("/")
 async def get_hour_rate_and_iban(request: Request, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
@@ -48,7 +33,7 @@ async def get_hour_rate_and_iban(request: Request, db: Session = Depends(get_db)
                                  "iban": user.iban})
 
 @router.put("/")
-async def update_hour_rate_and_iban(hour_rate: str, iban: str,
+async def update_hour_rate_and_iban(hour_rate: str, iban: str, free_type : int,
                          db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
   
     user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id).first()
@@ -59,6 +44,16 @@ async def update_hour_rate_and_iban(hour_rate: str, iban: str,
         user.hour_rate = hour_rate
     if iban is not None:
         user.iban = iban
+    if free_type is not None:
+        if free_type == 1:
+            user.free_call = FreeCallTypes.free_disabled
+        elif free_type == 2:
+            user.free_call = FreeCallTypes.free_15_min
+        elif free_type == 3:
+            user.free_call = FreeCallTypes.free_15_min_with_promocode
+        else: 
+            user.free_call = None
+            
     db.commit()
         
     return generalResponse(message="Hour rate and IBAN updated successfully", data=None)
