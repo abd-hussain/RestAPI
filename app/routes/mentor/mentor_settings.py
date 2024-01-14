@@ -9,11 +9,10 @@ from app.utils.oauth2 import get_current_user
 from app.models.respond.general import generalResponse
 from app.utils.oauth2 import verifyPassword
 from app.utils.send_email import send_email
-from app.utils.firebase_notifications.notifications_manager import UserType, addNewNotification
+# from app.utils.firebase_notifications.notifications_manager import UserType, addNewNotification
 from app.utils.validation import validateLanguageHeader
 from app.models.database.client.db_client_user import DB_Client_Users
 from app.models.database.db_country import DB_Countries
-from app.models.database.db_appointment import DB_Appointments, AppointmentsState
 
 router = APIRouter(
     prefix="/mentor-settings",

@@ -1,28 +1,21 @@
-from fastapi import Depends, APIRouter, HTTPException, status
+from fastapi import Depends, Request, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users, FreeCallTypes
 from app.utils.oauth2 import get_current_user
 from app.models.respond.general import generalResponse
+from app.utils.validation import validateLanguageHeader
+from app.models.database.db_country import DB_Countries
 
 router = APIRouter(
     prefix="/hour-rate",
     tags=["Account"]
 )
 
-@router.get("/freeCall")
-async def get_free_call_type(db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
-
-    user = get_user_by_id(current_user.user_id, db)
-
-    if not user:
-        return not_found_response()
-
-    return generalResponse(message="Free Call Type returned successfully", data=user.free_call)
-
 @router.put("/freeCall")
 async def update_free_call_type(type: str, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
-    user = get_user_by_id(current_user.user_id, db)
+   
+    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id).first()
     if not user:
         return not_found_response()
 
@@ -35,19 +28,30 @@ async def update_free_call_type(type: str, db: Session = Depends(get_db), curren
     return generalResponse(message="Free Call Type updated successfully", data=None)
 
 @router.get("/")
-async def get_hour_rate_and_iban(db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
+async def get_hour_rate_and_iban(request: Request, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
+    myHeader = validateLanguageHeader(request)
 
-    user = get_user_by_id(current_user.user_id, db)
+    country_currency = DB_Countries.currency_arabic if myHeader.language == "ar" else DB_Countries.currency_english
+
+    user = db.query(DB_Mentor_Users.id, country_currency.label("currency"),
+                    DB_Mentor_Users.hour_rate, DB_Mentor_Users.iban,
+                    DB_Mentor_Users.free_call,
+                    ).join(DB_Countries, DB_Countries.id == DB_Mentor_Users.country_id, isouter=True
+                                           ).filter(DB_Mentor_Users.id == current_user.user_id).first()
     if not user:
         return not_found_response()
 
-    return generalResponse(message="hour_rate & IBAN return successfully", data={"hour_rate": user.hour_rate, "iban": user.iban})
+    return generalResponse(message="hour_rate & IBAN return successfully", 
+                           data={"hour_rate": user.hour_rate, 
+                                 "currency": user.currency, 
+                                 "free_call": user.free_call, 
+                                 "iban": user.iban})
 
 @router.put("/")
 async def update_hour_rate_and_iban(hour_rate: str, iban: str,
                          db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
   
-    user = get_user_by_id(current_user.user_id, db)
+    user = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == current_user.user_id).first()
     if not user:
         return not_found_response()
 
@@ -61,9 +65,6 @@ async def update_hour_rate_and_iban(hour_rate: str, iban: str,
 
 
 #############################################################################################
-
-def get_user_by_id(user_id: int, db: Session):
-    return db.query(DB_Mentor_Users).filter(DB_Mentor_Users.id == user_id).first()
 
 def not_found_response():
     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Profile was not found")

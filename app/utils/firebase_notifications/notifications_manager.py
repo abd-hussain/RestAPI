@@ -19,6 +19,8 @@ def addNewNotification(user_type : UserType,
     content_arabic : str,
     db: Session):
     
+    # //TODO: check Token
+    
     user_model = DB_Mentor_Users if user_type == UserType.Mentor else DB_Client_Users
     push_notification_func = send_push_notification_mentor if user_type == UserType.Mentor else send_push_notification_client
 
