@@ -72,7 +72,9 @@ async def change_password(request: Request, payload: MentorChangePassword,
     if payload.newpassword:
         user.password = payload.newpassword
         db.commit()
-        addNewNotification(user_type=UserType.Mentor,
+        
+        if not user.push_token or not user.push_token == "":
+            addNewNotification(user_type=UserType.Mentor,
                                         user_id=current_user.user_id,
                                         currentLanguage=myHeader.language,
                                         db=db,
