@@ -46,12 +46,7 @@ async def get_mentor_payments(request: Request, db: Session = Depends(get_db), g
                      DB_Client_Users.last_name.label("client_last_name"),
                      DB_Client_Users.profile_img.label("client_profile_img"), 
                      DB_Client_Users.country_id.label("client_country_id"),
-                     DB_Countries.flag_image.label("client_flag_img"),
-                     DB_Mentor_Users.suffixe_name.label("mentor_suffixe_name"), 
-                     DB_Mentor_Users.first_name.label("mentor_first_name"),
-                     DB_Mentor_Users.last_name.label("mentor_last_name"), 
-                     DB_Mentor_Users.iban.label("mentor_iban"),
-                     DB_Mentor_Users.profile_img.label("mentor_profile_img")
+                     DB_Countries.flag_image.label("client_flag_img"),           
                      ).join(DB_Mentor_PaymentsـReports, DB_Mentor_PaymentsـReports.payment_id == DB_Mentor_Payments.id, isouter=True
                     ).join(DB_Appointments, DB_Appointments.id == DB_Mentor_Payments.appointment_id, isouter=True
                     ).join(DB_Client_Users, DB_Client_Users.id ==  DB_Appointments.client_id, isouter=True
