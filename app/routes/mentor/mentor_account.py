@@ -59,8 +59,11 @@ async def update_account_info(suffixe_name: str = Form(None),
     query.speaking_language = validateField(speaking_language)
     query.country_id = validateField(country_id)
 
-    query.profile_img = edit_file_uploaded(validateField(profile_img), 'profile_img', current_user.user_id)
-    query.id_img = edit_file_uploaded(validateField(id_img), 'id_img', current_user.user_id)
+    if profile_img is not None:
+        query.profile_img = edit_file_uploaded(validateField(profile_img), 'profile_img', current_user.user_id)
+        
+    if id_img is not None:
+        query.id_img = edit_file_uploaded(validateField(id_img), 'id_img', current_user.user_id)
    
     db.commit()
 
