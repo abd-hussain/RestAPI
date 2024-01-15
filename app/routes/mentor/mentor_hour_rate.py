@@ -54,6 +54,8 @@ async def update_hour_rate_and_iban(hour_rate: str, iban: str, free_type : int,
         else: 
             user.free_call = None
             
+    # //TODO Send Push Notificaitin with promo code
+            
     db.commit()
         
     return generalResponse(message="Hour rate and IBAN updated successfully", data=None)

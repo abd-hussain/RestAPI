@@ -34,8 +34,9 @@ async def get_account_experinace(request: Request, db: Session = Depends(get_db)
     return generalResponse(message="Profile Experiances return successfully", data=mentor_experience)
 
 @router.put("/exp-info")
-async def update_account_experinace(experience_since: str = Form(None), majors:list[int] = [],
-                            category_id: int = Form(None),
+async def update_account_experinace(experience_since: str = Form(None), 
+                                    majors:list[int] = [],
+                                category_id: int = Form(None),
                                 cv: UploadFile = File(default=None), 
                                 cert1: UploadFile = File(default=None), 
                                 cert2: UploadFile = File(default=None),
@@ -53,8 +54,11 @@ async def update_account_experinace(experience_since: str = Form(None), majors:l
     query.majors = validateField(majors)
     query.category_id = validateField(category_id)
     
-    query.cv = edit_file_uploaded(validateField(cv), 'cv', current_user.user_id)
-    query.cert1 = edit_file_uploaded(validateField(cert1), 'cert1', current_user.user_id)
+    if cv is not None:
+        query.cv = edit_file_uploaded(validateField(cv), 'cv', current_user.user_id)
+    
+    if cert1 is not None:
+        query.cert1 = edit_file_uploaded(validateField(cert1), 'cert1', current_user.user_id)
     
     if cert2 is not None:
         query.cert2 = edit_file_uploaded(validateField(cert2), 'cert2', current_user.user_id)
