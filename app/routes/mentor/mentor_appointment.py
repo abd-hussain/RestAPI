@@ -44,14 +44,15 @@ async def cancel_appointment(id: int, request: Request, db: Session = Depends(ge
     appointment.state = AppointmentsState.mentor_cancel
     db.commit()
     
-    addNewNotification(user_type=UserType.Mentor,
-                        user_id=current_user.user_id,
-                        currentLanguage=myHeader.language,
-                        db=db,
-                        title_english="Appointment canceled successfully",
-                        title_arabic="تم إلغاء الموعد بنجاح",
-                        content_english="canceling appointment will not cost you any thing and will not added to the payment screen",
-                        content_arabic="إلغاء الموعد لن يكلفك شيئا ولن يضاف إلى شاشة الدفع")
+    # //TODO
+    # addNewNotification(user_type=UserType.Mentor,
+    #                     user_id=current_user.user_id,
+    #                     currentLanguage=myHeader.language,
+    #                     db=db,
+    #                     title_english="Appointment canceled successfully",
+    #                     title_arabic="تم إلغاء الموعد بنجاح",
+    #                     content_english="canceling appointment will not cost you any thing and will not added to the payment screen",
+    #                     content_arabic="إلغاء الموعد لن يكلفك شيئا ولن يضاف إلى شاشة الدفع")
     
     return generalResponse(message="Appointment canceled successfully", data=None)
 

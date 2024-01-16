@@ -52,6 +52,7 @@ app.include_router(settings.router)
 app.include_router(report.router)
 app.include_router(notifications.router)
 app.include_router(discount.router)
+# TODO: Handle Push notification iOS
 
 # TODO: Handle Send SMS For Verifications
     #     addNewNotification(user_type=UserType.Mentor,

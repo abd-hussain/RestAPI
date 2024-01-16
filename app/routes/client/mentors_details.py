@@ -41,7 +41,6 @@ async def get_mentor_account_details(id :int ,request: Request, db: Session = De
 @router.get("/mentor-available")
 def get_nearest_mentor_available(catId :int, request: Request, db: Session = Depends(get_db)):
     language = validateLanguageHeader(request).language
-    # //TODO : this API not working as expected , i am still not sure , it need alot of testing and refactoring
     mentors = fetch_mentors(db, catId, language)
    
     if not mentors:
