@@ -7,6 +7,7 @@ class ClientAccountModel(BaseModel):
     app_version: str
     last_otp: Optional[str]
     api_key: Optional[str]
+    last_usage: Optional[str]
     
 class ClientAccountVerifyModel(BaseModel):
     mobile_number : str

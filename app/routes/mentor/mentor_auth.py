@@ -32,7 +32,8 @@ def login(payload: MentorAuth, db: Session = Depends(get_db)):
     
     access_token = create_access_token(data={"api_key" : generateAPIKey(), "user_id" : user.first().id})
     
-    user.last_usage = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
+    user.last_usage = datetime.utcnow()
     db.commit()
     
     return generalResponse(message="Mentor Logged In successfully", data=access_token)
+ 

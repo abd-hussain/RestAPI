@@ -15,21 +15,23 @@ router = APIRouter(
     tags=["Authentication"]
 )
 
-@router.post('/', response_model=LoginResponse)
+@router.post('/' , response_model=LoginResponse)
 def authentication(payload: ClientAccountModel, db: Session = Depends(get_db)):
-    user = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
+    user = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number).first()
     payload.last_otp = generateOTP()
+    payload.last_usage = datetime.utcnow()
     
-    if user.first() is None:
+    if user is None:
+
         user = create_user(db, payload)
         return generalResponse(message= "successfully created new account", data=user)
     
-    if user.first().blocked == True:
+    if user.blocked == True:
          raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="User Blocked")
          
     user = update_user(db, user, payload.last_otp)
-    return generalResponse(message= "OTP Sended successfully", data=user.first())
+    return generalResponse(message= "OTP Sended successfully", data=user)
 
 @router.post('-verify')
 def verify_otp(payload: ClientAccountVerifyModel, db: Session =  Depends(get_db)):
@@ -49,7 +51,7 @@ def verify_otp(payload: ClientAccountVerifyModel, db: Session =  Depends(get_db)
     
     access_token = create_access_token(data={"api_key" : payload.api_key, "user_id" : payload.user_id})
     
-    user.last_usage = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
+    user.last_usage = datetime.utcnow()
     db.commit()
     
     return generalResponse(message= "You Have Loged in Successfully", data={"token" : access_token, "token_type": "bearer"})
@@ -67,6 +69,5 @@ def create_user(db: Session, user_data: ClientAccountModel):
 
 def update_user(db: Session, user: DB_Client_Users, last_otp: str):
     user.last_otp = last_otp
-    user.last_usage = datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
     db.commit()
     return user
