@@ -17,19 +17,19 @@ router = APIRouter(
 
 @router.post('/', response_model=LoginResponse)
 def authentication(payload: ClientAccountModel, db: Session = Depends(get_db)):
-    user = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number).first()
+    user = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == payload.mobile_number)
     payload.last_otp = generateOTP()
     
-    if user is None:
+    if user.first() is None:
         user = create_user(db, payload)
         return generalResponse(message= "successfully created new account", data=user)
     
-    if user.blocked == True:
+    if user.first().blocked == True:
          raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="User Blocked")
          
     user = update_user(db, user, payload.last_otp)
-    return generalResponse(message= "OTP Sended successfully", data=user)
+    return generalResponse(message= "OTP Sended successfully", data=user.first())
 
 @router.post('-verify')
 def verify_otp(payload: ClientAccountVerifyModel, db: Session =  Depends(get_db)):
