@@ -59,7 +59,9 @@ async def get_client_appointments(request: Request, db: Session = Depends(get_db
                      DB_Mentor_Users.suffixe_name, 
                      DB_Mentor_Users.first_name, 
                      DB_Mentor_Users.last_name, 
+                     DB_Mentor_Users.gender,
                      DB_Mentor_Users.speaking_language,
+                     DB_Countries.flag_image,
                      country_column.label("countryName"), 
                      category_column.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
@@ -100,7 +102,9 @@ async def get_client_active_appointments(request: Request, db: Session = Depends
                      DB_Mentor_Users.suffixe_name, 
                      DB_Mentor_Users.first_name, 
                      DB_Mentor_Users.last_name, 
+                     DB_Mentor_Users.gender,
                      DB_Mentor_Users.speaking_language,
+                     DB_Countries.flag_image,
                      country_column.label("countryName"), 
                      category_column.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True
