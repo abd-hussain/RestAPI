@@ -67,6 +67,10 @@ class ReviewsResponse(BaseModel) :
     class Config:
         orm_mode = True
         
+class MentorMajorsDetailsResponse(BaseModel) :
+    id: int
+    name: str   
+     
 class MentorDetailsResponse(BaseModel) :
     id: int
     suffixe_name: str    
@@ -85,7 +89,7 @@ class MentorDetailsResponse(BaseModel) :
     category_name: str
     country: str
     country_flag: str
-    major: list[str]
+    major: list[MentorMajorsDetailsResponse]
     working_hours_saturday: list[int]
     working_hours_sunday: list[int]
     working_hours_monday: list[int]

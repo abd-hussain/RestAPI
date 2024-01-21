@@ -2,7 +2,7 @@ import calendar
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter, HTTPException, status
-from app.models.schemas.mentor_account import MentorDetailsResponse, MentorFilter, ReviewsResponse
+from app.models.schemas.mentor_account import MentorDetailsResponse, MentorFilter, MentorMajorsDetailsResponse, ReviewsResponse
 from app.utils.average import getAverage
 from app.utils.database import get_db
 from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
@@ -31,7 +31,7 @@ async def get_mentor_account_details(id :int ,request: Request, db: Session = De
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="profile was not found")
    
     list_of_reviews = get_reviews(db, mentor_info.id, language)
-    majors_list = get_majors_named(db, mentor_info.majors, language)
+    majors_list = get_majors(db, mentor_info.majors, language)
     rate_avg = getAverage([review.stars for review in list_of_reviews])
 
     mentor_details_response = create_mentor_details_response(mentor_info, majors_list, rate_avg, list_of_reviews)
@@ -139,14 +139,14 @@ def get_mentor_info(db, mentor_id, language):
                              DB_Mentor_Users.blocked == False, 
                              DB_Mentor_Users.published == True).first()
 
-def get_majors_named(db, mentor_info_majors, language):
+def get_majors(db, mentor_info_majors, language):
     majors_list = []
     major_query = db.query(DB_Majors.id, DB_Majors.name_english, DB_Majors.name_arabic).all()
     for mentor_majors in mentor_info_majors:
         for majors in major_query:
             if majors.id == mentor_majors:
                 majer_name = majors.name_arabic if language == "ar" else majors.name_english
-                value = majer_name
+                value = MentorMajorsDetailsResponse(id=majors.id, name= majer_name)
                 majors_list.append(value)
     return majors_list
 
