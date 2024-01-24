@@ -87,6 +87,7 @@ class MentorDetailsResponse(BaseModel) :
     date_of_birth: str
     experience_since: str
     category_name: str
+    category_id :int
     country: str
     country_flag: str
     major: list[MentorMajorsDetailsResponse]

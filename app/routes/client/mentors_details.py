@@ -200,6 +200,7 @@ def create_mentor_details_response(mentor_info, majors_list, rate_avg, list_of_r
                             date_of_birth = mentor_info.date_of_birth, 
                             experience_since = mentor_info.experience_since, 
                             category_name = mentor_info.category_name,
+                            category_id = mentor_info.category_ID,
                             country = mentor_info.country_name,
                             country_flag = mentor_info.flag_image, 
                             total_rate = rate_avg, 
