@@ -129,6 +129,7 @@ def get_mentor_info(db, mentor_id, language):
                     DB_Mentor_Users.date_of_birth, 
                     DB_Mentor_Users.experience_since,
                     DB_Mentor_Users.country_id, 
+                    DB_Categories.id.label("category_ID"),
                     category_name_column.label("category_name"),
                     country_name_column.label("country_name"),
                     country_currency_column.label("currency"),
