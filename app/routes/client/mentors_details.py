@@ -14,6 +14,8 @@ from app.models.database.db_majors import DB_Majors
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState
 from app.utils.validation import validateLanguageHeader
 from datetime import datetime, timedelta
+from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy import or_
 
 router = APIRouter(
     prefix="/mentors-details",
@@ -39,12 +41,12 @@ async def get_mentor_account_details(id :int ,request: Request, db: Session = De
     return generalResponse(message="Profile return successfully", data= mentor_details_response)
 
 @router.get("/mentor-available")
-def get_nearest_mentor_available(catId :int, request: Request, db: Session = Depends(get_db)):
+def get_nearest_mentor_available(catId :int, majorId :int,request: Request, db: Session = Depends(get_db)):
     language = validateLanguageHeader(request).language
-    mentors = fetch_mentors(db, catId, language)
+    mentors = fetch_mentors(db, catId, majorId, language)
    
     if not mentors:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No profiles under this category")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No profiles under this category or major")
     
     list_of_mentors: list[MentorFilter] = []
     hour = 0
@@ -214,7 +216,7 @@ def create_mentor_details_response(mentor_info, majors_list, rate_avg, list_of_r
                             reviews = list_of_reviews
                             )
  
-def fetch_mentors(db, catId, language):
+def fetch_mentors(db, catId, majorId, language):
     country_name_column = DB_Countries.name_arabic if language == "ar" else DB_Countries.name_english
     country_currency_column = DB_Countries.currency_arabic if language == "ar" else DB_Countries.currency_english
 
@@ -239,10 +241,15 @@ def fetch_mentors(db, catId, language):
                     DB_Countries.flag_image,
                     ).join(
                     DB_Countries, DB_Countries.id == DB_Mentor_Users.country_id, isouter=True
-                    ).filter(DB_Mentor_Users.category_id == catId, 
-                    DB_Mentor_Users.blocked == False, 
-                    DB_Mentor_Users.published == True
-                    ).all()
+                    ).filter(
+                        DB_Mentor_Users.category_id == catId, 
+                        or_(
+                            DB_Mentor_Users.majors.op('@>')([majorId]),  # This is for PostgreSQL's array containment
+                            DB_Mentor_Users.majors == [majorId]  # Adjust this if necessary
+                            ),
+                        DB_Mentor_Users.blocked == False, 
+                        DB_Mentor_Users.published == True
+                        ).all()
                     
 def get_working_hours(mentor, day):
     working_hours_mapping = {
