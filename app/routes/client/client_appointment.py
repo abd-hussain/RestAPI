@@ -48,7 +48,7 @@ async def get_client_appointments(request: Request, db: Session = Depends(get_db
                      DB_Appointments.discount_id,
                      DB_Appointments.is_free,
                      DB_Appointments.price,
-                     DB_Appointments.discounted_price,
+                     DB_Appointments.total_price,
                      currency_column.label("currency"), 
                      DB_Appointments.mentor_hour_rate,
                      DB_Appointments.note_from_client, 
@@ -91,7 +91,7 @@ async def get_client_active_appointments(request: Request, db: Session = Depends
                      DB_Appointments.discount_id,
                      DB_Appointments.is_free,
                      DB_Appointments.price,
-                     DB_Appointments.discounted_price,
+                     DB_Appointments.total_price,
                      currency_column.label("currency"), 
                      DB_Appointments.mentor_hour_rate,
                      DB_Appointments.note_from_client, 
@@ -179,8 +179,8 @@ async def add_comment_to_appointment(payload: AppointmentComment, request: Reque
 @router.post("/book")
 async def book_appointment(payload: AppointmentRequest, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
     
-    dateFrom = datetime(payload.dateFrom.year, payload.dateFrom.month, payload.dateFrom.day, payload.dateFrom.hour, payload.dateFrom.min)
-    dateTo = datetime(payload.dateTo.year, payload.dateTo.month, payload.dateTo.day, payload.dateTo.hour, payload.dateTo.min)
+    dateFrom = datetime(payload.date_from.year, payload.date_from.month, payload.date_from.day, payload.date_from.hour, payload.date_from.min)
+    dateTo = datetime(payload.date_to.year, payload.date_to.month, payload.date_to.day, payload.date_to.hour, payload.date_to.min)
     
     if dateFrom <= datetime.utcnow():
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="dateFrom not valid")
@@ -190,7 +190,7 @@ async def book_appointment(payload: AppointmentRequest, db: Session = Depends(ge
 
     appointments_query = db.query(DB_Appointments)
     
-    mentor_appointments_query = appointments_query.filter(DB_Appointments.mentor_id == payload.mentorId
+    mentor_appointments_query = appointments_query.filter(DB_Appointments.mentor_id == payload.mentor_id
                                     ).filter(DB_Appointments.state == AppointmentsState.active).all()
     
     client_appointments_query = appointments_query.filter(DB_Appointments.client_id == current_user.user_id
@@ -205,25 +205,25 @@ async def book_appointment(payload: AppointmentRequest, db: Session = Depends(ge
         for app in client_appointments_query:
             if (dateFrom >= app.date_from and dateFrom <= app.date_to) or (dateTo <= app.date_to and dateTo >= app.date_from):
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Client already have appointment in that date")
-    
-    # //TODO
-    # obj = DB_Appointments(**{"mentor_id" : payload.mentorId, 
-    #                         "client_id" : current_user.user_id, 
-    #                         "date_from" : dateFrom, 
-    #                         "date_to" : dateTo, 
-    #                         "discount_id" : payload.discount_id,
-    #                         "is_free" : payload.is_free,
-    #                         "price" : payload.price,
-    #                         "discounted_price" : payload.discounted_price,
-    #                         "currency_english" : payload.currency_english,
-    #                         "currency_arabic" : payload.currency_arabic,
-    #                         "mentor_hour_rate" : payload.mentor_hour_rate,
-    #                         "state" : AppointmentsState.active,
-    #                         "note_from_client" : payload.note,
-    #                         "appointment_type" : payload.type,
-    #                         "channel_id" : generateChannelName()}) 
-    # db.add(obj)
-    # db.commit()
+
+    obj = DB_Appointments(**{"mentor_id" : payload.mentor_id, 
+                            "client_id" : current_user.user_id,
+                            "date_from" : dateFrom, 
+                            "date_to" : dateTo, 
+                            "discount_id" : payload.discount_id,
+                            "is_free" : payload.is_free,
+                            "price" : payload.price,
+                            "total_price" : payload.total_price,
+                            "currency_english" : payload.currency_english,
+                            "currency_arabic" : payload.currency_arabic,
+                            "mentor_hour_rate" : payload.mentor_hour_rate,
+                            "note_from_client" : payload.note,
+                            "appointment_type" : payload.type,
+                            "payment_type" : payload.payment,
+                            "state" : AppointmentsState.active,
+                            "channel_id" : generateChannelName()}) 
+    db.add(obj)
+    db.commit()
     return generalResponse(message="appoitment booked successfuly", data=None)
 
 #############################################################################################

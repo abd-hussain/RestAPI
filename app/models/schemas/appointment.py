@@ -14,15 +14,16 @@ class AppointmentFromTo(BaseModel):
         
         
 class AppointmentRequest(BaseModel):
-    mentorId: int
+    mentor_id: int
     type: AppointmentsType
     payment: PaymentMethod
     is_free: bool
-    dateFrom : AppointmentFromTo
-    dateTo: AppointmentFromTo
+    date_from : AppointmentFromTo
+    date_to: AppointmentFromTo
     note: Optional[str]
     discount_id: Optional[int]
-    currency_id: int
+    currency_english: str
+    currency_arabic: str
     mentor_hour_rate: float
     price: float
     total_price: float

@@ -114,7 +114,7 @@ def get_appointments_query(db: Session, mentor_id: int, state: AppointmentsState
                       DB_Appointments.client_id, DB_Appointments.mentor_id, 
                       DB_Appointments.appointment_type, DB_Appointments.channel_id, 
                       DB_Appointments.note_from_mentor, DB_Appointments.note_from_client,
-                      DB_Appointments.price, DB_Appointments.discounted_price, DB_Appointments.state,
+                      DB_Appointments.price, DB_Appointments.total_price, DB_Appointments.state,
                       DB_Appointments.mentor_join_call, DB_Appointments.client_join_call,
                       DB_Appointments.mentor_date_of_close, DB_Appointments.client_date_of_close,
                       DB_Appointments.currency_english, DB_Appointments.currency_arabic,

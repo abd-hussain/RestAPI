@@ -36,7 +36,7 @@ async def get_mentor_payments(request: Request, db: Session = Depends(get_db), g
                      DB_Appointments.state.label("appointment_state"), 
                      DB_Appointments.is_free.label("appointment_is_free"),
                      DB_Appointments.price.label("appointment_price"), 
-                     DB_Appointments.discounted_price.label("appointment_discounted_price"),
+                     DB_Appointments.total_price.label("appointment_total_price"),
                      currency_name_field.label("currency"),
                      DB_Appointments.mentor_hour_rate, 
                      DB_Appointments.note_from_client,
