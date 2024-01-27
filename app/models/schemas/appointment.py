@@ -22,8 +22,7 @@ class AppointmentRequest(BaseModel):
     date_to: AppointmentFromTo
     note: Optional[str]
     discount_id: Optional[int]
-    currency_english: str
-    currency_arabic: str
+    country_id: int
     mentor_hour_rate: float
     price: float
     total_price: float

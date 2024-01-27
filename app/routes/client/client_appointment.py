@@ -190,6 +190,9 @@ async def book_appointment(payload: AppointmentRequest, db: Session = Depends(ge
 
     appointments_query = db.query(DB_Appointments)
     
+    country_query = db.query(DB_Countries.id, DB_Countries.currency_english, 
+                         DB_Countries.currency_arabic).filter(DB_Countries.id == payload.country_id).first()
+    
     mentor_appointments_query = appointments_query.filter(DB_Appointments.mentor_id == payload.mentor_id
                                     ).filter(DB_Appointments.state == AppointmentsState.active).all()
     
@@ -214,8 +217,8 @@ async def book_appointment(payload: AppointmentRequest, db: Session = Depends(ge
                             "is_free" : payload.is_free,
                             "price" : payload.price,
                             "total_price" : payload.total_price,
-                            "currency_english" : payload.currency_english,
-                            "currency_arabic" : payload.currency_arabic,
+                            "currency_english" : country_query.currency_english,
+                            "currency_arabic" :country_query.currency_arabic,
                             "mentor_hour_rate" : payload.mentor_hour_rate,
                             "note_from_client" : payload.note,
                             "appointment_type" : payload.type,
