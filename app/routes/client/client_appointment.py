@@ -206,24 +206,24 @@ async def book_appointment(payload: AppointmentRequest, db: Session = Depends(ge
             if (dateFrom >= app.date_from and dateFrom <= app.date_to) or (dateTo <= app.date_to and dateTo >= app.date_from):
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Client already have appointment in that date")
     
-    
-    obj = DB_Appointments(**{"mentor_id" : payload.mentorId, 
-                            "client_id" : current_user.user_id, 
-                            "date_from" : dateFrom, 
-                            "date_to" : dateTo, 
-                            "discount_id" : payload.discount_id,
-                            "is_free" : payload.is_free,
-                            "price" : payload.price,
-                            "discounted_price" : payload.discounted_price,
-                            "currency_english" : payload.currency_english,
-                            "currency_arabic" : payload.currency_arabic,
-                            "mentor_hour_rate" : payload.mentor_hour_rate,
-                            "state" : AppointmentsState.active,
-                            "note_from_client" : payload.note,
-                            "appointment_type" : payload.type,
-                            "channel_id" : generateChannelName()}) 
-    db.add(obj)
-    db.commit()
+    # //TODO
+    # obj = DB_Appointments(**{"mentor_id" : payload.mentorId, 
+    #                         "client_id" : current_user.user_id, 
+    #                         "date_from" : dateFrom, 
+    #                         "date_to" : dateTo, 
+    #                         "discount_id" : payload.discount_id,
+    #                         "is_free" : payload.is_free,
+    #                         "price" : payload.price,
+    #                         "discounted_price" : payload.discounted_price,
+    #                         "currency_english" : payload.currency_english,
+    #                         "currency_arabic" : payload.currency_arabic,
+    #                         "mentor_hour_rate" : payload.mentor_hour_rate,
+    #                         "state" : AppointmentsState.active,
+    #                         "note_from_client" : payload.note,
+    #                         "appointment_type" : payload.type,
+    #                         "channel_id" : generateChannelName()}) 
+    # db.add(obj)
+    # db.commit()
     return generalResponse(message="appoitment booked successfuly", data=None)
 
 #############################################################################################

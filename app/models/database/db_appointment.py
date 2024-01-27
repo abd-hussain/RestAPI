@@ -13,7 +13,13 @@ class AppointmentsState(enum.Enum):
 class AppointmentsType(enum.Enum):
     schudule = 1
     instant = 2
-
+    
+class PaymentMethod(enum.Enum):
+    apple = 1
+    google = 2
+    paypal = 3
+    free = 4
+    
 class DB_Appointments(Base):
     __tablename__ = "appointments"
 
