@@ -105,8 +105,6 @@ async def get_client_active_appointments(request: Request, db: Session = Depends
                      DB_Mentor_Users.gender,
                      DB_Mentor_Users.speaking_language,
                      DB_Countries.flag_image,
-                     DB_Countries.country_code, 
-                     DB_Countries.currency_code,
                      country_column.label("countryName"), 
                      category_column.label("categoryName"), 
                      ).join(DB_Mentor_Users, DB_Mentor_Users.id == DB_Appointments.mentor_id, isouter=True

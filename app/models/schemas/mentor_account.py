@@ -27,6 +27,8 @@ class MentorFilter(BaseModel) :
     rate: Optional[float]
     date: str
     currency: str
+    currency_code: str
+    country_code: str
     languages: list[str]
     country_name: str
     country_flag: str
@@ -81,6 +83,8 @@ class MentorDetailsResponse(BaseModel) :
     hour_rate: float
     free_call: Optional[FreeCallTypes]
     currency: str
+    currency_code: str
+    country_code: str
     total_rate: float
     gender: int
     profile_img: str
