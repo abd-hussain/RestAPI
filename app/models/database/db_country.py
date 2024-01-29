@@ -11,6 +11,8 @@ class DB_Countries(Base):
     name_english = Column(String, nullable=False)
     currency_arabic = Column(String, nullable=False)
     currency_english = Column(String, nullable=False)
+    country_code = Column(String, nullable=False)
+    currency_code = Column(String, nullable=False)
     dialCode = Column(String, nullable=False)
     minLength = Column(Integer, nullable=False)
     maxLength = Column(Integer, nullable=False)

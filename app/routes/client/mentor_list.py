@@ -35,6 +35,8 @@ async def get_accounts_depend_on_category_id(categories_id :int ,request: Reques
                         DB_Mentor_Users.experience_since,
                         country_name_column.label("country_name"), 
                         DB_Countries.flag_image,
+                        DB_Countries.country_code, 
+                        DB_Countries.currency_code,
                         country_currency_column.label("currency"),
                         category_name_column.label("category_name")
                         ).join(

@@ -31,6 +31,7 @@ async def get_countries(request: Request, db: Session = Depends(get_db)):
     country_currency = DB_Countries.currency_arabic if myHeader.language == "ar" else DB_Countries.currency_english
     countries = db.query(DB_Countries.id, DB_Countries.flag_image, country_name_column.label("name"), 
                          country_currency.label("currency"),DB_Countries.dialCode,
+                         DB_Countries.country_code, DB_Countries.currency_code,
                          DB_Countries.minLength, DB_Countries.maxLength).all()
     
     return generalResponse(message="list of countries return successfully", data=countries)

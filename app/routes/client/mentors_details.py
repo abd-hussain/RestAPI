@@ -134,7 +134,9 @@ def get_mentor_info(db, mentor_id, language):
                     category_name_column.label("category_name"),
                     country_name_column.label("country_name"),
                     country_currency_column.label("currency"),
-                    DB_Countries.flag_image
+                    DB_Countries.flag_image,
+                    DB_Countries.country_code, 
+                    DB_Countries.currency_code
                     ).join(DB_Categories, DB_Categories.id == DB_Mentor_Users.category_id, isouter=True
                     ).join(DB_Countries, DB_Countries.id == DB_Mentor_Users.country_id, isouter=True
                     ).filter(DB_Mentor_Users.id == mentor_id, 
@@ -238,6 +240,8 @@ def fetch_mentors(db, catId, majorId, language):
                     country_name_column.label("country_name"),
                     country_currency_column.label("currency"),
                     DB_Countries.flag_image,
+                    DB_Countries.country_code, 
+                    DB_Countries.currency_code,
                     ).join(
                     DB_Countries, DB_Countries.id == DB_Mentor_Users.country_id, isouter=True
                     ).filter(
