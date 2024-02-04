@@ -1,6 +1,6 @@
 
 from app.utils.database import Base
-from sqlalchemy import TIMESTAMP, Column, Integer, String, Boolean, text
+from sqlalchemy import TIMESTAMP, Column, Integer, String, Boolean, text, DECIMAL
 
 class DB_Countries(Base):
     __tablename__ = "countries"
@@ -16,6 +16,7 @@ class DB_Countries(Base):
     dialCode = Column(String, nullable=False)
     minLength = Column(Integer, nullable=False)
     maxLength = Column(Integer, nullable=False)
+    dollar_equivalent = Column(DECIMAL, nullable=False)
     published = Column(Boolean, server_default='TRUE')
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text("timezone('utc', now())"))

@@ -32,7 +32,8 @@ async def get_countries(request: Request, db: Session = Depends(get_db)):
     countries = db.query(DB_Countries.id, DB_Countries.flag_image, country_name_column.label("name"), 
                          country_currency.label("currency"),DB_Countries.dialCode,
                          DB_Countries.country_code, DB_Countries.currency_code,
-                         DB_Countries.minLength, DB_Countries.maxLength).all()
+                         DB_Countries.minLength, DB_Countries.maxLength, 
+                         DB_Countries.dollar_equivalent).all()
     
     return generalResponse(message="list of countries return successfully", data=countries)
 
@@ -81,3 +82,9 @@ async def post_validate_invitation_code(code: str, db: Session = Depends(get_db)
     code_exists = mentor_exists or client_exists
 
     return generalResponse(message="checking invitation Code exsisting", data=code_exists)
+
+
+@router.post("/currency-converter")
+async def currency_converter(currency: str, db: Session = Depends(get_db)): 
+    country = db.query(DB_Countries).filter(DB_Countries.currency_code == currency).first() is not None
+    return generalResponse(message="dollar Equivalent", data=country.dollar_equivalent)

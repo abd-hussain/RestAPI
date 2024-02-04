@@ -84,7 +84,8 @@ def upgrade() -> None:
             "currency_code" : "BHD",       
             "dialCode" : "00973",
             "minLength" : 8,
-            "maxLength": 8
+            "maxLength": 8,
+            "dollar_equivalent" : 2.64
         },
         {          
             "id" : 2,
@@ -97,7 +98,8 @@ def upgrade() -> None:
             "currency_code" : "EGP",      
             "dialCode" : "0020",
             "minLength" : 10,
-            "maxLength": 10
+            "maxLength": 10,
+            "dollar_equivalent" : 0.032
         }, 
         {
             "id" : 3,
@@ -110,7 +112,8 @@ def upgrade() -> None:
             "currency_code" : "IQD",         
             "dialCode" : "00964",
             "minLength" : 10,
-            "maxLength": 10
+            "maxLength": 10,
+            "dollar_equivalent" : 0.00076
         }, 
         {
             "id" : 4,
@@ -123,7 +126,8 @@ def upgrade() -> None:
             "currency_code" : "JOD",          
             "dialCode" : "00962",
             "minLength" : 9,
-            "maxLength": 9
+            "maxLength": 9,
+            "dollar_equivalent" : 1.41
         },
         { 
             "id" : 5,
@@ -136,7 +140,8 @@ def upgrade() -> None:
             "currency_code" : "KWD",          
             "dialCode" : "00965",
             "minLength" : 8,
-            "maxLength": 8
+            "maxLength": 8,
+            "dollar_equivalent" : 3.24
         },
         {
             "id" : 6,
@@ -149,7 +154,8 @@ def upgrade() -> None:
             "currency_code" : "QAR",          
             "dialCode" : "00974",
             "minLength" : 8,
-            "maxLength": 8
+            "maxLength": 8,
+            "dollar_equivalent" : 0.27
         }, 
         {
             "id" : 7,
@@ -162,7 +168,8 @@ def upgrade() -> None:
             "currency_code" : "SAR",          
             "dialCode" : "00966",
             "minLength" : 9,
-            "maxLength": 9
+            "maxLength": 9,
+            "dollar_equivalent" : 0.27
         }, 
         {
             "id" : 8,
@@ -175,7 +182,8 @@ def upgrade() -> None:
             "currency_code" : "AED",         
             "dialCode" : "00971",
             "minLength" : 9,
-            "maxLength": 9
+            "maxLength": 9,
+            "dollar_equivalent" : 0.27
         },
         {
             "id" : 9,
@@ -188,7 +196,8 @@ def upgrade() -> None:
             "currency_code" : "USD",         
             "dialCode" : "00961",
             "minLength" : 8,
-            "maxLength": 8
+            "maxLength": 8,
+            "dollar_equivalent" : 1.0
         },
         {
             "id" : 10,
@@ -201,7 +210,8 @@ def upgrade() -> None:
             "currency_code" : "ILS",       
             "dialCode" : "00970",
             "minLength" : 9,
-            "maxLength": 9
+            "maxLength": 9,
+            "dollar_equivalent" : 0.27
         }
     ]
     )
