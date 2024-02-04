@@ -86,15 +86,13 @@ async def post_validate_invitation_code(code: str, db: Session = Depends(get_db)
 
 @router.post("/currency-converter")
 async def currency_converter(currency: str, request: Request, db: Session = Depends(get_db)):
-    myHeader = validateLanguageHeader(request)
-    currency_column = DB_Countries.currency_arabic if myHeader.language == "ar" else DB_Countries.currency_english
     
-    country = db.query(currency_column.label("currencies"), DB_Countries.dollar_equivalent).all()
+    country = db.query(DB_Countries.currency_code, DB_Countries.dollar_equivalent).all()
     
     dollar_equivalent = 0.0
     
     for coun in country:
-        if coun.currencies == currency:
+        if coun.currency_code == currency:
             dollar_equivalent = coun.dollar_equivalent
 
     return generalResponse(message="dollar Equivalent", data=dollar_equivalent)
