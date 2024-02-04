@@ -96,7 +96,5 @@ async def currency_converter(currency: str, request: Request, db: Session = Depe
     for coun in country:
         if coun.currencies == currency:
             dollar_equivalent = coun.dollar_equivalent
-            
-        
-    
+
     return generalResponse(message="dollar Equivalent", data=dollar_equivalent)
