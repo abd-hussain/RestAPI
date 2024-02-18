@@ -12,6 +12,7 @@ db_client_user.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/application", StaticFiles(directory="application"), name="application")
 
 app.add_middleware(
     CORSMiddleware,
