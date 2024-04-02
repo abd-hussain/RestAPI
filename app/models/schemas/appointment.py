@@ -14,7 +14,7 @@ class AppointmentFromTo(BaseModel):
         
         
 class AppointmentRequest(BaseModel):
-    mentor_id: int
+    attorney_id: int
     type: AppointmentsType
     payment: PaymentMethod
     is_free: bool
@@ -23,7 +23,7 @@ class AppointmentRequest(BaseModel):
     note: Optional[str]
     discount_id: Optional[int]
     country_id: int
-    mentor_hour_rate: float
+    attorney_hour_rate: float
     price: float
     total_price: float
 

@@ -10,10 +10,10 @@ currentTimestamp = int(time.time())
 privilegeExpiredTs = currentTimestamp + expireTimeInSeconds
 
 
-def generateTokenMentor(channelName):
+def generateTokenAttorney(channelName):
     token = RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channelName, uid, Role_Publisher, privilegeExpiredTs)
     return token
 
-def generateTokenClient(channelName):
+def generateTokenCustomer(channelName):
     token = RtcTokenBuilder.buildTokenWithUid(appID, appCertificate, channelName, uid, Role_Subscriber, privilegeExpiredTs)
     return token

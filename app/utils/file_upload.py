@@ -8,12 +8,12 @@ def handle_file_upload(file, file_type, last_id, payload):
     else:
         extension = validateFileType(file, file_type)
     file_locations = {
-        'profile_img': f"static/mentorsImg/{last_id}{extension}",
-        'id_img': f"static/mentorsIDs/{last_id}{extension}",
-        'cv': f"static/mentorsCVs/{last_id}{extension}",
-        'cert1': f"static/mentorsCerts/{last_id}-cer1{extension}",
-        'cert2': f"static/mentorsCerts/{last_id}-cer2{extension}",
-        'cert3': f"static/mentorsCerts/{last_id}-cer3{extension}"
+        'profile_img': f"static/attorneyProfileImg/{last_id}{extension}",
+        'id_img': f"static/attorneyIDs/{last_id}{extension}",
+        'cv': f"static/attorneyCVs/{last_id}{extension}",
+        'cert1': f"static/attorneyCerts/{last_id}-cer1{extension}",
+        'cert2': f"static/attorneyCerts/{last_id}-cer2{extension}",
+        'cert3': f"static/attorneyCerts/{last_id}-cer3{extension}"
     }
     
     file_location = file_locations[file_type]
@@ -30,19 +30,19 @@ def handle_file_upload(file, file_type, last_id, payload):
         
         
 def edit_file_uploaded(file, file_type, last_id) -> str:
-    if file_type in ['profile_img', 'id_img', 'client_profile_img']:
+    if file_type in ['attorney_profile_img', 'id_img', 'customer_profile_img']:
         extension = validateImageType(file, file_type)
     else:
         extension = validateFileType(file, file_type)
         
     file_locations = {
-        'profile_img': f"static/mentorsImg/{last_id}{extension}",
-        'client_profile_img': f"static/clientsImg/{last_id}{extension}",
-        'id_img': f"static/mentorsIDs/{last_id}{extension}",
-        'cv': f"static/mentorsCVs/{last_id}{extension}",
-        'cert1': f"static/mentorsCerts/{last_id}-cer1{extension}",
-        'cert2': f"static/mentorsCerts/{last_id}-cer2{extension}",
-        'cert3': f"static/mentorsCerts/{last_id}-cer3{extension}"
+        'attorney_profile_img': f"static/attorneyProfileImg/{last_id}{extension}",
+        'customer_profile_img': f"static/customersProfileImg/{last_id}{extension}",
+        'id_img': f"static/attorneyIDs/{last_id}{extension}",
+        'cv': f"static/attorneyCVs/{last_id}{extension}",
+        'cert1': f"static/attorneyCerts/{last_id}-cer1{extension}",
+        'cert2': f"static/attorneyCerts/{last_id}-cer2{extension}",
+        'cert3': f"static/attorneyCerts/{last_id}-cer3{extension}"
     }
     
     file_location = file_locations[file_type]

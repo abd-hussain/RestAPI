@@ -5,26 +5,24 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from app.models.database.client.db_client_user import Base
-from app.models.database.client.db_client_banners import Base
-from app.models.database.mentor.db_mentor_user import Base
-from app.models.database.mentor.db_mentor_review import Base
-from app.models.database.mentor.db_mentor_banners import Base
-from app.models.database.client.db_client_points import Base
-from app.models.database.mentor.db_mentor_points import Base
+from app.models.database.customer.db_customer_user import Base
+from app.models.database.attorney.db_attorney_user import Base
+from app.models.database.attorney.db_attorney_review import Base
+from app.models.database.attorney.db_attorney_points import Base
+from app.models.database.customer.db_customer_points import Base
+from app.models.database.db_banner import Base
 from app.models.database.db_category import Base
 from app.models.database.db_country import Base
 from app.models.database.db_issue_reported import Base
 from app.models.database.db_leads import Base
 from app.models.database.db_notifications import Base
 from app.models.database.db_suggestion_reported import Base
-from app.models.database.db_majors import Base
-from app.models.database.db_discount import Base
+from app.models.database.db_discount_type import Base
 from app.models.database.db_appointment import Base
 from app.models.database.db_suffix import Base
 from app.models.database.db_payments import Base
-from app.models.database.db_archive import Base
-
+from app.models.database.posts.db_posts import Base
+from app.models.database.posts.db_posts_comments import Base
 from app.config import settings
 
 # this is the Alembic Config object, which provides

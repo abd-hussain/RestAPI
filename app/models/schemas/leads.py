@@ -5,8 +5,8 @@ class Leads(BaseModel):
     full_name: str
     mobile_number: str
     email: str
-    client_owner_id: Optional[int]
-    mentor_owner_id: Optional[int]
+    customers_owner_id: Optional[int]
+    attorney_owner_id: Optional[int]
 
 class ListLeads(BaseModel):
     list: List[Leads]

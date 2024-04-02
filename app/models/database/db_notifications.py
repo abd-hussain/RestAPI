@@ -1,4 +1,4 @@
-from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, text, Boolean
+from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, text
 from app.utils.database import Base
 
 class DB_Notifications(Base):
@@ -9,10 +9,9 @@ class DB_Notifications(Base):
     title_arabic = Column(String)
     content_english = Column(String)
     content_arabic = Column(String)
-    readed = Column(Boolean, server_default='FALSE')
-    client_owner_id = Column(Integer, ForeignKey(
-        "client-users.id", ondelete="CASCADE"))
-    mentor_owner_id = Column(Integer, ForeignKey(
-        "mentor-users.id", ondelete="CASCADE"))
+    customers_owner_id = Column(Integer, ForeignKey(
+        "customers.id", ondelete="CASCADE"))
+    attorney_owner_id = Column(Integer, ForeignKey(
+        "attorney.id", ondelete="CASCADE"))
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text("timezone('utc', now())"))

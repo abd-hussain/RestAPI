@@ -1,10 +1,8 @@
-import random
 import secrets
 from random import randint
 
 def generateAPIKey() -> str:
     return secrets.token_hex(32)
-
 
 def generateOTP() -> str:
         range_start = 10**(5)

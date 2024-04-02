@@ -1,6 +1,5 @@
-from app.models.database.client.db_client_user import DB_Client_Users
-from app.models.database.db_majors import DB_Majors
-from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
+from app.models.database.customer.db_customer_user import DB_Customer_Users
+from app.models.database.attorney.db_attorney_user import DB_Attorney_Users
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
 from fastapi import Request, Depends, APIRouter
@@ -46,46 +45,37 @@ async def get_suffix(request: Request, db: Session = Depends(get_db)):
 
     return generalResponse(message="list of suffix return successfully", data=suffix)
 
-@router.get("/majors")
-async def get_majors(request: Request, db: Session = Depends(get_db)):
-    myHeader = validateLanguageHeader(request)
-
-    majors_column = DB_Majors.name_arabic if myHeader.language == "ar" else DB_Majors.name_english
-    majors = db.query(DB_Majors.id, majors_column.label("name")).all()
-        
-    return generalResponse(message="majors return successfully", data=majors)
-
 @router.post("/checkemial")
 async def post_validate_email(email: str, db: Session = Depends(get_db)): 
-    mentor_exists = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.email == email).first() is not None
-    client_exists = db.query(DB_Client_Users).filter(DB_Client_Users.email == email).first() is not None
+    attorney_exists = db.query(DB_Attorney_Users).filter(DB_Attorney_Users.email == email).first() is not None
+    customer_exists = db.query(DB_Customer_Users).filter(DB_Customer_Users.email == email).first() is not None
 
-    email_exists = mentor_exists or client_exists
+    email_exists = attorney_exists or customer_exists
 
     return generalResponse(message="checking email is exsisting", data=email_exists)
 
 @router.post("/checkmobile")
 async def post_validate_mobile(mobile: str, db: Session = Depends(get_db)): 
-    mentor_exists = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.mobile_number == mobile).first() is not None
-    client_exists = db.query(DB_Client_Users).filter(DB_Client_Users.mobile_number == mobile).first() is not None
+    attorney_exists = db.query(DB_Attorney_Users).filter(DB_Attorney_Users.mobile_number == mobile).first() is not None
+    customer_exists = db.query(DB_Customer_Users).filter(DB_Customer_Users.mobile_number == mobile).first() is not None
 
-    mobile_exists = mentor_exists or client_exists
+    mobile_exists = attorney_exists or customer_exists
 
     return generalResponse(message="checking mobile is exsisting", data=mobile_exists)
 
 
 @router.post("/referalcode")
 async def post_validate_invitation_code(code: str, db: Session = Depends(get_db)): 
-    mentor_exists = db.query(DB_Mentor_Users).filter(DB_Mentor_Users.invitation_code == code).first() is not None
-    client_exists = db.query(DB_Client_Users).filter(DB_Client_Users.invitation_code == code).first() is not None
+    attorney_exists = db.query(DB_Attorney_Users).filter(DB_Attorney_Users.invitation_code == code).first() is not None
+    customer_exists = db.query(DB_Customer_Users).filter(DB_Customer_Users.invitation_code == code).first() is not None
     
-    code_exists = mentor_exists or client_exists
+    code_exists = attorney_exists or customer_exists
 
     return generalResponse(message="checking invitation Code exsisting", data=code_exists)
 
 
 @router.post("/currency-converter")
-async def currency_converter(currency: str, request: Request, db: Session = Depends(get_db)):
+async def currency_converter(currency: str, db: Session = Depends(get_db)):
     
     country = db.query(DB_Countries.currency_code, DB_Countries.dollar_equivalent).all()
     

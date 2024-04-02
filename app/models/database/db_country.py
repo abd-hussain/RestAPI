@@ -17,6 +17,5 @@ class DB_Countries(Base):
     minLength = Column(Integer, nullable=False)
     maxLength = Column(Integer, nullable=False)
     dollar_equivalent = Column(DECIMAL, nullable=False)
-    published = Column(Boolean, server_default='TRUE')
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text("timezone('utc', now())"))

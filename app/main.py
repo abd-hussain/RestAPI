@@ -1,14 +1,14 @@
 from fastapi import FastAPI
-from app.routes import discount, filter, notifications, report, settings
-from app.models.database.client import db_client_user
-from app.routes.mentor import mentor_auth, mentor_home, mentor_register, mentor_account, mentor_account_experiance, mentor_payments, mentor_appointment, mentor_settings, working_hours, mentor_hour_rate
-from app.routes.client import client_account, archive, client_appointment, client_auth, client_home, mentor_list, mentors_details
+from app.routes import auth, discount, filter, notifications, report, settings, home
+from app.models.database.customer import db_customer_user
+from app.routes.attorney import attorney_settings, attorney_register, attorney_hour_rate, attorney_account, attorney_account_experiance, attorney_appointment, working_hours, attorney_payments
+from app.routes.customer import attorney_list, attorneys_details, customer_account, customer_appointment, customer_register
 from app.utils.public_api import origins
 from app.utils.database import engine
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-db_client_user.Base.metadata.create_all(bind=engine)
+db_customer_user.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -26,26 +26,22 @@ app.add_middleware(
 async def root():
     return {"message": " -#- Welcome To LegalzHub API's With CICD -#- "}
 
-#Mentors
-app.include_router(mentor_auth.router)
-app.include_router(mentor_home.router)
-app.include_router(mentor_account.router)
-app.include_router(mentor_account_experiance.router)
-app.include_router(mentor_settings.router)
-app.include_router(mentor_register.router)
+#Attorney
+app.include_router(attorney_account_experiance.router)
+app.include_router(attorney_account.router)
+app.include_router(attorney_appointment.router)
+app.include_router(attorney_hour_rate.router)
+app.include_router(attorney_payments.router)
+app.include_router(attorney_register.router)
+app.include_router(attorney_settings.router)
 app.include_router(working_hours.router)
-app.include_router(mentor_hour_rate.router)
-app.include_router(mentor_payments.router)
-app.include_router(mentor_appointment.router)
 
-#Clients
-app.include_router(client_auth.router)
-app.include_router(client_home.router)
-app.include_router(mentor_list.router)
-app.include_router(archive.router)
-app.include_router(client_account.router)
-app.include_router(mentors_details.router)
-app.include_router(client_appointment.router)
+#Customer
+app.include_router(attorney_list.router)
+app.include_router(attorneys_details.router)
+app.include_router(customer_account.router)
+app.include_router(customer_appointment.router)
+app.include_router(customer_register.router)
 
 #Shared
 app.include_router(filter.router)
@@ -53,10 +49,12 @@ app.include_router(settings.router)
 app.include_router(report.router)
 app.include_router(notifications.router)
 app.include_router(discount.router)
+app.include_router(auth.router)
+app.include_router(home.router)
 # TODO: Handle Push notification iOS
 
 # TODO: Handle Send SMS For Verifications
-    #     addNewNotification(user_type=UserType.Mentor,
+    #     addNewNotification(user_type=UserType.Attorney,
                         # user_id=current_user.user_id,
                         # currentLanguage=myHeader.language,
                         # db=db,

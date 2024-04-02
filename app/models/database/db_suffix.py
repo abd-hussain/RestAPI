@@ -1,6 +1,5 @@
-
 from app.utils.database import Base
-from sqlalchemy import TIMESTAMP, Column, Integer, String, Boolean, text
+from sqlalchemy import TIMESTAMP, Column, Integer, String, text
 
 class DB_Suffix(Base):
     __tablename__ = "suffix"

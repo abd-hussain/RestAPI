@@ -1,6 +1,6 @@
 from fastapi import Request, Depends ,APIRouter, HTTPException, status
-from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
-from app.models.database.client.db_client_user import DB_Client_Users
+from app.models.database.customer.db_customer_user import DB_Customer_Users
+from app.models.database.attorney.db_attorney_user import DB_Attorney_Users
 from app.utils.database import get_db
 from sqlalchemy.orm import Session
 from typing import Optional
@@ -18,10 +18,10 @@ router = APIRouter(
 async def update_push_notification_token(token: str, userType: str, db: Session = Depends(get_db), 
                                          current_user: int = Depends(get_current_user)):
     
-    if userType == "mentor":
-        user_model = DB_Mentor_Users
-    elif userType == "client":
-        user_model = DB_Client_Users
+    if userType == "attorney":
+        user_model = DB_Attorney_Users
+    elif userType == "customer":
+        user_model = DB_Customer_Users
     else:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Invalid user type")
@@ -39,7 +39,7 @@ async def update_push_notification_token(token: str, userType: str, db: Session 
 async def get_Notifications(userType: str, request: Request, db: Session = Depends(get_db), current_user: int = Depends(get_current_user), limit: int = 10, skip: int = 0, search: Optional[str] = ""):
     myHeader = validateLanguageHeader(request)
 
-    owner_id_column = DB_Notifications.mentor_owner_id if userType == "mentor" else DB_Notifications.client_owner_id if userType == "client" else None
+    owner_id_column = DB_Notifications.attorney_owner_id if userType == "attorney" else DB_Notifications.customers_owner_id if userType == "customer" else None
 
     if not owner_id_column:
         raise HTTPException(
@@ -49,25 +49,10 @@ async def get_Notifications(userType: str, request: Request, db: Session = Depen
     content_column = DB_Notifications.content_arabic if myHeader.language == "ar" else DB_Notifications.content_english
     
     data = db.query(DB_Notifications.id, title_column.label("title"), content_column.label("content"),
-                    DB_Notifications.readed, DB_Notifications.created_at).filter(
+                    DB_Notifications.created_at).filter(
         owner_id_column == current_user.user_id, title_column.contains(search)
     ).limit(limit).offset(skip).all()
     
     return generalResponse(message="List of notifications returned successfully", data=data)
-   
-@router.put("/")
-async def mark_As_reded_Notification(userType: str, db: Session = Depends(get_db), 
-                                     current_user: int = Depends(get_current_user)):    
-    
-    owner_column = DB_Notifications.mentor_owner_id if userType == "mentor" else DB_Notifications.client_owner_id if userType == "client" else None
-
-    if owner_column:
-        db.query(DB_Notifications).filter(owner_column == current_user.user_id).update({"readed": True}, 
-                                                                                       synchronize_session=False)
-        db.commit()
-        return generalResponse(message="Mark All Notification Readed successfully", data=None)
-    raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid user type")
-
     
     

@@ -8,9 +8,9 @@ class DB_Leads(Base):
     full_name = Column(String)
     mobile_number = Column(String)
     email = Column(String)
-    client_owner_id = Column(Integer, ForeignKey(
-        "client-users.id", ondelete="CASCADE"))
-    mentor_owner_id = Column(Integer, ForeignKey(
-        "mentor-users.id", ondelete="CASCADE"))
+    customers_owner_id = Column(Integer, ForeignKey(
+        "customers.id", ondelete="CASCADE"))
+    attorney_owner_id = Column(Integer, ForeignKey(
+        "attorney.id", ondelete="CASCADE"))
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text("timezone('utc', now())"))

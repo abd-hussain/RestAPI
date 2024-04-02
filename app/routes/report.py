@@ -5,8 +5,8 @@ from fastapi import HTTPException, Depends, APIRouter, File, UploadFile, Form, s
 from app.utils.database import get_db
 from app.models.database.db_suggestion_reported import DB_Suggestion_Reported
 from app.models.database.db_issue_reported import DB_Issues_Reported
-from app.models.database.client.db_client_user import DB_Client_Users
-from app.models.database.mentor.db_mentor_user import DB_Mentor_Users
+from app.models.database.customer.db_customer_user import DB_Customer_Users
+from app.models.database.attorney.db_attorney_user import DB_Attorney_Users
 from app.utils.validation import validateImageType
 from app.utils.time import current_milli_time
 
@@ -17,20 +17,20 @@ router = APIRouter(
 
 @router.post("/issue", status_code=status.HTTP_201_CREATED)
 async def create_issue(content: str = Form(None),
-                       client_user_id: str = Form(None),
-                       mentor_user_id: str = Form(None),
+                       customer_user_id: str = Form(None),
+                       attorney_user_id: str = Form(None),
                        attach1:  UploadFile = File(default=None),
                        attach2: UploadFile = File(default=None),
                        attach3: UploadFile = File(default=None),
                        db: Session = Depends(get_db)):
     
         payload = Report(content = content)
-        payload.client_owner_id = process_user_id(client_user_id, db, DB_Client_Users)
-        payload.mentor_owner_id = process_user_id(mentor_user_id, db, DB_Mentor_Users)
+        payload.customers_owner_id = process_user_id(customer_user_id, db, DB_Customer_Users)
+        payload.attorney_owner_id = process_user_id(attorney_user_id, db, DB_Attorney_Users)
         payload.attachment1 = save_attachment(attach1, REPORTS_DIR)
         payload.attachment2 = save_attachment(attach2, REPORTS_DIR)
         payload.attachment3 = save_attachment(attach3, REPORTS_DIR)
-                
+        
         obj = DB_Issues_Reported(**payload.dict())
         db.add(obj)
         db.commit()
@@ -38,16 +38,16 @@ async def create_issue(content: str = Form(None),
         
 @router.post("/suggestion", status_code=status.HTTP_201_CREATED)
 def create_suggestion(content: str = Form(None),
-                       client_user_id: str = Form(None),
-                       mentor_user_id: str = Form(None),
+                       customer_user_id: str = Form(None),
+                       attorney_user_id: str = Form(None),
                        attach1:  UploadFile = File(default=None),
                        attach2: UploadFile = File(default=None),
                        attach3: UploadFile = File(default=None),
                        db: Session = Depends(get_db)):  
     
     payload = Report(content = content)
-    payload.client_owner_id = process_user_id(client_user_id, db, DB_Client_Users)
-    payload.mentor_owner_id = process_user_id(mentor_user_id, db, DB_Mentor_Users)
+    payload.customers_owner_id = process_user_id(customer_user_id, db, DB_Customer_Users)
+    payload.attorney_owner_id = process_user_id(attorney_user_id, db, DB_Attorney_Users)
     payload.attachment1 = save_attachment(attach1, SUGGESTIONS_DIR)
     payload.attachment2 = save_attachment(attach2, SUGGESTIONS_DIR)
     payload.attachment3 = save_attachment(attach3, SUGGESTIONS_DIR) 
