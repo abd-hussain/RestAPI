@@ -22,7 +22,7 @@ async def get_account_experinace(request: Request, db: Session = Depends(get_db)
 
     attorney_experience = db.query(DB_Attorney_Users.cv, 
                      DB_Attorney_Users.cert1, DB_Attorney_Users.cert2, DB_Attorney_Users.cert3,
-                     DB_Attorney_Users.majors, DB_Attorney_Users.experience_since,
+                     DB_Attorney_Users.experience_since,
                      DB_Attorney_Users.category_id,
                      category_name_field)\
                          .join(DB_Categories, DB_Categories.id == DB_Attorney_Users.category_id, isouter=True)\

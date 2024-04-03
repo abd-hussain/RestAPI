@@ -7,7 +7,6 @@ from app.models.database.attorney.db_attorney_user import FreeCallTypes
 class AuthData(BaseModel):
     email : str
     password: str
-    userType: str
     
 class ChangePassword(BaseModel):
     oldpassword : str
@@ -16,7 +15,6 @@ class ChangePassword(BaseModel):
     
 class ForgotPassword(BaseModel):
     email : str
-    userType: str
 
 class AttorneyFilter(BaseModel) :
     id: int
@@ -49,8 +47,10 @@ class AttorneyObjForListResponse(BaseModel) :
     last_name: str
     rate: float
     hour_rate: float
+    gender: int
     profile_img: str
     languages: list[str]
+    experience_since: str
     country_name: str
     country_flag: str
     currency: str

@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 
 router = APIRouter(
     prefix="/attorney-details",
-    tags=["Account"]
+    tags=["Attorney"]
 )
 
 @router.get("/")

@@ -11,7 +11,7 @@ from datetime import datetime
 
 router = APIRouter(
     prefix="/auth",
-    tags=["auth"]
+    tags=["Auth"]
 )
 
 @router.post('/')

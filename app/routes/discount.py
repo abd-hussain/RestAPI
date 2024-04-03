@@ -12,7 +12,8 @@ router = APIRouter(
 @router.get("/")
 async def verify_discount(code: str, db: Session = Depends(get_db)):
    
-    discountQuery = db.query(DB_DiscountType.id, DB_DiscountType.code, DB_DiscountType.percent_value).filter(DB_DiscountType.code == code).first()
+    discountQuery = db.query(DB_DiscountType.id, DB_DiscountType.code, DB_DiscountType.percent_value
+                             ).filter(DB_DiscountType.code == code).first()
     
     if not discountQuery:
          return generalResponse(message= "discount value not exsist", data= None)

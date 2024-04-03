@@ -10,6 +10,7 @@ from app.models.database.db_country import DB_Countries
 from app.utils.validation import validateLanguageHeader
 
 router = APIRouter(
+    prefix="/filter",
     tags=["Filter"]
 )
 
@@ -77,12 +78,12 @@ async def post_validate_invitation_code(code: str, db: Session = Depends(get_db)
 @router.post("/currency-converter")
 async def currency_converter(currency: str, db: Session = Depends(get_db)):
     
-    country = db.query(DB_Countries.currency_code, DB_Countries.dollar_equivalent).all()
+    countries = db.query(DB_Countries.currency_code, DB_Countries.dollar_equivalent).all()
     
     dollar_equivalent = 0.0
     
-    for coun in country:
-        if coun.currency_code == currency:
-            dollar_equivalent = coun.dollar_equivalent
+    for country in countries:
+        if country.currency_code == currency:
+            dollar_equivalent = country.dollar_equivalent
 
     return generalResponse(message="dollar Equivalent", data=dollar_equivalent)

@@ -37,24 +37,25 @@ async def upload_leads(payload: ListLeads, db: Session = Depends(get_db)):
 @router.post('/forgotpassword')
 def forgotPassword(payload: ForgotPassword, db: Session = Depends(get_db)):
     
-    if payload.userType == "attorney":
-        user_model = DB_Attorney_Users
-    elif payload.userType == "customer":
-        user_model = DB_Customer_Users
-    else:
+    attorney_user = db.query(DB_Attorney_Users).filter(DB_Attorney_Users.email == payload.email)
+    customer_user = db.query(DB_Customer_Users).filter(DB_Customer_Users.email == payload.email)
+    
+    if not attorney_user.first() and not customer_user.first():
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid user type")
+            status_code=status.HTTP_403_FORBIDDEN, detail="User not found")
+    
+    if attorney_user.first():
+        send_email(payload.email, attorney_user.first().password)
         
-    user = db.query(user_model).filter(user_model.email == payload.email)
-    if not user.first():
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    send_email(payload.email, user.first().password)
+    if customer_user.first():
+        send_email(payload.email, customer_user.first().password)
+    
     return generalResponse(message= "Email send successfully", data=None)
 
+        
 @router.put("/changepassword")
-async def change_password(request: Request, payload: ChangePassword,
-                         db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
+async def change_password(payload: ChangePassword, db: Session = Depends(get_db), 
+                          current_user: int = Depends(get_current_user)):
     
     if payload.userType == "attorney":
         user_model = DB_Attorney_Users
