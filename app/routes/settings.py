@@ -41,7 +41,7 @@ def forgotPassword(payload: ForgotPassword, db: Session = Depends(get_db)):
     customer_user = db.query(DB_Customer_Users).filter(DB_Customer_Users.email == payload.email)
     
     if not attorney_user.first() and not customer_user.first():
-        raise HTTPException(
+        return HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="User not found")
     
     if attorney_user.first():
