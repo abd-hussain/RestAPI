@@ -39,7 +39,7 @@ def login(payload: AuthData, db: Session = Depends(get_db)):
             access_token = create_access_token(data={"api_key" : generateAPIKey(), "user_id" : attorney_user.first().id})
             attorney_user.last_usage = datetime.utcnow()
             db.commit()
-            return generalResponse(message="Attorney Logged In successfully", data=access_token)
+            return generalResponse(message="Attorney Logged In successfully", data={"Bearer": access_token, "user" : "attorney"})
 
     if customer_user.first():
         if not verifyPassword(payload.password, customer_user.first().password):
@@ -53,4 +53,4 @@ def login(payload: AuthData, db: Session = Depends(get_db)):
             access_token = create_access_token(data={"api_key" : generateAPIKey(), "user_id" : customer_user.first().id})
             customer_user.last_usage = datetime.utcnow()
             db.commit()
-            return generalResponse(message="customer Logged In successfully", data=access_token)
+            return generalResponse(message="customer Logged In successfully", data={"Bearer": access_token, "user" : "customer"})
