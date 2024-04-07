@@ -19,19 +19,18 @@ router = APIRouter(
 async def get_account_info(request: Request, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
     myHeader = validateLanguageHeader(request)
 
-    country_column = DB_Countries.name_arabic if myHeader.language == "ar" else DB_Countries.name_english
-    currency_column = DB_Countries.currency_arabic if myHeader.language == "ar" else DB_Countries.currency_english
+    # country_column = DB_Countries.name_arabic if myHeader.language == "ar" else DB_Countries.name_english
+    # currency_column = DB_Countries.currency_arabic if myHeader.language == "ar" else DB_Countries.currency_english
 
-    user = db.query(DB_Customer_Users.id, DB_Customer_Users.first_name, 
-                     DB_Customer_Users.last_name, DB_Customer_Users.invitation_code, 
-                     DB_Customer_Users.profile_img, DB_Customer_Users.points,
-                     DB_Customer_Users.mobile_number, DB_Customer_Users.email,
-                     DB_Customer_Users.gender, DB_Customer_Users.date_of_birth,
-                     DB_Customer_Users.allow_notifications, DB_Customer_Users.country_id, 
-                     DB_Countries.flag_image,
-                     country_column.label("country_name"),
-                     currency_column.label("currency"),
-                     ).join(DB_Countries, DB_Customer_Users.country_id == DB_Countries.id, isouter=True)\
+    user = db.query(DB_Customer_Users.profile_img, DB_Customer_Users.mobile_number,
+                    DB_Customer_Users.first_name, 
+                     DB_Customer_Users.last_name, DB_Customer_Users.date_of_birth,
+                     DB_Customer_Users.email,
+                     DB_Customer_Users.gender, DB_Customer_Users.country_id,
+                     DB_Customer_Users.invitation_code, 
+                     DB_Customer_Users.points,
+                     DB_Customer_Users.allow_notifications,
+                     DB_Countries).join(DB_Countries, DB_Customer_Users.country_id == DB_Countries.id, isouter=True)\
                         .filter(DB_Customer_Users.id == current_user.user_id).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="profile was not found")
