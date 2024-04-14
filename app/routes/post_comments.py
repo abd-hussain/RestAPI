@@ -17,7 +17,7 @@ router = APIRouter(
 )
 
 @router.get("/comment")
-async def get_post_comments(request: Request, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+async def get_post_comments(post_id: int, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 
     comments = db.query(DB_Post_Comment.id,
                       DB_Post_Comment.content,
@@ -41,6 +41,7 @@ async def get_post_comments(request: Request, skip: int = 0, limit: int = 10, db
                         DB_Attorney_Users, DB_Attorney_Users.id == DB_Post_Comment.attorney_owner_id, isouter=True
                     ).join(
                         DB_Countries, DB_Customer_Users.country_id == DB_Countries.id, isouter=True
+                    ).filter(DB_Post_Comment.post_id == post_id
                     ).order_by(desc(DB_Post_Comment.created_at)).all()
                         
     return generalResponse(message="Home Posts returned successfully", data=comments[skip : skip + limit])
@@ -49,8 +50,12 @@ async def get_post_comments(request: Request, skip: int = 0, limit: int = 10, db
 async def add_comment_to_post(payload: PostComment, request: Request, 
         db: Session = Depends(get_db),
         current_user: int = Depends(get_current_user)):
-        
-    lastId = db.query(DB_Post_Comment).order_by(DB_Post_Comment.id.desc()).first().id + 1
+    
+    if db.query(DB_Post_Comment).order_by(DB_Post_Comment.id.desc()).first() == None:
+        lastId = 1
+    else:
+        lastId = db.query(DB_Post_Comment).order_by(DB_Post_Comment.id.desc()).first().id + 1
+
             
     # Create a new comment object based on user type
     if payload.user_type == "attorney":
