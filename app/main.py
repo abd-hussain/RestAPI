@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import auth, discount, filter, notifications, report, settings, home
+from app.routes import auth, discount, filter, notifications, report, settings, home, posts, post_comments
 from app.models.database.customer import db_customer_user
 from app.routes.attorney import attorney_settings, attorney_register, attorney_hour_rate, attorney_account, attorney_account_experiance, attorney_appointment, working_hours, attorney_payments
 from app.routes.customer import attorney_list, attorneys_details, customer_account, customer_appointment, customer_register
@@ -51,6 +51,9 @@ app.include_router(notifications.router)
 app.include_router(discount.router)
 app.include_router(auth.router)
 app.include_router(home.router)
+app.include_router(posts.router)
+app.include_router(post_comments.router)
+
 # TODO: Handle Push notification iOS
 
 # TODO: Handle Send SMS For Verifications

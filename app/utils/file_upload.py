@@ -3,11 +3,12 @@ from app.utils.validation import validateFileType, validateImageType
 
 
 def handle_file_upload(file, file_type, last_id, payload):
-    if file_type in ['profile_img', 'id_img']:
+    if file_type in ['profile_img', 'id_img', 'post_img']:
         extension = validateImageType(file, file_type)
     else:
         extension = validateFileType(file, file_type)
     file_locations = {
+        'post_img': f"static/posts/{last_id}{extension}",
         'profile_img': f"static/attorneyProfileImg/{last_id}{extension}",
         'id_img': f"static/attorneyIDs/{last_id}{extension}",
         'cv': f"static/attorneyCVs/{last_id}{extension}",
@@ -30,12 +31,13 @@ def handle_file_upload(file, file_type, last_id, payload):
         
         
 def edit_file_uploaded(file, file_type, last_id) -> str:
-    if file_type in ['attorney_profile_img', 'id_img', 'customer_profile_img']:
+    if file_type in ['attorney_profile_img', 'id_img', 'customer_profile_img', 'post_img']:
         extension = validateImageType(file, file_type)
     else:
         extension = validateFileType(file, file_type)
         
     file_locations = {
+        'post_img': f"static/posts/{last_id}{extension}",
         'attorney_profile_img': f"static/attorneyProfileImg/{last_id}{extension}",
         'customer_profile_img': f"static/customersProfileImg/{last_id}{extension}",
         'id_img': f"static/attorneyIDs/{last_id}{extension}",

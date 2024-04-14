@@ -17,6 +17,7 @@ from app.models.database.customer.db_customer_user import DB_Customer_Users
 
 from app.models.database.posts.db_posts import DB_Post
 from app.models.database.posts.db_posts_comments import DB_Post_Comment
+from app.models.database.posts.db_posts_reports import DB_Post_Report
 
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType, PaymentMethod
 from app.models.database.db_banner import DB_Banners, UsersType
@@ -767,55 +768,29 @@ def upgrade() -> None:
         {
             "id" : 1,
             "customers_owner_id" : 1,
-            "attorney_owner_id" : None,
+            "category_id" : 1,
             "content" : "content post 1"
         },
         {
             "id" : 2,
             "customers_owner_id" : 2,
-            "attorney_owner_id" : None,
+            "category_id" : 2,
             "content" : "content post 2"
         },
         {
             "id" : 3,
-            "customers_owner_id" : None,
-            "attorney_owner_id" : 1,
+            "customers_owner_id" : 1,
+            "category_id" : 3,
             "content" : "content post 3"
         },
         {
             "id" : 4,
-            "customers_owner_id" : None,
-            "attorney_owner_id" : 3,
+            "customers_owner_id" : 2,
+            "category_id" : 4,
             "content" : "content post 4"
         }          
     ]
     )
-    
-    # op.bulk_insert(DB_Post_Comment.__table__,
-    # [
-    #     {
-    #         "id" : 1,
-    #         "customers_owner_id" : 1,
-    #         "attorney_owner_id" : None,
-    #         "up" : 1,
-    #         "down" : 0,
-    #         "content" : "content replay one"
-    #     },
-    #     {
-    #         "id" : 2,
-    #         "customers_owner_id" : 1,
-    #         "attorney_owner_id" : None,
-    #         "down" : 1,
-    #         "content" : "content replay two"
-    #     },
-    #     {
-    #         "id" : 3,
-    #         "customers_owner_id" : 1,
-    #         "attorney_owner_id" : None,
-    #         "content" : "content replay three"
-    #     }       
-    # ]
-    # )
     
     op.bulk_insert(DB_Appointments.__table__,
     [

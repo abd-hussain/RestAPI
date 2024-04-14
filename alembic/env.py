@@ -23,6 +23,7 @@ from app.models.database.db_suffix import Base
 from app.models.database.db_payments import Base
 from app.models.database.posts.db_posts import Base
 from app.models.database.posts.db_posts_comments import Base
+from app.models.database.posts.db_posts_reports import Base
 from app.config import settings
 
 # this is the Alembic Config object, which provides
