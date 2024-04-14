@@ -1,6 +1,6 @@
 from app.models.respond.general import generalResponse
 from sqlalchemy.orm import Session
-from fastapi import Request, Depends, APIRouter, File, UploadFile, Form, HTTPException, status
+from fastapi import Depends, APIRouter, File, UploadFile, Form, HTTPException, status
 from app.utils.database import get_db
 from app.models.database.customer.db_customer_user import DB_Customer_Users
 from app.utils.oauth2 import get_current_user
@@ -16,11 +16,7 @@ router = APIRouter(
 )
 
 @router.get("/")
-async def get_account_info(request: Request, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
-    myHeader = validateLanguageHeader(request)
-
-    # country_column = DB_Countries.name_arabic if myHeader.language == "ar" else DB_Countries.name_english
-    # currency_column = DB_Countries.currency_arabic if myHeader.language == "ar" else DB_Countries.currency_english
+async def get_account_info(db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
 
     user = db.query(DB_Customer_Users.profile_img, DB_Customer_Users.mobile_number,
                     DB_Customer_Users.first_name, 

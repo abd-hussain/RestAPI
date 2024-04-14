@@ -12,8 +12,8 @@ router = APIRouter(
     tags=["Home"]
 )
 
-@router.get("/")
-async def get_home(userType: str, request: Request, db: Session = Depends(get_db)):
+@router.get("/banners")
+async def get_banner_home(userType: str, request: Request, db: Session = Depends(get_db)):
     language = validateLanguageHeader(request).language
     
     if userType == "attorney":
@@ -27,11 +27,17 @@ async def get_home(userType: str, request: Request, db: Session = Depends(get_db
     main_banners = db.query(DB_Banners.image, DB_Banners.action_type
         ).filter_by(language=language, published=True, targeted=targeted
                                 ).all()
-    
-    posts = db.query(DB_Post).all()
         
-    return generalResponse(message="Home returned successfully", data={"banners": main_banners,
-                                                                       "posts": posts })
+    return generalResponse(message="Home Banners returned successfully", data=main_banners)
 
 
-# //TODO Handle Return Post Pagination, repost post, add comment to the post, delete comment from post, delete post, edit post, add post
+@router.get("/posts")
+async def get_posts_home(request: Request, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    language = validateLanguageHeader(request).language
+
+    posts = db.query(DB_Post).order_by(DB_Post.created_at).all()
+    
+    return generalResponse(message="Home Posts returned successfully", data=posts[skip : skip + limit])
+
+
+# //TODO Handle repost post, add comment to the post, delete comment from post, delete post, edit post, add post
