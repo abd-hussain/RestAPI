@@ -486,7 +486,7 @@ def upgrade() -> None:
             "published" : True, 
             "free_call" : FreeCallTypes.free_15_min,
             "invitation_code" : "123",
-            "profile_img" : "1.png",
+            "profile_img" : "1.jpeg",
             "id_img" : "1.png",
             "cv" : "1.pdf",
             "cert1" : "1.pdf",
@@ -524,7 +524,7 @@ def upgrade() -> None:
             "published" : True,
             "free_call" : FreeCallTypes.free_disabled,
             "invitation_code" : "234",
-            "profile_img" : "",
+            "profile_img" : "2.jpeg",
             "id_img" : "1.png",
             "cv" : "1.pdf",
             "cert1" : "1.pdf",
@@ -660,46 +660,6 @@ def upgrade() -> None:
         }
     ]
     )
-    
-    # op.bulk_insert(DB_Customer_Points.__table__,
-    # [
-    #     {
-    #         "id" : 1,
-    #         "user_customer_id" : 1,
-    #         "invited_customers_id" : 2,
-    #         "reason" : "reason 1"         
-    #     },
-    #     {
-    #         "id" : 2,
-    #         "user_customer_id" : 1,
-    #         "invited_attorney_id": 1,
-    #         "reason" : "reason 2"         
-    #     },
-    #     {
-    #         "id" : 3,
-    #         "user_customer_id" : 2,
-    #         "invited_attorney_id" : 2,
-    #         "reason" : "reason 3"         
-    #     }
-    # ]
-    # )
-    
-    # op.bulk_insert(DB_Attorney_Points.__table__,
-    # [
-    #     {
-    #         "id" : 1,
-    #         "attorney_id" : 2,
-    #         "invited_attorney_id" : 1,
-    #         "reason" : "DB_Attorney_Points 1"
-    #     },
-    #     {
-    #         "id" : 2,
-    #         "attorney_id" : 1,
-    #         "invited_customers_id" : 1,
-    #         "reason" : "DB_Attorney_Points 2"
-    #     }
-    # ]
-    # )
     
     op.bulk_insert(DB_Attorney_Review.__table__,
     [
