@@ -53,8 +53,6 @@ async def get_posts_home(request: Request, cat_id: int ,skip: int = 0, limit: in
                      DB_Customer_Users.profile_img,
                      DB_Countries.flag_image,
                      func.count(DB_Post_Comment.id).label("comment_count"),
-                     func.sum(DB_Post_Comment.up).label("total_up"),
-                     func.sum(DB_Post_Comment.down).label("total_down")
                      ).join(
                         DB_Customer_Users, DB_Customer_Users.id == DB_Post.customers_owner_id, isouter=True
                     ).join(
@@ -85,8 +83,6 @@ async def get_posts_home(request: Request, cat_id: int ,skip: int = 0, limit: in
                      DB_Customer_Users.profile_img,
                      DB_Countries.flag_image,
                      func.count(DB_Post_Comment.id).label("comment_count"),
-                     func.sum(DB_Post_Comment.up).label("total_up"),
-                     func.sum(DB_Post_Comment.down).label("total_down")
                      ).join(
                         DB_Customer_Users, DB_Customer_Users.id == DB_Post.customers_owner_id, isouter=True
                     ).join(

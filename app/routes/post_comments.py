@@ -22,8 +22,6 @@ async def get_post_comments(post_id: int, skip: int = 0, limit: int = 10, db: Se
     comments = db.query(DB_Post_Comment.id,
                       DB_Post_Comment.content,
                       DB_Post_Comment.created_at,
-                      DB_Post_Comment.up,
-                      DB_Post_Comment.down,
                       DB_Post_Comment.post_id,
                      DB_Post_Comment.customers_owner_id,
                      DB_Post_Comment.attorney_owner_id,
@@ -63,16 +61,12 @@ async def add_comment_to_post(payload: PostComment, request: Request,
                             "post_id" : payload.post_id, 
                             "customers_owner_id" : None, 
                             "attorney_owner_id" : current_user.user_id, 
-                            "up" : payload.up, 
-                            "down" : payload.down, 
                             "content" : payload.content})
     elif payload.user_type == "customer":
         obj = DB_Post_Comment(**{"id" : lastId,
                             "post_id" : payload.post_id, 
                             "customers_owner_id" : current_user.user_id, 
                             "attorney_owner_id" : None, 
-                            "up" : payload.up, 
-                            "down" : payload.down, 
                             "content" : payload.content})
     else:
         raise HTTPException(

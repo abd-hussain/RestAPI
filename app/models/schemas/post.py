@@ -12,5 +12,3 @@ class PostComment(BaseModel) :
     post_id: int
     user_type: str 
     content: str
-    up: int
-    down: int

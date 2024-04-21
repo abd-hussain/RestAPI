@@ -11,8 +11,6 @@ class DB_Post_Comment(Base):
         "customers.id", ondelete="CASCADE"))
     attorney_owner_id = Column(Integer, ForeignKey(
         "attorney.id", ondelete="CASCADE"))
-    up = Column(Integer, server_default=text('0'))
-    down = Column(Integer, server_default=text('0'))
     content = Column(String)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text("timezone('utc', now())"))
