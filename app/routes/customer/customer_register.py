@@ -4,8 +4,7 @@ from app.utils.generate import generateAPIKey, generateActvationCode
 from app.utils.database import get_db
 from app.models.database.customer.db_customer_user import DB_Customer_Users
 from app.models.schemas.attorney_account import  RegisterCustomerAccountModel
-from app.models.database.db_banner import UsersType
-from app.utils.firebase_notifications.notifications_manager import addNewNotification
+from app.utils.firebase_notifications.notifications_manager import addNewNotification, UsersType
 from app.models.respond.general import generalResponse
 from app.utils.oauth2 import hashingPassword
 from app.utils.validation import validateLanguageHeader

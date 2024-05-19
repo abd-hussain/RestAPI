@@ -4,6 +4,7 @@ from app.models.schemas.appointment import AppointmentRequest
 from app.utils.database import get_db
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState
 from app.models.database.attorney.db_attorney_user import DB_Attorney_Users
+from app.utils.firebase_notifications.notifications_manager import addNewNotification, UsersType
 from app.utils.generate import generateChannelName
 from app.utils.oauth2 import get_current_user
 from app.utils.validation import validateLanguageHeader
@@ -13,8 +14,7 @@ from app.models.database.db_category import DB_Categories
 from app.models.schemas.comment_appointment import AppointmentComment
 from app.utils.agora.my_interface import generateTokenCustomer
 from app.models.database.db_country import DB_Countries
-from app.utils.firebase_notifications.notifications_manager import addNewNotification
-from app.models.database.db_banner import UsersType
+
 
 router = APIRouter(
     prefix="/customer-appointment",

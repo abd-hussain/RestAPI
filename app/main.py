@@ -54,17 +54,3 @@ app.include_router(home.router)
 app.include_router(posts.router)
 app.include_router(post_comments.router)
 
-# TODO: Handle Push notification iOS
-
-# TODO: Handle Send SMS For Verifications
-    #     addNewNotification(user_type=UserType.Attorney,
-                        # user_id=current_user.user_id,
-                        # currentLanguage=myHeader.language,
-                        # db=db,
-                        # title_english="Appointment canceled successfully",
-                        # title_arabic="تم إلغاء الموعد بنجاح",
-                        # content_english="canceling appointment will not cost you any thing and will not added to the payment screen",
-                        # content_arabic="إلغاء الموعد لن يكلفك شيئا ولن يضاف إلى شاشة الدفع")
-
-
-# TODO: handle record call & add Archive

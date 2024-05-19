@@ -4,7 +4,6 @@ from app.models.database.attorney.db_attorney_user import DB_Attorney_Users
 from app.models.database.db_banner import UsersType
 from app.models.schemas.new_notifications import NewNotification
 from app.utils.firebase_notifications.handler import send_push_notification
-from enum import Enum
 from sqlalchemy.orm import Session
 
     
@@ -16,27 +15,25 @@ def addNewNotification(user_type : UsersType,
     content_english : str,
     content_arabic : str,
     db: Session):
-    
-    # //TODO: check Token
-    
+        
     user_model = DB_Attorney_Users if user_type == UsersType.attorney else DB_Customer_Users
     query = db.query(user_model.push_token).filter(user_model.id == user_id).first()
     
     user_token = query[0] if query else None
-    
+        
+    if user_token:
+        if currentLanguage == "ar":
+            send_push_notification(user_token, title_arabic, content_arabic)
+        else:
+            send_push_notification(user_token, title_english, content_english)    
+
     payload = NewNotification(title_arabic=title_arabic, 
                               title_english=title_english, 
                               content_english=content_english, 
                               content_arabic=content_arabic,
                               attorney_owner_id=user_id if user_type == UsersType.attorney else None,
-                              customer_owner_id=user_id if user_type == UsersType.customer else None)
-    
-    if user_token:
-        if currentLanguage == "ar":
-            send_push_notification(user_token, title_arabic, content_arabic)
-        else:
-            send_push_notification(user_token, title_english, content_english)
-            
+                              customers_owner_id=user_id if user_type == UsersType.customer else None)
+
     obj = DB_Notifications(**payload.dict())
     db.add(obj)
     db.commit()

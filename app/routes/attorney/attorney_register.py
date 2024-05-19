@@ -110,7 +110,7 @@ async def register_attorney(request: Request,
     db.add(obj)
     db.commit()
     db.refresh(obj)
-
+    
     if push_token != None:
         add_new_notification(myHeader.language, lastId, db)
         

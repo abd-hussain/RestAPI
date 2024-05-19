@@ -9,7 +9,7 @@ from app.models.database.db_appointment import DB_Appointments
 from app.models.database.customer.db_customer_user import DB_Customer_Users
 from app.models.database.attorney.db_attorney_user import DB_Attorney_Users
 from app.models.database.db_banner import UsersType
-from app.utils.firebase_notifications.notifications_manager import addNewNotification
+from app.utils.firebase_notifications.notifications_manager import addNewNotification, UsersType
 from app.models.database.db_country import DB_Countries
 from app.utils.validation import validateLanguageHeader
 
@@ -74,7 +74,6 @@ async def attorney_report_payment(request: Request, payload: PaymentReport,
     report = DB_Attorney_PaymentsـReports(**payload.dict())
     db.add(report)
     db.commit()
-    
     addNewNotification(user_type=UsersType.attorney,
                         user_id=current_user.user_id,
                         currentLanguage=myHeader.language,

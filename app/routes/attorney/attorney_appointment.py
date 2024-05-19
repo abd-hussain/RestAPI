@@ -11,7 +11,7 @@ from app.models.schemas.payment_report import Payment
 from app.models.database.db_payments import DB_Attorney_Payments, PaymentStatus
 from datetime import datetime
 from app.utils.agora.my_interface import generateTokenAttorney
-from app.utils.firebase_notifications.notifications_manager import addNewNotification
+from app.utils.firebase_notifications.notifications_manager import addNewNotification, UsersType
 from app.utils.validation import validateLanguageHeader
 
 router = APIRouter(
@@ -44,15 +44,14 @@ async def cancel_appointment(id: int, request: Request, db: Session = Depends(ge
     appointment.state = AppointmentsState.attorney_cancel
     db.commit()
     
-    # //TODO
-    # addNewNotification(user_type=UserType.Attorney,
-    #                     user_id=current_user.user_id,
-    #                     currentLanguage=myHeader.language,
-    #                     db=db,
-    #                     title_english="Appointment canceled successfully",
-    #                     title_arabic="تم إلغاء الموعد بنجاح",
-    #                     content_english="canceling appointment will not cost you any thing and will not added to the payment screen",
-    #                     content_arabic="إلغاء الموعد لن يكلفك شيئا ولن يضاف إلى شاشة الدفع")
+    addNewNotification(user_type=UsersType.attorney,
+                        user_id=current_user.user_id,
+                        currentLanguage=myHeader.language,
+                        db=db,
+                        title_english="Appointment canceled successfully",
+                        title_arabic="تم إلغاء الموعد بنجاح",
+                        content_english="canceling appointment will not cost you any thing and will not added to the payment screen",
+                        content_arabic="إلغاء الموعد لن يكلفك شيئا ولن يضاف إلى شاشة الدفع")
     
     return generalResponse(message="Appointment canceled successfully", data=None)
 

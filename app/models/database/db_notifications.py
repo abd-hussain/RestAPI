@@ -10,8 +10,8 @@ class DB_Notifications(Base):
     content_english = Column(String)
     content_arabic = Column(String)
     customers_owner_id = Column(Integer, ForeignKey(
-        "customers.id", ondelete="CASCADE"))
+        "customers.id", ondelete="CASCADE"), nullable=True)
     attorney_owner_id = Column(Integer, ForeignKey(
-        "attorney.id", ondelete="CASCADE"))
+        "attorney.id", ondelete="CASCADE"), nullable=True)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False, server_default=text("timezone('utc', now())"))
