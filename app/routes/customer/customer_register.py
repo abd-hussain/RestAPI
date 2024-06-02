@@ -54,7 +54,6 @@ async def register_customer(request: Request,
                                         push_token = push_token,
                                         country_id = validateField(country_id),
                                         )
-    print(payload)
     if profile_img is not None:
         handle_file_upload(profile_img, 'profile_img', lastId, payload)
              

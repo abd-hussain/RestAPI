@@ -1,7 +1,8 @@
-
+from typing import Optional
 from pydantic import BaseModel
 
 class NewNotification(BaseModel):
+    id: Optional[int]
     title_english : str
     title_arabic: str
     content_english: str

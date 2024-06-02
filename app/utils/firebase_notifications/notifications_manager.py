@@ -27,7 +27,11 @@ def addNewNotification(user_type : UsersType,
         else:
             send_push_notification(user_token, title_english, content_english)    
 
-    payload = NewNotification(title_arabic=title_arabic, 
+
+    lastId = db.query(DB_Notifications).order_by(DB_Notifications.id.desc()).first().id + 1
+
+    payload = NewNotification(id=lastId,
+                              title_arabic=title_arabic, 
                               title_english=title_english, 
                               content_english=content_english, 
                               content_arabic=content_arabic,
