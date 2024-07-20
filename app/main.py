@@ -1,14 +1,17 @@
 from fastapi import FastAPI
+from app.graphQl.query.post import PostQuery
 from app.routes import auth, discount, filter, notifications, report, settings, home, posts, post_comments
-from app.models.database.customer import db_customer_user
 from app.routes.attorney import attorney_settings, attorney_register, attorney_hour_rate, attorney_account, attorney_account_experiance, attorney_appointment, working_hours, attorney_payments
 from app.routes.customer import attorney_list, attorneys_details, customer_account, customer_appointment, customer_register
 from app.utils.public_api import origins
-from app.utils.database import engine
+from app.utils.database import get_db
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+import strawberry
+from strawberry.asgi import GraphQL
 
-db_customer_user.Base.metadata.create_all(bind=engine)
+graphQL_schema = strawberry.Schema(query=PostQuery)
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -54,3 +57,17 @@ app.include_router(home.router)
 app.include_router(posts.router)
 app.include_router(post_comments.router)
 
+#GraphQL
+
+@app.on_event("startup")
+async def startup():
+    app.state.db = next(get_db())
+    
+@app.on_event("shutdown")
+async def shutdown():
+    app.state.db.close()
+
+graphql_app = GraphQL(graphQL_schema, debug=True)
+
+app.add_route("/graphql", graphql_app)
+app.add_websocket_route("/graphql", graphql_app)
