@@ -71,5 +71,5 @@ uvicorn==0.20.0
 uvloop==0.17.0
 watchgod==0.7
 websockets==10.4
-strawberry-graphql==0.232.1
+strawberry-graphql==0.229.1
 # httpie
