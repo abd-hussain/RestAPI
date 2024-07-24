@@ -49,6 +49,7 @@ class AttorneyObjForListResponse(BaseModel) :
     hour_rate: float
     gender: int
     profile_img: str
+    free_call: Optional[FreeCallTypes]
     languages: list[str]
     experience_since: str
     country_name: str
