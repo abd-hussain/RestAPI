@@ -130,6 +130,16 @@ async def cancel_appointment(id: int, request: Request, db: Session = Depends(ge
     appointment.state = AppointmentsState.customers_cancel
     db.commit()
     
+    addNewNotification(user_type = UsersType.attorney,
+                                        user_id = appointment.attorney_id,
+                                        currentLanguage = "ar",
+                                        db = db,
+                                        title_english = "Client canceled the meeting",
+                                        title_arabic = "ألغى العميل الاجتماع",
+                                        content_english = "Sorry for that we will catch up with the customer soon to know why, and will get back to you with more details later",
+                                        content_arabic = "نأسف لذلك، سنتواصل مع العميل قريبًا لمعرفة السبب، وسنعود إليك بمزيد من التفاصيل لاحقًا"
+                                        )
+       
     addNewNotification(user_type=UsersType.customer,
                         user_id=current_user.user_id,
                         currentLanguage=myHeader.language,
@@ -151,6 +161,15 @@ async def customer_join_appointment(id: int, channel_name: str, db: Session = De
     appointment.customers_join_call = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
     db.commit()
+    addNewNotification(user_type = UsersType.attorney,
+                                        user_id = appointment.attorney_id,
+                                        currentLanguage = "ar",
+                                        db = db,
+                                        title_english = "Customer join the call",
+                                        title_arabic = "انضم العميل إلى المكالمة",
+                                        content_english = "Click here to join the call with your customer",
+                                        content_arabic = "انقر هنا للانضمام إلى المكالمة مع العميل الخاص بك"
+                                        )
     return generalResponse(message="customer joined appointment successfully", data=callToken)
 
 @router.put("/end-call")
@@ -175,6 +194,16 @@ async def add_comment_to_appointment(payload: AppointmentComment, request: Reque
 
     appointment.note_from_customers = payload.comment
     db.commit()
+    
+    addNewNotification(user_type = UsersType.attorney,
+                                        user_id = appointment.attorney_id,
+                                        currentLanguage = "ar",
+                                        db = db,
+                                        title_english = "Customer add comment to your appointment",
+                                        title_arabic = "العميل اضاف تعليق على موعدك",
+                                        content_english = "Click here in order to check your appointment after response from the customer",
+                                        content_arabic = "انقر هنا للتحقق من موعدك بعد الرد من العميل"
+                                        )
     return generalResponse(message="Customer added comment to appointment successfully", data=None)
 
 @router.post("/book")

@@ -42,3 +42,7 @@ def EditAttorneyReview(id: int, response: str, db: Session = Depends(get_db),
     db.commit()
    
     return generalResponse(message= "Review updated successfully", data=None)
+
+#############################################################################################
+
+
