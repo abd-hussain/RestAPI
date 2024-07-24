@@ -228,7 +228,10 @@ async def book_appointment(payload: AppointmentRequest, db: Session = Depends(ge
                             "channel_id" : generateChannelName()}) 
     db.add(obj)
     db.commit()
-    return generalResponse(message="appoitment booked successfuly", data=None)
+    
+    notification_for_attorney("en", payload.attorney_id, db)
+
+    return generalResponse(message="appointment booked successfuly", data=None)
 
 #############################################################################################
 
@@ -242,3 +245,14 @@ def get_db_appointment(db: Session, appointment_id: int, customers_id: int, stat
 def raise_http_exception_if_none(entity, message: str):
     if entity is None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=message)
+    
+def notification_for_attorney(language, lastId, db):
+    addNewNotification(user_type = UsersType.attorney,
+                                        user_id = lastId,
+                                        currentLanguage = language,
+                                        db = db,
+                                        title_english = "You Got New Reservation",
+                                        title_arabic = "لقد حصلت على حجز جديد",
+                                        content_english = "You get new appointment, press here to know more details",
+                                        content_arabic = "حصلت على موعد جديد، اضغط هنا لمعرفة المزيد من التفاصيل"
+                                        )

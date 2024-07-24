@@ -29,6 +29,10 @@ app.add_middleware(
 async def root():
     return {"message": " -#- Welcome To LegalzHub API's With CICD -#- "}
 
+#Admin
+app.include_router(attorney_account_experiance.router)
+
+
 #Attorney
 app.include_router(attorney_account_experiance.router)
 app.include_router(attorney_account.router)
