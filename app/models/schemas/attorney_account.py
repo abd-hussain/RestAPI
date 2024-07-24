@@ -114,6 +114,7 @@ class RegisterAttorneyAccountModel(BaseModel):
     category_id : Optional[int]
     speaking_language: Optional[list[str]]
     mobile_number : Optional[str]
+    free_call : Optional[FreeCallTypes] = FreeCallTypes.free_15_min
     working_hours_saturday: Optional[list[int]]
     working_hours_sunday: Optional[list[int]]
     working_hours_monday: Optional[list[int]]

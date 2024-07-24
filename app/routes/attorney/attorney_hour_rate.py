@@ -50,7 +50,7 @@ async def update_hour_rate_and_iban(hour_rate: str, iban: str, free_type : int,
         elif free_type == 2:
             user.free_call = FreeCallTypes.free_15_min
         elif free_type == 3:
-            user.free_call = FreeCallTypes.free_15_min_with_promocode
+            user.free_call = FreeCallTypes.free_30_min
         else: 
             user.free_call = None
                         

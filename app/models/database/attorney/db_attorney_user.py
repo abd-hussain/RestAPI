@@ -5,7 +5,7 @@ import enum
 class FreeCallTypes(enum.Enum):
     free_disabled = 1
     free_15_min = 2
-    free_15_min_with_promocode = 3
+    free_30_min = 3
     
 class DB_Attorney_Users(Base):
     __tablename__ = "attorney"
