@@ -9,7 +9,6 @@ class DB_Admin_Users(Base):
     password = Column(String, nullable=False)
     email = Column(String, unique=True)
     published = Column(Boolean, server_default='FALSE') 
-    profile_img = Column(String)
     last_usage = Column(TIMESTAMP(timezone=True))
     api_key = Column(String, nullable=False, unique=True)
     created_at = Column(TIMESTAMP(timezone=True),

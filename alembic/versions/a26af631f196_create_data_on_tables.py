@@ -16,8 +16,9 @@ from app.models.database.customer.db_customer_points import DB_Customer_Points
 from app.models.database.customer.db_customer_user import DB_Customer_Users
 
 from app.models.database.posts.db_posts import DB_Post
-from app.models.database.posts.db_posts_comments import DB_Post_Comment
-from app.models.database.posts.db_posts_reports import DB_Post_Report
+# from app.models.database.posts.db_posts_comments import DB_Post_Comment
+# from app.models.database.posts.db_posts_reports import DB_Post_Report
+from app.models.database.admin.db_admin_user import DB_Admin_Users
 
 from app.models.database.db_appointment import DB_Appointments, AppointmentsState, AppointmentsType, PaymentMethod
 from app.models.database.db_banner import DB_Banners, UsersType
@@ -43,6 +44,19 @@ depends_on = None
 def upgrade() -> None:
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
+    
+    op.bulk_insert(DB_Admin_Users.__table__,
+    [
+        {
+            "id" : 1,
+            "fullname" : "abed alrahman al haj",
+            "password" : "P@ssw0rd",    
+            "email" : "aboud.masoud.92@gmail.com",
+            "published" : True,
+            "api_key" : "00101"
+        }
+    ]
+    )
 
     op.bulk_insert(DB_DiscountType.__table__,
     [
@@ -759,8 +773,8 @@ def upgrade() -> None:
             "attorney_id" : 1,
             "customers_id" : 1,
             "appointment_type" : AppointmentsType.schudule,
-            "date_from" : datetime.datetime(2024, 4, 20, 8),
-            "date_to" : datetime.datetime(2024, 4, 20, 9),
+            "date_from" : datetime.datetime(2024, 7, 27, 8),
+            "date_to" : datetime.datetime(2024, 7, 27, 9),
             "state" : AppointmentsState.completed,
             "discount_id" : None,
             "is_free" : False,
@@ -783,8 +797,8 @@ def upgrade() -> None:
             "attorney_id" : 3,            
             "customers_id" : 2,
             "appointment_type" : AppointmentsType.instant,
-            "date_from" : datetime.datetime(2024, 4, 5, 14),    
-            "date_to" : datetime.datetime(2024, 4, 5, 14, 15),
+            "date_from" : datetime.datetime(2024, 8, 1, 14),    
+            "date_to" : datetime.datetime(2024, 8, 1, 14, 15),
             "state" : AppointmentsState.active,
             "discount_id" : None,
             "is_free" : True,
@@ -807,8 +821,8 @@ def upgrade() -> None:
             "attorney_id" : 4,
             "customers_id" : 1,
             "appointment_type" : AppointmentsType.instant,
-            "date_from" : datetime.datetime(2024, 4, 6, 10),    
-            "date_to" : datetime.datetime(2024, 4, 6, 10, 15),
+            "date_from" : datetime.datetime(2024, 7, 6, 10),    
+            "date_to" : datetime.datetime(2024, 7, 6, 10, 15),
             "state" : AppointmentsState.active,
             "discount_id" : None,
             "is_free" : True,
@@ -831,8 +845,8 @@ def upgrade() -> None:
             "attorney_id" : 5,
             "customers_id" : 1,
             "appointment_type" : AppointmentsType.instant,
-            "date_from" : datetime.datetime(2024, 1, 1, 0),    
-            "date_to" : datetime.datetime(2024, 1, 1, 0, 30),
+            "date_from" : datetime.datetime(2024, 6, 1, 0),    
+            "date_to" : datetime.datetime(2024, 6, 1, 0, 30),
             "state" : AppointmentsState.completed,
             "discount_id" : 1,
             "is_free" : False,
@@ -855,8 +869,8 @@ def upgrade() -> None:
             "attorney_id" : 2,
             "customers_id" : 1,
             "appointment_type" : AppointmentsType.instant,
-            "date_from" : datetime.datetime(2024, 4, 18, 10),    
-            "date_to" : datetime.datetime(2024, 4, 18, 10, 15),
+            "date_from" : datetime.datetime(2024, 6, 18, 10),    
+            "date_to" : datetime.datetime(2024, 6, 18, 10, 15),
             "state" : AppointmentsState.attorney_cancel,
             "discount_id" : 2,
             "is_free" : False,
@@ -879,8 +893,8 @@ def upgrade() -> None:
             "attorney_id" : 2,
             "customers_id" : 2,
             "appointment_type" : AppointmentsType.schudule,
-            "date_from" : datetime.datetime(2024, 4, 17, 19),    
-            "date_to" : datetime.datetime(2024, 4, 17, 19, 30),
+            "date_from" : datetime.datetime(2024, 6, 17, 19),    
+            "date_to" : datetime.datetime(2024, 6, 17, 19, 30),
             "state" : AppointmentsState.customers_cancel,
             "discount_id" : None,
             "is_free" : False,
@@ -903,8 +917,8 @@ def upgrade() -> None:
             "attorney_id" : 1,
             "customers_id" : 1,
             "appointment_type" : AppointmentsType.schudule,
-            "date_from" : datetime.datetime(2024, 4, 30, 20),    
-            "date_to" : datetime.datetime(2024, 4, 30, 21),
+            "date_from" : datetime.datetime(2024, 7, 30, 20),    
+            "date_to" : datetime.datetime(2024, 7, 30, 21),
             "state" : AppointmentsState.active,
             "discount_id" : None,
             "is_free" : False,
@@ -927,8 +941,8 @@ def upgrade() -> None:
             "attorney_id" : 4,
             "customers_id" : 1,
             "appointment_type" : AppointmentsType.instant,
-            "date_from" : datetime.datetime(2024, 4, 7, 21),    
-            "date_to" : datetime.datetime(2024, 4, 7, 22),
+            "date_from" : datetime.datetime(2024, 8, 2, 21),    
+            "date_to" : datetime.datetime(2024, 8, 2, 22),
             "state" : AppointmentsState.active,
             "discount_id" : 2,
             "is_free" : False,
