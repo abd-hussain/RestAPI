@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Response
-from app.graphQl.query.post import PostQuery
+# from app.graphQl.query.post import PostQuery
 from app.routes import auth, discount, filter, notifications, report, settings, home, posts, post_comments
 from app.routes.attorney import attorney_settings, attorney_register, attorney_hour_rate, attorney_account, attorney_account_experiance, attorney_appointment, working_hours, attorney_payments
 from app.routes.customer import attorney_list, attorneys_details, customer_account, customer_appointment, customer_register
