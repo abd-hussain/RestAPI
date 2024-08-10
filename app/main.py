@@ -7,10 +7,10 @@ from app.utils.public_api import origins
 from app.utils.database import get_db
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-import strawberry
-from strawberry.asgi import GraphQL
+# import strawberry
+# from strawberry.asgi import GraphQL
 
-graphQL_schema = strawberry.Schema(query=PostQuery)
+# graphQL_schema = strawberry.Schema(query=PostQuery)
 
 
 app = FastAPI()
@@ -75,7 +75,7 @@ async def startup():
 async def shutdown():
     app.state.db.close()
 
-graphql_app = GraphQL(graphQL_schema, debug=True)
+# graphql_app = GraphQL(graphQL_schema, debug=True)
 
-app.add_route("/graphql", graphql_app)
-app.add_websocket_route("/graphql", graphql_app)
+# app.add_route("/graphql", graphql_app)
+# app.add_websocket_route("/graphql", graphql_app)
