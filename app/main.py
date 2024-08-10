@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from app.graphQl.query.post import PostQuery
 from app.routes import auth, discount, filter, notifications, report, settings, home, posts, post_comments
 from app.routes.attorney import attorney_settings, attorney_register, attorney_hour_rate, attorney_account, attorney_account_experiance, attorney_appointment, working_hours, attorney_payments
@@ -28,6 +28,10 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"message": " -#- Welcome To LegalzHub API's With CICD -#- "}
+
+@app.get("/favicon.ico")
+async def favicon():
+    return Response(content="", media_type="web/favicon.ico")
 
 #Admin
 app.include_router(attorney_account_experiance.router)
