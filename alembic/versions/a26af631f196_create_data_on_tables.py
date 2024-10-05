@@ -16,7 +16,6 @@ from app.models.database.db_issue_reported import DB_Issues_Reported
 from app.models.database.quran_kareem.db_mus7af import DB_Mus7af
 
 
-
 from app.utils.database import Base, engine
 
 # revision identifiers, used by Alembic.
