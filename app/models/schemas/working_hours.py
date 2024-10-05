@@ -1,5 +1,5 @@
-from pydantic import BaseModel
+# from pydantic import BaseModel
 
-class WorkingHoursRequest(BaseModel) :
-    dayName: str
-    working_hours: list[int]
+# class WorkingHoursRequest(BaseModel) :
+#     dayName: str
+#     working_hours: list[int]

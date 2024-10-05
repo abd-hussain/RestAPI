@@ -1,8 +1,7 @@
 from fastapi import FastAPI, Response
-# from app.graphQl.query.post import PostQuery
-from app.routes import auth, discount, filter, notifications, report, settings, home, posts, post_comments
-from app.routes.attorney import attorney_settings, attorney_register, attorney_hour_rate, attorney_account, attorney_account_experiance, attorney_appointment, working_hours, attorney_payments
-from app.routes.customer import attorney_list, attorneys_details, customer_account, customer_appointment, customer_register
+from app.routes import report, register_unknown
+from app.routes.quran import quran_copy
+
 from app.utils.public_api import origins
 from app.utils.database import get_db
 from fastapi.middleware.cors import CORSMiddleware
@@ -27,45 +26,50 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": " -#- Welcome To LegalzHub API's With CICD -#- "}
+    return {"message": " -#- Welcome To Islam Mob API's With CICD -#- "}
 
 @app.get("/favicon.ico")
 async def favicon():
     return Response(content="", media_type="web/favicon.ico")
 
-#Admin
-app.include_router(attorney_account_experiance.router)
 
-
-#Attorney
-app.include_router(attorney_account_experiance.router)
-app.include_router(attorney_account.router)
-app.include_router(attorney_appointment.router)
-app.include_router(attorney_hour_rate.router)
-app.include_router(attorney_payments.router)
-app.include_router(attorney_register.router)
-app.include_router(attorney_settings.router)
-app.include_router(working_hours.router)
-
-#Customer
-app.include_router(attorney_list.router)
-app.include_router(attorneys_details.router)
-app.include_router(customer_account.router)
-app.include_router(customer_appointment.router)
-app.include_router(customer_register.router)
-
-#Shared
-app.include_router(filter.router)
-app.include_router(settings.router)
+app.include_router(register_unknown.router)
 app.include_router(report.router)
-app.include_router(notifications.router)
-app.include_router(discount.router)
-app.include_router(auth.router)
-app.include_router(home.router)
-app.include_router(posts.router)
-app.include_router(post_comments.router)
+#Quran
+app.include_router(quran_copy.router)
 
-#GraphQL
+
+#Admin
+# app.include_router(admin_auth.router)
+
+
+# #Attorney
+# app.include_router(attorney_account_experiance.router)
+# app.include_router(attorney_account.router)
+# app.include_router(attorney_appointment.router)
+# app.include_router(attorney_hour_rate.router)
+# app.include_router(attorney_payments.router)
+# app.include_router(attorney_register.router)
+# app.include_router(attorney_settings.router)
+# app.include_router(working_hours.router)
+
+# #Customer
+# app.include_router(attorney_list.router)
+# app.include_router(attorneys_details.router)
+# app.include_router(customer_account.router)
+# app.include_router(customer_appointment.router)
+# app.include_router(customer_register.router)
+
+# app.include_router(filter.router)
+# app.include_router(settings.router)
+
+# app.include_router(notifications.router)
+# app.include_router(discount.router)
+# app.include_router(auth.router)
+# app.include_router(home.router)
+# app.include_router(posts.router)
+# app.include_router(post_comments.router)
+
 
 @app.on_event("startup")
 async def startup():

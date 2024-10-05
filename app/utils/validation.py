@@ -1,14 +1,27 @@
 from fastapi import Form, Request, HTTPException, status
-from app.models.schemas.header import PreLoginHeaderRequest
+from app.models.schemas.header import headerRequest, languageHeaderRequest
 
 def verifyKey(passsed_key, original_key):
     return passsed_key == original_key
 
 def validateLanguageHeader(request: Request):
     if ((request.headers.get('lang') != None)):
-        return PreLoginHeaderRequest(language=request.headers.get('lang'))
-    raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="header missing some data")
+        return languageHeaderRequest(language=request.headers.get('lang'))
+    raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="header missing lang")
 
+def validate_headers(request: Request):
+    # Validate 'lang' header
+    lang_header = request.headers.get('lang')
+    if lang_header is None:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="header missing lang")
+
+    # Validate 'api_key' header
+    api_key_header = request.headers.get('api_key')
+    if api_key_header is None:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="header missing api_key")
+    
+    # Return both headers in a headerRequest object (or adjust as needed)
+    return headerRequest(language=lang_header, api_key=api_key_header)
 
 def validateImageType(image: Form, imageName: str) -> str :
     if image.content_type not in ["image/jpeg", "image/png", "image/jpg", "image/JPG", "application/octet-stream"]:

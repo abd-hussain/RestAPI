@@ -2,8 +2,8 @@ from typing import Optional
 from pydantic import BaseModel
 
 class Report(BaseModel) :
-    customers_owner_id: Optional[int]
-    attorney_owner_id: Optional[int]
+    id: int
+    api_key: str
     content: str
     attachment1: Optional[str] 
     attachment2: Optional[str] 

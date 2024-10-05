@@ -5,10 +5,7 @@ class DB_Issues_Reported(Base):
     __tablename__ = "reported_issue"
 
     id = Column(Integer, primary_key=True, nullable=False, index=True, autoincrement=True)
-    customers_owner_id = Column(Integer, ForeignKey(
-        "customers.id", ondelete="CASCADE"))
-    attorney_owner_id = Column(Integer, ForeignKey(
-        "attorney.id", ondelete="CASCADE"))
+    api_key = Column(String, ForeignKey("unknown_users.api_key", ondelete="CASCADE"))
     content = Column(String)
     attachment1 = Column(String)
     attachment2 = Column(String)
