@@ -5,25 +5,9 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from app.models.database.customer.db_customer_user import Base
-from app.models.database.attorney.db_attorney_user import Base
-from app.models.database.attorney.db_attorney_review import Base
-from app.models.database.attorney.db_attorney_points import Base
-from app.models.database.customer.db_customer_points import Base
-from app.models.database.db_banner import Base
-from app.models.database.db_category import Base
-from app.models.database.db_country import Base
+from app.models.database.db_unknown_user import Base
 from app.models.database.db_issue_reported import Base
-from app.models.database.db_leads import Base
-from app.models.database.db_notifications import Base
-from app.models.database.db_suggestion_reported import Base
-from app.models.database.db_discount_type import Base
-from app.models.database.db_appointment import Base
-from app.models.database.db_suffix import Base
-from app.models.database.db_payments import Base
-from app.models.database.posts.db_posts import Base
-from app.models.database.posts.db_posts_comments import Base
-from app.models.database.posts.db_posts_reports import Base
+from app.models.database.quran_kareem.db_mus7af import Base
 from app.config import settings
 
 # this is the Alembic Config object, which provides
